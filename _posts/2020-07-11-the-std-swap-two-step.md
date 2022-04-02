@@ -285,7 +285,7 @@ the case. Lots of type authors provide an ADL `swap`. No type author has ever pr
 > In generic code, yes; because `std::begin(x)` works for array types like `int[10]`
 > whereas `x.begin()` works only for class types.
 
-UPDATE, 2020-07-12: Reddit points out that `std::directory_iterator` is a type with an ADL `begin` and no
+UPDATE, 2020-07-12: Reddit points out that `std::filesystem::directory_iterator` is a type with an ADL `begin` and no
 member `begin`. I should have remembered this because I wrote the rejected proposal
 [P0757 "`regex_iterator` should be iterable"](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/p0757r0.html)
 (September 2017)! Michael Hava reports that Microsoft's C++/CX also provides an

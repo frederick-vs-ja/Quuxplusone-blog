@@ -18,7 +18,7 @@ In my C++ training classes, I often explain the meaning of `=delete` as
 > The library author is saying, "I know what you're trying to do,
 > and what you're trying to do is wrong."
 
-There are some situations where there's not much difference between
+In some situations there's not much difference between
 `=delete`’ing a function and not-`=delete`’ing it. In fact, the most
 common way that people first learn about `=delete` is in a context where
 it doesn't really matter — which is why they start out a little bit
@@ -40,10 +40,10 @@ err on the side of being explicit.
 Where `=delete` really matters is when it's the best match
 in an overload set with at least one other candidate. My go-to example
 for this is `std::cref`, which takes a `const T&` and turns it into
-a `reference_wrapper<const T>`. Recall that `const T&` is happy to
-bind to both lvalues and rvalues. So, if the library designer provides
-only one overload of `std::cref`, then it'll accept both lvalues and
-rvalues:
+a `reference_wrapper<const T>`. Recall that [`const T&` is happy to
+bind to both lvalues and rvalues.](/blog/2022/02/02/look-what-they-need/)
+So, if the library designer provides only one overload of `std::cref`,
+then it'll accept both lvalues and rvalues:
 
     template<class T>
     auto cref(const T&) -> std::reference_wrapper<const T>;
@@ -65,12 +65,12 @@ and what you're trying to do is wrong."
     auto r2 = std::cref(42);  // Error, best match is deleted
 
 This is not the same as the author saying "I don't know what you're trying to do."
-It's not the same as the author saying "I know what you're trying to do, but I
+It's not even the same as the author saying "I know what you're trying to do, but I
 don't do it; maybe somebody else might." In those cases, the author might leave
 the function undeclared, or have it SFINAE away. With `=delete`, the library author
 is specifically stating that for the thing you're trying to do,
 [the buck stops with them](https://www.trumanlibrary.gov/education/trivia/buck-stops-here-sign) —
-and guess what? They don't want you doing it.
+and guess what? They don't want you to do it.
 
 ----
 
