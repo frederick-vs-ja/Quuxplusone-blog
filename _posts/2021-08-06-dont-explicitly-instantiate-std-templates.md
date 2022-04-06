@@ -52,7 +52,7 @@ only the bits of the class that it actually needs. So for example this is perfec
 
     template<class T>
     struct S {
-        static_assert(sizeof(T) == 0);
+        static_assert(sizeof(T) < 0);
     };
 
     S<int> *p = nullptr;  // instantiates only the declaration
