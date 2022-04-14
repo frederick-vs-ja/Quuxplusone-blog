@@ -194,7 +194,7 @@ You can also put a _using-directive_ at namespace scope, like this
     }
 
 Using-directives are "transitive"; since `NE` visibly contains a using-directive
-for `ND`, it's as if `test3` contains _both_ `using namespace NE` _and_ `using namespace ND::N3`.
+for `ND::N3`, it's as if `test3` contains _both_ `using namespace NE` _and_ `using namespace ND::N3`.
 
 In this contrived example, the names from `NE` are injected into the least common ancestor
 of `ND::N4` and `NE` (i.e., the global namespace). The names from `ND::N3` are injected into the
@@ -205,7 +205,7 @@ the ostensibly better-matching `NE::foo(Lion)` that was injected into the global
 
 Note that the "transitivity" of using-directives applies only to using-directives that are _directly_
 within the using'ed namespace. If `test3` had said `using namespace NE::N5`, it would have
-transitively picked up the using-directives from `NE::N5`, but not from its parent namespace `NE`
+transitively picked up any using-directives from `NE::N5`, but not from `NE::N5`'s parent namespace `NE`
 (and not from the global namespace).
 
 And how does all this interact with [`inline namespace`](https://en.cppreference.com/w/cpp/language/namespace#Inline_namespaces)?
