@@ -3,6 +3,7 @@ layout: post
 title: "`std::span` should have a converting constructor from `initializer_list`"
 date: 2021-10-03 00:01:00 +0000
 tags:
+  initializer-list
   llvm
   parameter-only-types
   proposal

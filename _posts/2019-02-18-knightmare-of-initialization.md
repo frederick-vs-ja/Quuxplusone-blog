@@ -5,6 +5,7 @@ date: 2019-02-18 00:01:00 +0000
 tags:
   board-games
   constructors
+  initialization
   language-design
   rant
 ---

@@ -4,6 +4,7 @@ title: "Is your constructor an object-factory or a type-conversion?"
 date: 2018-06-21 00:01:00 +0000
 tags:
   constructors
+  initialization
   library-design
   rant
 ---
