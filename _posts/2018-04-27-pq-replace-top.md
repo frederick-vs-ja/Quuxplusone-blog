@@ -3,6 +3,8 @@ layout: post
 title: '`std::priority_queue` is missing an operation'
 date: 2018-04-27 00:02:00 +0000
 tags:
+  benchmarks
+  data-structures
   library-design
   proposal
 ---

@@ -3,6 +3,7 @@ layout: post
 title: "Quick and unscientific `trivially_relocatable` benchmark"
 date: 2019-02-12 00:01:00 +0000
 tags:
+  benchmarks
   kona-2019
   relocatability
 ---

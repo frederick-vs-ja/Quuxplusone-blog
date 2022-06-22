@@ -3,6 +3,7 @@ layout: post
 title: 'The abstraction penalty for wide integer math on x86-64'
 date: 2020-02-13 00:01:00 +0000
 tags:
+  benchmarks
   llvm
   sufficiently-smart-compiler
 ---

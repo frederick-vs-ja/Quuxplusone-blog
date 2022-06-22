@@ -3,6 +3,7 @@ layout: post
 title: 'The surprisingly high cost of static-lifetime constructors'
 date: 2018-06-26 00:01:00 +0000
 tags:
+  benchmarks
   compile-time-performance
   hyperrogue
   initializer-list
