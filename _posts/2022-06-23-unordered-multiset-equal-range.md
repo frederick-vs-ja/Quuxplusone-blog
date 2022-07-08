@@ -6,8 +6,8 @@ tags:
   benchmarks
   data-structures
   library-design
+  standard-library-trivia
   stl-classic
-  stl-trivia
 ---
 
 An STL-style container's performance can be dramatically affected by

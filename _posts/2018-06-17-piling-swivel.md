@@ -4,6 +4,7 @@ title: 'Which in your case you have not got'
 date: 2018-06-17 00:02:00 +0000
 tags:
   litclub
+  naming
   today-i-learned
 ---
 
@@ -11,7 +12,7 @@ Back when the Mixpanel lit club read _East of Eden_ (which is amazingly good, by
 we got to the part where Adam is in the Army —
 
 > Adam spent his next five years doing the things an army uses to keep its men from going
-> insane—endless polishing of metal and leather, parade and drill and escort, ceremony of
+> insane — endless polishing of metal and leather, parade and drill and escort, ceremony of
 > bugle and flag, a ballet of business for men who aren’t doing anything
 
 — and it reminded me of Henry Reed's 1942 poem "Naming of Parts":

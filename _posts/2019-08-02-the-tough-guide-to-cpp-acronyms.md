@@ -248,7 +248,7 @@ which allows you to write things like
     #include <ctre.hpp>
     static_assert(ctre::match<"^h.*[wxyz]orl[^y]">("hello world"));
 
-The current version of CTRE relies on C++20's class-type [NTTPs](#NTTP). Before C++20, it relied on
+The current version of CTRE relies on C++20's class-type [NTTPs](#nttp). Before C++20, it relied on
 a compiler extension supported by GCC 8.x and Clang 5–11 (but no longer by either compiler's trunk):
 
     using namespace ctre::literals;
@@ -540,7 +540,7 @@ by including any other header, because what's true today might be false tomorrow
 
 Since `std::vector` depends on `std::allocator`, which is defined in `<memory>`, you might expect that
 `<vector>` needs to include `<memory>` — and indeed on libc++ 12.0 it does. But on libstdc++, MSVC, and
-libc++-sometime-in-the-future (as of July 2021), this [TU](#TU) fails to compile.
+libc++-sometime-in-the-future (as of July 2021), this [TU](#tu) fails to compile.
 To fix it, you should "Include What You Use":
 
     #include <memory>  // for unique_ptr
