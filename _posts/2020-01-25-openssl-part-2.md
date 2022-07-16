@@ -213,6 +213,7 @@ Another way to test the server program is to use the command-line utility [`curl
 Godbolt Compiler Explorer doesn’t support _running_ programs that do networking,
 but you can see the code on Godbolt [here](https://godbolt.org/z/DGjD5L) anyway.
 
+    // g++ -std=c++14 http-server.cpp $(pkg-config --cflags --libs openssl) -o http-server
     #include <memory>
     #include <signal.h>
     #include <stdexcept>

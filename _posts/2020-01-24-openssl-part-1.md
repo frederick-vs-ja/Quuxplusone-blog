@@ -268,6 +268,7 @@ over an unencrypted HTTP connection.
 Godbolt Compiler Explorer doesn't support _running_ programs that do networking, but you can see the
 code on Godbolt [here](https://godbolt.org/z/JkXUP4) anyway.
 
+    // g++ -std=c++14 http-client.cpp $(pkg-config --cflags --libs openssl) -o http-client
     #include <memory>
     #include <stdexcept>
     #include <stdio.h>

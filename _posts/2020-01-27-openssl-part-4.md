@@ -261,8 +261,8 @@ That's it! If you make those two changes to the client's code, and recompile, th
 you'll be able to spin up the HTTPS server from [part 3](/blog/2020/01/26/openssl-part-3/)
 and connect to it with this client, as follows:
 
-    $ ./server >/dev/null &
-    $ ./client
+    $ ./https-server >/dev/null &
+    $ ./https-client
     HTTP/1.1 200 OK
     Content-Length: 10
 
@@ -274,6 +274,7 @@ and connect to it with this client, as follows:
 Godbolt Compiler Explorer doesn’t support _running_ programs that do networking,
 but you can see the code on Godbolt [here](https://godbolt.org/z/__HUeH) anyway.
 
+    // g++ -std=c++14 https-client.cpp $(pkg-config --cflags --libs openssl) -o https-client
     #include <memory>
     #include <stdarg.h>
     #include <stdexcept>

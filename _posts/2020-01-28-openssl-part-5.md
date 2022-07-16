@@ -134,7 +134,7 @@ If we compile and run this client code ([Godbolt](https://godbolt.org/z/n9QmHx))
 same thing that `curl` was doing. The only difference is that `curl` dumps only the message body,
 whereas our client also dumps the message headers.
 
-    $ ./client
+    $ ./https-proxy-client
     HTTP/1.0 200 Connection Established
     Proxy-agent: Apache/2.4.18 (Unix) OpenSSL/1.0.2h PHP/7.0.8 mod_perl/2.0.8-dev Perl/v5.16.3
 
@@ -278,6 +278,7 @@ Hooray!
 
 You can see the client code on Godbolt [here](https://godbolt.org/z/hLz5g7).
 
+    // g++ -std=c++14 https-proxy-client.cpp $(pkg-config --cflags --libs openssl) -o https-proxy-client
     #include <memory>
     #include <stdarg.h>
     #include <stdexcept>
@@ -517,6 +518,7 @@ You can see the client code on Godbolt [here](https://godbolt.org/z/hLz5g7).
 
 You can see the server code on Godbolt [here](https://godbolt.org/z/xC46Bk).
 
+    // g++ -std=c++14 https-proxy-server.cpp $(pkg-config --cflags --libs openssl) -o https-proxy-server
     #include <memory>
     #include <signal.h>
     #include <stdexcept>

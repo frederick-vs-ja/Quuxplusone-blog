@@ -206,6 +206,7 @@ Nifty!
 Godbolt Compiler Explorer doesn’t support _running_ programs that do networking,
 but you can see the code on Godbolt [here](https://godbolt.org/z/Zga7r7) anyway.
 
+    // g++ -std=c++14 https-server.cpp $(pkg-config --cflags --libs openssl) -o https-server
     #include <memory>
     #include <signal.h>
     #include <stdexcept>
