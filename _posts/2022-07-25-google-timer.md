@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Google Timer is dead, long live BigTimer"
+title: "Google Timer is dead; long live BigTimer"
 date: 2022-07-25 00:01:00 +0000
 tags:
   conferences
