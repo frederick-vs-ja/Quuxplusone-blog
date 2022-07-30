@@ -103,3 +103,4 @@ See also:
 * ["What is Type Erasure?"](/blog/2019/03/18/what-is-type-erasure/) (2019-03-18)
 * ["Back to Basics: Type Erasure"](https://www.youtube.com/watch?v=tbUCHifyT24) (CppCon 2019)
 * ["The space of design choices for `std::function`"](/blog/2019/03/27/design-space-for-std-function/) (2019-03-27)
+* ["Type-erased `InplaceUniquePrintable` benefits from `noexcept`"](/blog/2022/07/30/type-erased-inplace-printable/) (2022-07-30)

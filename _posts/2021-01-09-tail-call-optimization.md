@@ -108,3 +108,9 @@ This is a rare case of C++ being stylistically opinionated.
 
 (If that `tie = tuple` trick is new to you, you might enjoy
 my CppCon 2020 talk ["Back to Basics: Algebraic Data Types."](https://www.youtube.com/watch?v=OJzmWqCCZaM).)
+
+----
+
+See also:
+
+* ["Type-erased `InplaceUniquePrintable` benefits from `noexcept`"](/blog/2022/07/30/type-erased-inplace-printable/) (2022-07-30)
