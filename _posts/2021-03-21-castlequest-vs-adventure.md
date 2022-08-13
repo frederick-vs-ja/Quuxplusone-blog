@@ -99,7 +99,7 @@ on whether you used it transitively or intransitively.
 
 By the way, in both _Adventure_ and _Castlequest_, words can have multiple accepted spellings; for example,
 the spellings `WEST` and `W` both mean motion word 44 in _Adventure_ and both mean verb 7 in _Castlequest_.
-These spellings can look arbitrary different to human eyes. For example, in _Castlequest_ both `BREAK`
+These spellings can look arbitrarily different to human eyes. For example, in _Castlequest_ both `BREAK`
 and `CHOP` translate to verb 37; in _Adventure_ both `ROAD` and `HILL` translate to motion word 2.
 _Adventure_ makes `ATTACK` and `KILL` synonymous; _Castlequest_ makes them two separate verbs.
 
@@ -351,7 +351,7 @@ or 1 (present); the integer `ROPE` may hold 0 (loose), 1 (tied to bed), 2 (out w
 (`ROPE` can also be -2 if it's fallen out the window, but I'm not sure why that needed to be different
 from 0.)
 
-The general-purpose array in `_Castlequest_` is `DOOR(100)` — one integer per room. The game uses this
+The general-purpose array in _Castlequest_ is `DOOR(100)` — one integer per room. The game uses this
 array to track the state of at most one door per room. `-2` means "the door will
 neither open nor close"; `-1` means "I see no door here"; `0` means locked, `1` means closed, and `2` means
 open.
@@ -405,7 +405,7 @@ but never changes its name-when-inventoried. Rather than having separate items f
 and "bottle of water," _Adventure_ simply has an item with name `Small bottle` and another slightly special
 item with name `Water in the bottle`; when you say `FILL BOTTLE` it places the latter in your
 inventory right next to the former. For the bird, it cheats even more: the short name of the bird
-is `Little bird in cage`, because anytime it's in your inventory it is in the cage by definition.
+is `Little bird in cage`, because whenever it's in your inventory it is in the cage by definition.
 
 In _Castlequest_, objects tend _not_ to change their long descriptions; the lamp keeps its same description
 no matter whether it's on or off. But items in your inventory can combine in interesting ad-hoc ways; for example,
