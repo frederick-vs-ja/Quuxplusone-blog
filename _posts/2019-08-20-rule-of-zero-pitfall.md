@@ -53,7 +53,7 @@ that dangling reference (corrupting our heap with that write!), and assign the g
 ----
 
 Furthermore, we can run into this pitfall with _any_ assignment operator which is not implemented
-via copy-and-swap. The following Rule-of-Zero code ([Godbolt](https://godbolt.org/z/ShDtlz))
+via copy-and-swap. The following Rule-of-Zero code ([Godbolt](https://godbolt.org/z/fKx4KjrPf))
 has undefined behavior:
 
     struct B {
@@ -78,9 +78,9 @@ blocks with `0xAA`, which means that `b.i` receives `0xAAAAAAAA` (and so `main` 
 `0xAA` or 170) instead of the expected `42`.
 
 This isn't even a problem unique to move-assignment. The same thing would happen with
-copy-assignment of a `B` with a `shared_ptr` member ([Godbolt](https://godbolt.org/z/R9D90F)).
+copy-assignment of a `B` with a `shared_ptr` member ([Godbolt](https://godbolt.org/z/fY9b71Thb)).
 The problem is not fixable by library vendors — there's no flaw in the implementation
-of `shared_ptr`'s assignment operator. The problem is with the _defaulted_ implementation
+of the smart pointers' assignment operators. The problem is with the _defaulted_ implementation
 of `B`'s assignment operator!
 
 ----

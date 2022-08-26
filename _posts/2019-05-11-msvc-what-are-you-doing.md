@@ -5,6 +5,7 @@ date: 2019-05-11 00:01:00 +0000
 tags:
   cppnow
   exception-handling
+  move-semantics
   pitfalls
   relocatability
 excerpt: |
