@@ -19,7 +19,7 @@ googling a piece of text from it, this post may not hold much for you.
 UPDATE, 2020-06-28: When I wrote this post I'd tracked down one page of text to
 Gillian Tindall's _A Handbook on Witches_ (1965).
 [The Internet Archive has a borrowable copy of _A Handbook on Witches_](https://archive.org/details/lccn_66012995),
-which has now allowed me to verify that every one of the lines I'd originally
+which has now allowed me to verify that every one of the lines I'd initially
 credited to "unknown sources" also came from various places in Tindall's book.
 
 ----
@@ -205,7 +205,7 @@ and [Tindall page 31](https://archive.org/details/lccn_66012995/page/31).
 "Devil's Pepper" (i.e., tannis root) sandwiched between snippets of
 [Tindall page 31](https://archive.org/details/lccn_66012995/page/31)
 reused from the Colley and Duvernoy pages. Again
-the inserted text does not _replace_ any of Tindall's words.
+the inserted text does not replace any of Tindall's words.
 
     It is important to bear in mind that the word 'witch' denotes
     different things at different eras. 'Witchcraft' is whatever the
