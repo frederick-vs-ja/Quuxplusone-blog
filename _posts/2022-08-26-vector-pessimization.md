@@ -269,3 +269,8 @@ For another example of an implicitly generated special member doing
 arguably the wrong thing, see:
 
 * ["Self-assignment and the Rule of Zero"](/blog/2019/08/20/rule-of-zero-pitfall/) (2019-08-20)
+
+For a fantastic amount of detail on the history of `noexcept`, written
+literally as the feature evolved, see this post from way back in 2011:
+
+* ["Using `noexcept`"](https://akrzemi1.wordpress.com/2011/06/10/using-noexcept/) (Andrzej Krzemieński, June 2011)
