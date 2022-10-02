@@ -3,6 +3,7 @@ layout: post
 title: 'Stopping the cascade of errors'
 date: 2018-08-23 00:02:00 +0000
 tags:
+  compiler-diagnostics
   concepts
   metaprogramming
   pearls
