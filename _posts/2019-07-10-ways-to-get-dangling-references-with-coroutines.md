@@ -134,6 +134,10 @@ if I understand correctly). The upcoming cycle is [P1630](http://www.open-std.or
 (and whatever happens with NTTPs; see ["Enums break strong structural equality"](/blog/2019/07/04/strong-structural-equality-is-broken/)
 (2019-07-04) and Jorg Brown's [P1714](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2019/p1714r0.html)).
 
+> UPDATE, 2022-10-16: The latest cycle was [P2468 "The Equality Operator You Are Looking For"](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2022/p2468r2.html)
+> (Revzin et al, January 2022), which fixed some issues introduced by [P1185](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2019/p1185r2.html)
+> (Revzin, February 2019).
+
 It's one thing to say "the perfect is the enemy of the good" and "sometimes worse is better."
 It's quite another thing to send the ship to sea _while it is still actively being built._
 Now, maybe the proper alternative in this ship metaphor is to wait until the last minute, then
