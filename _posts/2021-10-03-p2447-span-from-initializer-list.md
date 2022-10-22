@@ -8,6 +8,9 @@ tags:
   parameter-only-types
   proposal
   wg21
+excerpt: |
+  C++17 introduced `std::string_view` as a "parameter-only" drop-in replacement
+  for `const std::string&`. This allows us to make clean refactorings such as:
 ---
 
 {% raw %}

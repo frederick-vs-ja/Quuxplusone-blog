@@ -6,6 +6,12 @@ tags:
   jokes
   slogans
   sre
+excerpt: |
+  > Two economists are walking down the street. One of them notices
+  > what appears to be a $100 bill just lying on the sidewalk, and
+  > points it out to the other. "Nonsense," declares his friend.
+  > "If that were a real $100 bill, someone would have picked it
+  > up already."
 ---
 
 {% raw %}

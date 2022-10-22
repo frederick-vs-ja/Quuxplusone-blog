@@ -9,6 +9,15 @@ tags:
   overload-resolution
   pitfalls
   war-stories
+excerpt: |
+  This story comes from [the libc++ review](https://reviews.llvm.org/D113161)
+  implementing [P1989 "Range constructor for std::string_view 2: Constrain Harder"](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2021/p1989r2.pdf)
+  (Corentin Jabot, March 2021). That paper made `std::string_view`
+  implicitly convertible-from basically any contiguous range of characters.
+  Which, to be clear, is probably a good thing. But it turned up a really
+  interesting interaction in libc++'s `filesystem::path`. Somehow,
+  enabling this constructor template in the `<string_view>` header
+  caused libc++'s `filesystem::path` to stop being a `range`!
 ---
 
 {% raw %}

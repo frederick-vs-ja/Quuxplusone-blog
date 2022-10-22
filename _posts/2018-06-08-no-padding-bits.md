@@ -5,6 +5,15 @@ date: 2018-06-08 00:02:00 +0000
 tags:
   proposal
   rant
+excerpt: |
+  In my talk ["The Best Type Traits C++ Doesn't Have"](https://youtu.be/MWBfmmg8-Yo?t=41m),
+  I present `is_trivially_equality_comparable` (essentially "can I compare these objects
+  at runtime with `memcmp`?") and contrast it with P0732's notion-now-perhaps-known-as
+  `has_strong_structural_equality` (essentially "can I compare and/or stringify these objects
+  at compile time by iterating over their bases and members?").
+
+  In my Aspen presentation, I failed to talk about another motivation for
+  `memcmp`-equality: `std::atomic`'s `compare_and_exchange`.
 ---
 
 {% raw %}

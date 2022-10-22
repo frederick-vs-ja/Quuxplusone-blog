@@ -6,6 +6,10 @@ tags:
   library-design
   metaprogramming
   pearls
+excerpt: |
+  I'm currently working on a reference implementation of
+  [P0429R6 `flat_map`](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2019/p0429r6.pdf).
+  Here's a C++ metaprogramming idiom I learned in the process.
 ---
 
 {% raw %}

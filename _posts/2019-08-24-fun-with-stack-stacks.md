@@ -4,6 +4,9 @@ title: "Church booleans in Befunge-98"
 date: 2019-08-24 00:01:00 +0000
 tags:
   esolang
+excerpt: |
+  I like [this Code Golf question on "Church booleans."](https://codegolf.stackexchange.com/questions/190325/church-booleans)
+  A "Church boolean" is either of the following two functions (in C++17 syntax):
 ---
 
 {% raw %}

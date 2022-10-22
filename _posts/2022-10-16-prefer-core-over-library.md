@@ -8,6 +8,11 @@ tags:
   concepts
   coroutines
   rant
+excerpt: |
+  There are many places in C++ where the working programmer has a choice between
+  doing something via a standard-library facility, or via a similar (often newer) core-language
+  feature. I keep expanding my mental list of these, so let's write them all down in
+  one place.
 ---
 
 {% raw %}
