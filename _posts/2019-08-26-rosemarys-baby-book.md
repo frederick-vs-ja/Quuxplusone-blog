@@ -22,6 +22,15 @@ Gillian Tindall's _A Handbook on Witches_ (1965).
 which has now allowed me to verify that every one of the lines I'd initially
 credited to "unknown sources" also came from various places in Tindall's book.
 
+UPDATE, 2022-10-26: I've heard from Sharmagne Leland-St. John-Sylbert,
+the widow of _Rosemary's Baby_ production designer [Richard Sylbert](https://en.wikipedia.org/wiki/Richard_Sylbert),
+who informs me that her husband produced the (actual, printed and bound) prop book —
+she still has a copy of it!
+The inscription "Edward Hutchins, Torquay, 1934" you see in the movie is
+Richard Sylbert's own handwriting. Even when not channeling Hutch, she tells me,
+Sylbert always wrote his own name and the place of purchase in books he bought abroad.
+(Sharmagne now runs a literary and cultural arts journal named ["Quill and Parchment."](http://quillandparchment.com/))
+
 ----
 
 The name "J.R. Hanslet" is apparently a reference to Chief Inspector Hanslet, from a series
