@@ -114,7 +114,7 @@ if you want. (But, generally speaking, you should not want.)
     main.cpp:4: undefined reference to `foo()'
     collect2: error: ld returned 1 exit status
 
-Even if you've included the right headers, `using`'ed the right namespaces, qualified all your names correctly,
+Even if you've included the right headers, `using`’ed the right namespaces, qualified all your names correctly,
 and the compiler is happy, you might find that the linker is unhappy with your program. This is often because
 one of your .cpp files calls a function which is declared, but never defined. Maybe it's defined
 in `libfoo.a`, but you forgot to pass `-lfoo` to the linker. Maybe it's defined in `foo.o`, but you forgot to
