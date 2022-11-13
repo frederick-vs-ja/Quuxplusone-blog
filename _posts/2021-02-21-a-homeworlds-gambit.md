@@ -4,6 +4,7 @@ title: 'Homeworlds: Analysis of an Opening Gambit'
 date: 2021-02-21 00:01:00 +0000
 tags:
   board-games
+  homeworlds
 ---
 
 This post is about [Binary Homeworlds](https://boardgamegeek.com/boardgame/14634/homeworlds), the "space chess" game invented by

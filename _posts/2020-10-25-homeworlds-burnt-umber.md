@@ -4,6 +4,7 @@ title: "Homeworlds Puzzle: Burnt Umber"
 date: 2020-10-25 00:01:00 +0000
 tags:
   board-games
+  homeworlds
   puzzles
 ---
 

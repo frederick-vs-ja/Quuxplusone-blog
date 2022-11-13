@@ -4,6 +4,7 @@ title: "Homeworlds Puzzle: Mercury in Retrograde"
 date: 2020-10-28 00:02:00 +0000
 tags:
   board-games
+  homeworlds
   puzzles
 ---
 

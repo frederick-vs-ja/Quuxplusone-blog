@@ -4,6 +4,7 @@ title: 'Homeworlds: The Yellowbird Mistake, Part II'
 date: 2018-09-15 00:01:00 +0000
 tags:
   board-games
+  homeworlds
 ---
 
 Following up on [my previous post](/blog/2018/09/10/the-yellowbird-mistake) titled "The Yellowbird Mistake"...

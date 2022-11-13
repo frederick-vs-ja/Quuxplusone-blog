@@ -4,6 +4,7 @@ title: "Homeworlds Puzzle: Mini Doomsday Machine"
 date: 2020-05-29 00:02:00 +0000
 tags:
   board-games
+  homeworlds
   puzzles
   web
 excerpt: |

@@ -4,6 +4,7 @@ title: "Antisocial Homeworlds, and a solitaire challenge"
 date: 2021-04-04 00:01:00 +0000
 tags:
   board-games
+  homeworlds
   puzzles
 ---
 
