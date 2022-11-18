@@ -2,10 +2,14 @@
 #include <chrono>
 #include <cstdio>
 #include <cstdlib>
+#include <span>
 #include <string>
+#include <string_view>
 #include <vector>
 
+#if USE_COROUTINES
 #include "generator.h"
+#endif
 
 // A polysnake is given by looking down one of its ends
 // and recording which way you "turn" each time you move
@@ -172,6 +176,10 @@ enum SnakeOutcome {
 
 SnakeOutcome testOuroboros(std::string_view sv, Pt *pv)
 {
+    if (sv[1] == 'S') {
+        // SSSRXYZ is always less than SRXYZVW.
+        return NOT_A_SNAKE;
+    }
     const int n = sv.size() + 1;
     auto visited = std::span<Pt>(pv, pv + n);
     for (int t=0; t < n; ++t) {
@@ -221,7 +229,7 @@ SnakeOutcome testSnake(std::string_view sv)
         }
         Pt nextpos = f.step(pos);
         // nextpos must have no neighbors besides pos.
-        for (int j = i-1; j >= 0; --j) {
+        for (int j = i-4; j >= 0; j -= 2) {
             if (nextpos.adjacentTo(visited[j])) {
                 if (j == 0 && i == n-1) {
                     visited[n-1] = pos;
@@ -260,10 +268,9 @@ SnakeOutcome testSnake(std::string_view sv)
     return UNDIRECTED;
 }
 
-generator<std::string_view> strings_of_length(int n)
+bool odometer(std::string& s)
 {
-    // Odometer algorithm, with digits "SRLUD" in that order.
-    std::string s(n, 'S');
+    int n = s.size();
     auto increment = [](char& ch) {
         if (ch == 'D') ch = 'S';
         else if (ch == 'S') ch = 'R';
@@ -271,38 +278,51 @@ generator<std::string_view> strings_of_length(int n)
         else if (ch == 'L') ch = 'U';
         else ch = 'D';
     };
+again:
+    int i = n - 1;
+    do {
+        increment(s[i--]);
+    } while (s[i+1] == 'S');
+    if (s[i+1] == 'L' && s[i] == 'S') {
+        // Have we just made SSSSLSSSSS?
+        // Replace it with   SSSRSSSSSS.
+        if (s.find_first_not_of('S') == size_t(i+1)) {
+            if (i == 0) {
+                return false;  // Done!
+            }
+            s[i] = 'R';
+            s[i+1] = 'S';
+        }
+    }
+    if (s[i] == s[i+1] && s[i] != 'S') {
+        // We just created LL, RR, DD, or UU:
+        // substrings that can't appear in a valid snake.
+        // (Except for the trivial 4-cube ouroboros SRR.)
+        // If we just made XYZRRSSS, change it to XYZRLSSS.
+        // If we just made XYZLLSSS, change it to XYZLUSSS.
+        // If we just made XYZUUSSS, change it to XYZUDSSS.
+        // If we just made XYZDDSSS, change it to XYZDDDDD and increment.
+        increment(s[i+1]);
+        if (s[i+1] == 'S') {
+            for (int j=i; j < n; ++j) s[j] = 'D';
+            goto again;
+        }
+    }
+    return true;
+}
+
+#if USE_COROUTINES
+generator<std::string_view> strings_of_length(int n)
+{
+    // Odometer algorithm, with digits "SRLUD" in that order.
+    std::string s(n, 'S');
     co_yield s;
-    while (true) {
-        int i = n-1;
-        do {
-            increment(s[i--]);
-        } while (s[i+1] == 'S');
-        if (s[i+1] == 'L' && s[i] == 'S') {
-            // Have we just made SSSSLSSSSS?
-            // Replace it with   SSSRSSSSSS.
-            if (s.find_first_not_of('S') == size_t(i+1)) {
-                if (i == 0) co_return;
-                s[i] = 'R';
-                s[i+1] = 'S';
-            }
-        }
-        if (s[i] == s[i+1] && s[i] != 'S') {
-            // We just created LL, RR, DD, or UU:
-            // substrings that can't appear in a valid snake.
-            // (Except for the trivial 4-cube ouroboros SRR.)
-            // If we just made XYZRRSSS, change it to XYZRLSSS.
-            // If we just made XYZLLSSS, change it to XYZLUSSS.
-            // If we just made XYZUUSSS, change it to XYZUDSSS.
-            // If we just made XYZDDSSS, change it to XYZDDDDD and increment.
-            increment(s[i+1]);
-            if (s[i+1] == 'S') {
-                for (int j=i; j < n; ++j) s[j] = 'D';
-                continue;
-            }
-        }
+    while (odometer(s)) {
         co_yield s;
     }
+    co_return;
 }
+#endif
 
 int main(int argc, char **argv)
 {
@@ -316,7 +336,12 @@ int main(int argc, char **argv)
         size_t oc = 0;
         unsigned short tick = 0;
         auto start = std::chrono::system_clock::now();
+#if USE_COROUTINES
         for (std::string_view s : strings_of_length(n-1)) {
+#else
+        std::string s(n-1, 'S');
+        do {
+#endif
             assert(is_canonical_form(s));
             sc += 1;
             SnakeOutcome outcome = testSnake(s);
@@ -333,7 +358,11 @@ int main(int argc, char **argv)
                     fflush(stdout);
                 }
             }
+#if USE_COROUTINES
         }
+#else
+        } while (odometer(s));
+#endif
         printf("| %d | %zu | %zu | %zu | %zu |\n", n, sc, dc, uc, oc);
     }
 }

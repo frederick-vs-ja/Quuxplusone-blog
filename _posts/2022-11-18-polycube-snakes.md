@@ -68,8 +68,8 @@ in case anyone there knows. Someone else is also interested:
 
 ## Enumerating polycube snakes
 
-The number of [polycubes](https://en.wikipedia.org/wiki/Polycube) of a given size is well-studied,
-like the number of polyominoes: [OEIS A000162](https://oeis.org/A000162).
+The number of [polycubes](https://en.wikipedia.org/wiki/Polycube) of a given size,
+like the number of polyominoes, is well-studied: [OEIS A000162](https://oeis.org/A000162).
 How many polycube _snakes_ are there of a given size?
 
 Every polycube of size less than 4 is a snake. At size 4, we already run into a fiddly difficulty!
@@ -128,7 +128,7 @@ I wrote a quick-and-dirty C++20 program to enumerate polycube snakes and undirec
 
 ## Notes on the C++ program
 
-We can represent a snake using a notation I think I first saw in connection with
+We can represent a snake using notation inspired by
 Albie Fiore's _Shaping [Rubik's Snake](https://en.wikipedia.org/wiki/Rubik%27s_Snake)_ (1981).
 Peer down one end of the snake and move your eye along the segments, recording at each transition
 whether you need to turn left, right, up, down, or straight (and rotating the whole snake
@@ -150,16 +150,18 @@ So, the program's job is essentially to generate all possible $$(n-1)$$-characte
 and then winnow out the ones that aren't in canonical form, and then further winnow out the
 ones that aren't snakes (for example, `SSRURU`'s second cube has three neighbors). This produces
 a list of directed snakes and/or ouroboroi. For non-ouroboroi, we must then compare the snake
-to its own reversal to avoid double-counting it. For ouroboroi, which have
-no designated head or tail at all, the task of deduplicating is more tedious.
+to its own reversal to avoid double-counting it. De-duplicating ouroboroi, which have
+no designated head or tail at all, is more tedious.
 
-To generate the initial stock of letter-strings with an odometer algorithm,
-I used a C++20 coroutine — a function returning a `generator<string_view>`
+To generate the initial stock of `strings_of_length(n)`,
+I initially used a C++20 coroutine — a function returning a `generator<string_view>`
 onto a `string` stored in the coroutine frame. This was one of my first forays
-into coroutines, and I found it quite painless for this use-case; although
-I admit that I could have used `static` local variables almost as easily.
+into coroutines, and I found it quite painless for this use-case.
 The code for `generator` is given in
 ["Announcing `Quuxplusone/coro`"](/blog/2019/07/03/announcing-coro-examples/) (2019-07-03).
+The caveat here is that it would have been just as easy in this case _not_ to use coroutines;
+and when I factored out `odometer(s)` into its own function and got rid of the
+then-trivial coroutine wrapper, things got 1% faster.
 
 This was also the first time I've used C++20 `std::span<T>`, and again it seemed
 like the right tool for the job; although I also have a nagging feeling that my
@@ -197,3 +199,18 @@ we should also fast-forward any time we create a non-canonical letter-string, su
 
 With these algorithmic optimizations, on my laptop, the above program can enumerate
 all 64,380,796 undirected sixteen-cube snakes (and all 12,562 ouroboroi) in just over a minute.
+
+----
+
+One more optimization is worthy of consideration: Each directed snake of length $$n+1$$
+can be constructed by appending one cube to the tail of some directed snake of length $$n$$,
+and each undirected snake of length $$n+1$$ can be constructed by appending one cube to the
+head or tail of some undirected non-ouroboros of length $$n$$.
+So, to find the snakes of length 17, we wouldn't have to run through all
+$$742\,803\,769$$ letter-strings produced by our optimized odometer; we'd only have to check
+$$10\times 64\,380\,796 = 643\,807\,960$$ or even $$5\times 128\,743\,825 = 643\,719\,125$$
+possibilities. However, the naïve way of doing this involves having one pass _store_ all of
+the snakes of length $$n$$ so that the next pass can use them to find snakes of length $$n+1$$,
+and "storing all the snakes" doesn't scale: for $$n=20$$ the number of undirected
+non-ouroboroi is almost 18 billion. So I'm afraid I don't see a good way to incorporate
+this idea.
