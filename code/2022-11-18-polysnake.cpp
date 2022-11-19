@@ -334,7 +334,9 @@ int main(int argc, char **argv)
         size_t uc = 0;
         size_t dc = 0;
         size_t oc = 0;
-        unsigned short tick = 0;
+        size_t tick = 0;
+        auto elapsed_while_asleep = std::chrono::seconds(0);
+        auto last_elapsed = std::chrono::seconds(0);
         auto start = std::chrono::system_clock::now();
 #if USE_COROUTINES
         for (std::string_view s : strings_of_length(n-1)) {
@@ -352,11 +354,24 @@ int main(int argc, char **argv)
             } else if (outcome == UNDIRECTED) {
                 dc += 1;
                 uc += 1;
-                if (++tick == 0) {
-                    size_t elapsed = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - start).count();
-                    printf("| %d | %zu | %zu | %zu | %zu | (%zu sec)\r", n, sc, dc, uc, oc, elapsed);
-                    fflush(stdout);
+            }
+            if (++tick == 1000000) {
+                tick = 0;
+                auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - start);
+                if (elapsed - last_elapsed > std::chrono::seconds(30)) {
+                    // The computer probably went to sleep. Don't count this interval.
+                    elapsed_while_asleep += (elapsed - last_elapsed);
+                    elapsed = last_elapsed;
+                    start = std::chrono::system_clock::now() - elapsed;
+                } else {
+                    last_elapsed = elapsed;
                 }
+                if (elapsed_while_asleep.count() > 0) {
+                    printf("| %d | %zu | %zu | %zu | %zu | (%zu sec, %zu sec asleep)\r", n, sc, dc, uc, oc, size_t(elapsed.count()), size_t(elapsed_while_asleep.count()));
+                } else {
+                    printf("| %d | %zu | %zu | %zu | %zu | (%zu sec)\r", n, sc, dc, uc, oc, size_t(elapsed.count()));
+                }
+                fflush(stdout);
             }
 #if USE_COROUTINES
         }
