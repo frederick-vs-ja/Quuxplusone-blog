@@ -1,3 +1,4 @@
+#include <bit>
 #include <cassert>
 #include <chrono>
 #include <cstdio>
@@ -23,12 +24,22 @@
 // non-self-adjoining.
 
 struct Pt {
-    int x, y, z;
-    bool operator==(const Pt&) const = default;
+    union {
+        struct { signed char x, y, z, pad=0; };
+        unsigned int i;
+    };
+    explicit Pt() {}
+    Pt(int x, int y, int z) : x(x), y(y), z(z) {}
+    bool operator==(const Pt& p) const { return i == p.i; }
     bool adjacentTo(const Pt& p) const {
-        return abs(x - p.x) + abs(y - p.y) + abs(z - p.z) == 1;
+        return std::has_single_bit(i - p.i) || std::has_single_bit(p.i - i);
     }
 };
+template<> struct std::tuple_size<Pt> : std::integral_constant<size_t, 3> {};
+template<size_t I> struct std::tuple_element<I, Pt> : std::type_identity<int> {};
+template<size_t I> int get(const Pt& p) requires (I == 0) { return p.x; }
+template<size_t I> int get(const Pt& p) requires (I == 1) { return p.y; }
+template<size_t I> int get(const Pt& p) requires (I == 2) { return p.z; }
 
 struct Facing {
     int value_ = 0;
@@ -110,7 +121,7 @@ void unit_test_facings()
 bool is_valid_snake(std::string_view sv)
 {
     Facing f = Facing(0);
-    Pt pos = {0, 0, 0};
+    Pt pos = {60, 60, 60};
     std::vector<Pt> visited;
     for (char ch : sv) {
         switch (ch) {
@@ -217,8 +228,8 @@ SnakeOutcome testSnake(std::string_view sv)
     const size_t n = sv.size();
     Facing f = Facing(0);
     Facing rf = f.right().right();
-    Pt pos = {0, 0, 0};
-    Pt visited[100];
+    Pt pos = {60, 60, 60};
+    static Pt visited[32];
     for (size_t i = 0; i < n; ++i) {
         switch (sv[i]) {
             case 'S': break;
