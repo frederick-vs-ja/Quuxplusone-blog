@@ -351,6 +351,31 @@ it needs in order to unwind the stack back to the appropriate handler. TDEH pays
 up-front cost in _data size_; `setjmp`/`longjmp` exception handling pays a relatively larger runtime cost
 and also a larger cost in _code size_.
 
+## EoP, EOP
+
+Another overloaded acronym with at least two obscure meanings.
+
+The original meaning of "_EoP_" is
+[_Elements of Programming_](http://elementsofprogramming.com/) (2009),
+a book by Alexander Stepanov (of [STL](#stl) fame) and Paul McJones.
+
+In C++23, I've seen "EOP" used as an abbreviation for "explicit object parameter."
+This is the new-in-C++23 feature that lets you write
+
+    struct S {
+        int x;
+        int f(this S self) { return self.x; }
+    };
+
+We might say that `self` is an _explicit object parameter_, or that `S::f`
+is an _explicit object parameter function_. (MSVC calls it an "explicit object
+member function," without the word "parameter.") Personally, I don't recommend
+abbreviating this expression, yet; but we'll see how usage evolves.
+
+For more on explicit object parameters, see the paper that introduced them
+into C++23: [P0847 "Deducing `this`"](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2021/p0847r7.html)
+(Gašper Ažman et al., July 2021).
+
 ## FAM
 
 "[Flexible array member](https://en.wikipedia.org/wiki/Flexible_array_member)."
