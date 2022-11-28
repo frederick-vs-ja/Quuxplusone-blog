@@ -35,7 +35,7 @@ respectively. (See also ["The Knightmare of Initialization in C++"](/blog/2019/0
 ## ABC
 
 "Abstract base class." That is, a class with at least one pure virtual function, intended for
-use as the root of a class hierarchy in classical OOP ("object-oriented programming").
+use as the root of a class hierarchy in classical [OOP](#oop).
 
 ## ABI, API
 
@@ -602,6 +602,18 @@ When I worked at Green Hills, their linker was known for its super aggressive li
 such as [function outlining](https://jakewharton.com/r8-optimization-method-outlining/)
 (i.e., the opposite of function inlining) and unused virtual function deletion (UVFD).
 
+## MDT
+
+"Most Derived Type." Also known as the "dynamic type," or
+([in libsupc++](https://github.com/gcc-mirror/gcc/blob/873d395c2976a8321cec03f21d77e11f746da7c0/libstdc%2B%2B-v3/libsupc%2B%2B/dyncast.cc#L62))
+the "whole type," this is the actual, real, true type of an [OOP](#oop) object, as opposed to
+the static type of the pointer through which you're currently accessing it. For example, in
+
+    Fruit *p = new Apple;
+
+the static type of `*p` is `Fruit`, but the _dynamic_ type of that object — that object's _most derived type_ —
+is `Apple`.
+
 ## MSVC
 
 Microsoft Visual C++ — in C++ contexts, essentially a synonym for Microsoft Visual Studio (VS or MSVS).
@@ -776,6 +788,11 @@ Both of these programs exhibit "ODR violations."
 A program which violates the ODR is [IFNDR](#ifndr). In the first example above, you'll likely get
 a linker error; in the second example, you'll likely get a compiled program with unexpected runtime
 behavior.
+
+## OOP
+
+"Object-oriented programming," of course. Sometimes shortened even further to "OO,"
+as in "OO principles."
 
 ## PCH
 
