@@ -1,0 +1,83 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="475" height="375" viewBox="25 0 500 375">
+<!--
+  Original https://commons.wikimedia.org/wiki/File:All_18_Pentominoes.svg
+  (C) 2008 R. A. Nonenmacher (CC BY-SA 4.0)
+  Modifications by Arthur O'Dwyer (C) 2022 (CC BY-SA 4.0)
+-->
+<g id="I1">
+  <rect x="50" y="125" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="50" y="100" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="50" y="75" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="50" y="50" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="50" y="25" fill="#FF8888" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="50" y="25" fill="none" stroke="#000000" stroke-width="3" width="25" height="125"/>
+</g>
+<g id="L1">
+  <rect x="100" y="50" fill="#FF8888" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="100" y="75" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="100" y="100" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="100" y="125" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="125" y="125" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <polygon fill="none" stroke="#000000" stroke-width="3" points="100,150 150,150 150,125 125,125 125,50 100,50"/>
+</g>
+<g id="Z1">
+  <rect x="150" y="75" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="150" y="50" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="175" y="50" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="200" y="50" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="200" y="25" fill="#FF8888" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <polygon fill="none" stroke="#000000" stroke-width="3" points="150,100 150,50 200,50 200,25 225,25 225,75 175,75 175,100"/>
+</g>
+<g id="W1">
+  <rect x="175" y="150" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="175" y="125" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="200" y="125" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="200" y="100" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="225" y="100" fill="#FF8888" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <polygon fill="none" stroke="#000000" stroke-width="3" points="175,175 175,125 200,125 200,100 250,100 250,125 225,125 225,150 200,150 200,175"/>
+</g>
+
+<g id="L2">
+  <rect x="325" y="50" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="325" y="75" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="325" y="100" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="325" y="125" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="350" y="125" fill="#FF8888" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <polygon fill="none" stroke="#000000" stroke-width="3" points="325,150 375,150 375,125 350,125 350,50 325,50"/>
+</g>
+<g id="W2">
+  <rect x="400" y="150" fill="#FF8888" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="400" y="125" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="425" y="125" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="425" y="100" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="450" y="100" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <polygon fill="none" stroke="#000000" stroke-width="3" points="400,175 400,125 425,125 425,100 475,100 475,125 450,125 450,150 425,150 425,175"/>
+</g>
+
+<g id="L3">
+  <rect x="100" y="300" fill="#FF8888" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="100" y="275" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="100" y="250" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="100" y="225" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="125" y="225" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <polygon fill="none" stroke="#000000" stroke-width="3" points="100,225 150,225 150,250 125,250 125,325 100,325"/>
+</g>
+<g id="Z3">
+  <rect x="150" y="275" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="150" y="300" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="175" y="300" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="200" y="300" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="200" y="325" fill="#FF8888" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <polygon fill="none" stroke="#000000" stroke-width="3" points="150,275 175,275 175,300 225,300 225,350 200,350 200,325 150,325"/>
+</g>
+
+<g id="L4">
+  <rect x="325" y="300" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="325" y="275" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="325" y="250" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="325" y="225" fill="#CCCCCC" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <rect x="350" y="225" fill="#FF8888" stroke="#000000" stroke-width="0.25" width="25" height="25"/>
+  <polygon fill="none" stroke="#000000" stroke-width="3" points="325,225 375,225 375,250 350,250 350,325 325,325"/>
+</g>
+
+</svg>

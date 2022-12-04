@@ -86,7 +86,7 @@ on top of each other, is shown below. And there are 13 ouroboroi of size 10.
 
 ![Two polycube ouroboroi](/blog/images/2022-11-18-polycube-ouroboroi.jpg)
 
-For non-ouroboroi, we have a choice to distinguish one of the two end cubes as the "head"
+For a non-ouroboros, we have a choice to distinguish one of the two end cubes as the "head"
 (a "directed polycube snake"), or to leave them undifferentiated (an "undirected polycube snake").
 For example, the L-tetromino corresponds to two distinguishable directed snakes: one with its head
 on the short leg of the L, and one with its head on the long leg. But the I-tetromino (four cubes
@@ -215,3 +215,9 @@ the snakes of length $$n$$ so that the next pass can use them to find snakes of 
 and "storing all the snakes" doesn't scale: for $$n=20$$ the number of undirected
 non-ouroboroi is almost 18 billion. So I'm afraid I don't see a good way to incorporate
 this idea.
+
+----
+
+See updated tables in this followup post:
+
+* ["Polyomino strips, snakes, and ouroboroi"](/blog/2022/12/08/polyomino-snakes/) (2022-12-08)
