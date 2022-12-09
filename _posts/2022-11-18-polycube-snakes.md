@@ -98,7 +98,7 @@ the eight-cube ouroboros depicted above corresponds to no less than _four_ direc
 ouroboroi!
 
 I wrote a quick-and-dirty C++20 program to enumerate polycube snakes and undirected ouroboroi
-([source code](/blog/code/2022-11-18-polysnake.cpp)). It produced the following table:
+([source code](/blog/code/2022-11-18-polycube-snakes.cpp)). It produced the following table:
 
 | Cubes | Directed non-ouroboroi | Undirected non-ouroboroi | Undirected ouroboroi |
 |----|----------------|----------------|----------|

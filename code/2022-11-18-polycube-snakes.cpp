@@ -12,7 +12,7 @@
 #include "generator.h"
 #endif
 
-// A polysnake is given by looking down one of its ends
+// A polycube snake is given by looking down one of its ends
 // and recording which way you "turn" each time you move
 // to the next cube; so a polysnake of n cubes is represented
 // by a string of (n-1) letters.

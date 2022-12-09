@@ -139,7 +139,7 @@ OEIS sequences demonstrating the effect of chirality include:
 
 ## Table of results (2D)
 
-Here are my results for the 2D polyomino cases ([source code](/blog/code/2022-12-08-polyomino-snakes.cpp)).
+Here are my results for the 2D polyomino cases ([source code](/blog/code/2022-12-08-polyomino-snakes-and-strips.cpp)).
 Columns corresponding to existing OEIS sequences are marked accordingly.
 
 | n  | Free strip polyominoes ([A333313](https://oeis.org/A333313)) | Free non-ouroboros snakes ([A002013](https://oeis.org/A002013)) | Free ouroboroi | One-sided strips | One-sided non-ouroboros snakes ([A151514](https://oeis.org/A151514)) | One-sided ouroboroi |
