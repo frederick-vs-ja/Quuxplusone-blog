@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <bit>
 #include <cassert>
 #include <chrono>
@@ -7,6 +8,10 @@
 #include <string>
 #include <string_view>
 #include <vector>
+
+// This "should be enough for anyone." Don't assume n=MAXN will actually work.
+// If you want to test larger n, increase MAXN.
+#define MAXN 32
 
 // A polycube snake is given by looking down one of its ends
 // and recording which way you "turn" each time you move
@@ -21,6 +26,7 @@
 
 struct Pt {
     union {
+        static_assert(2*MAXN < CHAR_MAX, "All coords must fit into the positive 'signed char' values");
         struct { signed char x, y, z, pad=0; };
         unsigned int i;
     };
@@ -121,150 +127,153 @@ bool is_canonical_form(std::string_view sv)
     return (udlr == sv.npos || sv[udlr] == 'R');
 }
 
-std::string trace_snake(std::span<const Pt> visited, Facing rf)
+std::string_view trace_snake(std::span<const Pt> visited, Facing rf)
 {
-    std::string rs = std::string(visited.size() - 1, 'S');
-    Pt pos = visited[0];
-    assert(rf.step(pos) == visited[1]);
-    for (size_t i=1; i < visited.size(); ++i) {
-        const Pt& nextpos = visited[i];
+    const int n = visited.size() - 1;
+    static char rs[MAXN] = "S";
+    assert(rf.step(visited[0]) == visited[1]);
+    Pt pos = visited[1];
+    for (int i = 1; i < n; ++i) {
+        const Pt& nextpos = visited[i+1];
         // How do we get from pos to nextpos?
         if (rf.step(pos) == nextpos) {
-            rs[i-1] = 'S';
+            rs[i] = 'S';
         } else if (rf.left().step(pos) == nextpos) {
-            rs[i-1] = 'L';
+            rs[i] = 'L';
             rf = rf.left();
         } else if (rf.right().step(pos) == nextpos) {
-            rs[i-1] = 'R';
+            rs[i] = 'R';
             rf = rf.right();
         } else if (rf.up().step(pos) == nextpos) {
-            rs[i-1] = 'U';
+            rs[i] = 'U';
             rf = rf.up();
         } else {
             assert(rf.down().step(pos) == nextpos);
-            rs[i-1] = 'D';
+            rs[i] = 'D';
             rf = rf.down();
         }
         pos = nextpos;
     }
-    return rs;
+    return std::string_view(rs, rs + n);
 }
 
-std::string trace_mirrored_snake(std::span<const Pt> visited, Facing rf)
+std::string_view trace_snake_backwards(std::span<const Pt> visited, Facing rf)
 {
-    std::string rs = std::string(visited.size() - 1, 'S');
-    Pt pos = visited[0];
-    assert(rf.step(pos) == visited[1]);
-    for (size_t i=1; i < visited.size(); ++i) {
-        const Pt& nextpos = visited[i];
+    const int n = visited.size() - 1;
+    static char rs[MAXN] = "S";
+    assert(rf.step(visited[n]) == visited[n-1]);
+    Pt pos = visited[n-1];
+    for (int i = 1; i < n; ++i) {
+        const Pt& nextpos = visited[n-i-1];
         // How do we get from pos to nextpos?
         if (rf.step(pos) == nextpos) {
-            rs[i-1] = 'S';
+            rs[i] = 'S';
         } else if (rf.left().step(pos) == nextpos) {
-            rs[i-1] = 'L';
+            rs[i] = 'L';
             rf = rf.left();
         } else if (rf.right().step(pos) == nextpos) {
-            rs[i-1] = 'R';
+            rs[i] = 'R';
             rf = rf.right();
         } else if (rf.up().step(pos) == nextpos) {
-            rs[i-1] = 'D';
+            rs[i] = 'U';
             rf = rf.up();
         } else {
             assert(rf.down().step(pos) == nextpos);
-            rs[i-1] = 'U';
+            rs[i] = 'D';
             rf = rf.down();
         }
         pos = nextpos;
     }
-    return rs;
+    return std::string_view(rs, rs + n);
 }
 
 struct Floodfiller {
     explicit Floodfiller() = default;
 
     void reset_things(Pt *visited, int n) {
-        visited_first = visited;
-        visited_last = visited + n;
-        minx = miny = minz = INT_MAX;
-        maxx = maxy = maxz = INT_MIN;
-        for (int i=0; i < n; ++i) {
-//printf("visited[%d] = Pt(%d,%d,%d)\n", i, get<0>(visited[i]), get<1>(visited[i]), get<2>(visited[i]));
-            minx = std::min(minx, get<0>(visited[i]));
-            miny = std::min(miny, get<1>(visited[i]));
-            minz = std::min(minz, get<2>(visited[i]));
-            maxx = std::max(maxx, get<0>(visited[i]));
-            maxy = std::max(maxy, get<1>(visited[i]));
-            maxz = std::max(maxz, get<2>(visited[i]));
+        this->n = n;
+        Pt *visited_last = visited + n;
+        expected_last = expected;
+        for (int i = 0; i < n; ++i) {
+            for (int a = -1; a <= 1; ++a) {
+                for (int b = -1; b <= 1; ++b) {
+                    for (int c = -1; c <= 1; ++c) {
+                        if (a == 0 && b == 0 && c == 0) continue;
+                        Pt p = { get<0>(visited[i]) + a, get<1>(visited[i]) + b, get<2>(visited[i]) + c };
+                        if (std::find(visited, visited_last, p) != visited_last) continue;
+                        if (std::find(expected, expected_last, p) != expected_last) continue;
+                        assert(expected_last < std::end(expected));
+                        *expected_last++ = p;
+                    }
+                }
+            }
         }
-        assert((maxx+1 - minx) <= n);
-        assert((maxy+1 - miny) <= n);
-        assert((maxz+1 - minz) <= n);
-        minx -= 1;
-        miny -= 1;
-        minz -= 1;
-        maxx += 1;
-        maxy += 1;
-        maxz += 1;
-        flooded_last = flooded;
-    }
-
-    bool too_thin_for_cavities() const {
-        return (maxx+1 - minx) <= 4 || (maxy+1 - miny) <= 4 || (maxz+1 - minz) <= 4;
     }
 
     void flood() {
-        flood(Pt(minx, miny, minz));
+        std::fill(flooded, flooded + sheath_volume(), false);
+        flood(expected[0]);
     }
 
     size_t flooded_volume() const {
-        return flooded_last - flooded;
+        return std::count(flooded, flooded + sheath_volume(), true);
     }
-    size_t volume() const {
-        return (maxx+1 - minx) * (maxy+1 - miny) * (maxz+1 - minz);
+    size_t sheath_volume() const {
+        return expected_last - expected;
     }
 
 private:
     void flood(Pt p) {
-        assert(flooded_last < std::end(flooded));
-        assert(minx <= p.x && p.x <= maxx);
-        assert(miny <= p.y && p.y <= maxy);
-        assert(minz <= p.z && p.z <= maxz);
-        if (std::find(visited_first, visited_last, p) != visited_last) {
-            // This cell is part of the snake itself.
-        } else if (std::find(flooded, flooded_last, p) != flooded_last) {
-            // This cell is previously flooded.
-        } else {
+        auto it = std::find(expected, expected_last, p);
+        if (it != expected_last && !flooded[it - expected]) {
             // Flood it and visit its neighbors.
-            *flooded_last++ = p;
-            if (p.x + 1 <= maxx) flood(Pt(p.x + 1, p.y, p.z));
-            if (minx <= p.x - 1) flood(Pt(p.x - 1, p.y, p.z));
-            if (p.y + 1 <= maxy) flood(Pt(p.x, p.y + 1, p.z));
-            if (miny <= p.y - 1) flood(Pt(p.x, p.y - 1, p.z));
-            if (p.z + 1 <= maxz) flood(Pt(p.x, p.y, p.z + 1));
-            if (minz <= p.z - 1) flood(Pt(p.x, p.y, p.z - 1));
+            flooded[it - expected] = true;
+            flood(Pt(p.x + 1, p.y, p.z));
+            flood(Pt(p.x - 1, p.y, p.z));
+            flood(Pt(p.x, p.y + 1, p.z));
+            flood(Pt(p.x, p.y - 1, p.z));
+            flood(Pt(p.x, p.y, p.z + 1));
+            flood(Pt(p.x, p.y, p.z - 1));
         }
     }
 
-    Pt *visited_first = nullptr;
-    Pt *visited_last = nullptr;
+    int n = 0;
+    Pt *expected_last = nullptr;
+    Pt expected[25*MAXN+2];
+    bool flooded[25*MAXN+2];
+};
+static Floodfiller g_floodfiller;
+
+bool cannot_have_cavities(std::string_view sv, Pt *visited, int n) {
+    auto is_turning = [](char ch) { return ch != 'S'; };
+    if (std::count_if(sv.begin(), sv.end(), is_turning) < 6) return true;
     int minx = INT_MAX;
     int miny = INT_MAX;
     int minz = INT_MAX;
     int maxx = INT_MIN;
     int maxy = INT_MIN;
     int maxz = INT_MIN;
-    Pt *flooded_last = nullptr;
-    Pt flooded[60*60*60];
-};
-static Floodfiller g_floodfiller;
+    for (int i=0; i < n; ++i) {
+        minx = std::min(minx, get<0>(visited[i]));
+        miny = std::min(miny, get<1>(visited[i]));
+        minz = std::min(minz, get<2>(visited[i]));
+        maxx = std::max(maxx, get<0>(visited[i]));
+        maxy = std::max(maxy, get<1>(visited[i]));
+        maxz = std::max(maxz, get<2>(visited[i]));
+    }
+    if (maxx <= minx + 1) return true;
+    if (maxy <= miny + 1) return true;
+    if (maxz <= minz + 1) return true;
+    return false;
+}
 
-bool has_cavities(Pt *visited, int n) {
-    g_floodfiller.reset_things(visited, n);
-    if (g_floodfiller.too_thin_for_cavities()) {
+bool has_cavities(std::string_view sv, Pt *visited, int n) {
+    if (cannot_have_cavities(sv, visited, n)) {
         return false;
     }
+    g_floodfiller.reset_things(visited, n);
     g_floodfiller.flood();
-    return (g_floodfiller.flooded_volume() != g_floodfiller.volume() - n);
+    return (g_floodfiller.flooded_volume() != g_floodfiller.sheath_volume());
 }
 
 enum SnakeOutcome {
@@ -279,6 +288,16 @@ enum SnakeOutcome {
     ONESIDED_CAVITOUS_OUROBOROS,
 };
 
+static bool vertically_mirrored_is_less_than(std::string_view a, std::string_view b)
+{
+    assert(a.size() == b.size());
+    for (size_t i = 0; i < a.size(); ++i) {
+        char mirrored = (a[i] == 'U') ? 'D' : (a[i] == 'D') ? 'U' : a[i];
+        if (mirrored != b[i]) return mirrored < b[i];
+    }
+    return false;
+}
+
 SnakeOutcome testOuroboros(std::string_view sv, Pt *pv)
 {
     if (sv[1] == 'S') {
@@ -287,62 +306,49 @@ SnakeOutcome testOuroboros(std::string_view sv, Pt *pv)
     }
     const int n = sv.size() + 1;
     auto visited = std::span<Pt>(pv, pv + n);
-    for (int t=0; t < n; ++t) {
+    bool mirroredIsLess = vertically_mirrored_is_less_than(sv, sv);
+
+    for (int t=1; t < n; ++t) {
+        std::rotate(visited.begin(), visited.begin()+1, visited.end());
         for (int i=0; i < 24; ++i) {
             Facing rf = Facing(i);
-            if (visited[1] == rf.step(visited[0])) {
+            if (visited[1] == rf.step(visited[0]) && visited[2] == rf.right().step(visited[1])) {
                 auto rs = trace_snake(visited, rf);
                 assert(rs.size() == sv.size());
-                if (is_canonical_form(rs) && rs < sv) {
+                assert(is_canonical_form(rs));
+                if (rs < sv) {
                     return NOT_A_SNAKE;
+                }
+                if (vertically_mirrored_is_less_than(rs, sv)) {
+                    mirroredIsLess = true;
                 }
             }
         }
-        std::rotate(visited.begin(), visited.begin()+1, visited.end());
     }
     std::reverse(visited.begin(), visited.end());
     for (int t=0; t < n; ++t) {
         for (int i=0; i < 24; ++i) {
             Facing rf = Facing(i);
-            if (visited[1] == rf.step(visited[0])) {
+            if (visited[1] == rf.step(visited[0]) && visited[2] == rf.right().step(visited[1])) {
                 auto rs = trace_snake(visited, rf);
                 assert(rs.size() == sv.size());
-                if (is_canonical_form(rs) && rs < sv) {
+                assert(is_canonical_form(rs));
+                if (rs < sv) {
                     return NOT_A_SNAKE;
+                }
+                if (vertically_mirrored_is_less_than(rs, sv)) {
+                    mirroredIsLess = true;
                 }
             }
         }
         std::rotate(visited.begin(), visited.begin()+1, visited.end());
     }
 
-    for (int t=0; t < n; ++t) {
-        for (int i=0; i < 24; ++i) {
-            Facing rf = Facing(i);
-            if (visited[1] == rf.step(visited[0])) {
-                auto rs = trace_mirrored_snake(visited, rf);
-                assert(rs.size() == sv.size());
-                if (is_canonical_form(rs) && rs < sv) {
-                    return has_cavities(pv, n) ? ONESIDED_CAVITOUS_OUROBOROS : ONESIDED_STRIP_OUROBOROS;
-                }
-            }
-        }
-        std::rotate(visited.begin(), visited.begin()+1, visited.end());
+    if (mirroredIsLess) {
+        return has_cavities(sv, pv, n) ? ONESIDED_CAVITOUS_OUROBOROS : ONESIDED_STRIP_OUROBOROS;
+    } else {
+        return has_cavities(sv, pv, n) ? FREE_CAVITOUS_OUROBOROS : FREE_STRIP_OUROBOROS;
     }
-    std::reverse(visited.begin(), visited.end());
-    for (int t=0; t < n; ++t) {
-        for (int i=0; i < 24; ++i) {
-            Facing rf = Facing(i);
-            if (visited[1] == rf.step(visited[0])) {
-                auto rs = trace_mirrored_snake(visited, rf);
-                assert(rs.size() == sv.size());
-                if (is_canonical_form(rs) && rs < sv) {
-                    return has_cavities(pv, n) ? ONESIDED_CAVITOUS_OUROBOROS : ONESIDED_STRIP_OUROBOROS;
-                }
-            }
-        }
-        std::rotate(visited.begin(), visited.begin()+1, visited.end());
-    }
-    return has_cavities(pv, n) ? FREE_CAVITOUS_OUROBOROS : FREE_STRIP_OUROBOROS;
 }
 
 SnakeOutcome testSnake(std::string_view sv)
@@ -350,8 +356,8 @@ SnakeOutcome testSnake(std::string_view sv)
     const size_t n = sv.size();
     Facing f = Facing(0);
     Facing rf = f.right().right();
-    Pt pos = {60, 60, 60};
-    static Pt visited[32];
+    Pt pos = {MAXN, MAXN, MAXN};
+    static Pt visited[MAXN];
     for (size_t i = 0; i < n; ++i) {
         switch (sv[i]) {
             case 'S': break;
@@ -362,7 +368,7 @@ SnakeOutcome testSnake(std::string_view sv)
         }
         Pt nextpos = f.step(pos);
         // nextpos must have no neighbors besides pos.
-        for (int j = i-2; j >= 0; j -= 2) {
+        for (int j = i-4; j >= 0; j -= 2) {
             if (nextpos.adjacentTo(visited[j])) {
                 if (j == 0 && i == n-1) {
                     visited[n-1] = pos;
@@ -377,54 +383,13 @@ SnakeOutcome testSnake(std::string_view sv)
     }
     visited[n] = pos;
 
-    // If this string is less than the reverse-trace, it's at least a one-sided snake/strip.
-    // If this string is less than either its mirror-image or the mirror-image of its reverse-trace,
-    // then it's a free snake/strip.
-    char reverse[64] = "S";
-    for (size_t i=0; i < n; ++i) {
-        const Pt& nextpos = visited[n - i - 1];
-        // How do we get from pos to nextpos?
-        if (rf.step(pos) == nextpos) {
-            reverse[i] = 'S';
-        } else if (rf.left().step(pos) == nextpos) {
-            reverse[i] = 'L';
-            rf = rf.left();
-        } else if (rf.right().step(pos) == nextpos) {
-            reverse[i] = 'R';
-            rf = rf.right();
-        } else if (rf.up().step(pos) == nextpos) {
-            reverse[i] = 'U';
-            rf = rf.up();
-        } else {
-            assert(rf.down().step(pos) == nextpos);
-            reverse[i] = 'D';
-            rf = rf.down();
-        }
-        pos = nextpos;
-    }
-    assert(std::string_view(reverse).size() == sv.size());
-    bool reverseIsLess = (std::string_view(reverse) < sv);
-    bool mirrorIsLess = (!reverseIsLess) && [&]() {
-        for (size_t i=0; i < n; ++i) {
-            if (sv[i] == 'U' || sv[i] == 'D') return (sv[i] == 'U');
-        }
-        return false;
-    }();
-    bool reverseMirrorIsLess = (!reverseIsLess) && (!mirrorIsLess) && [&]() {
-        assert(reverse[0] == 'S');
-        for (size_t i=1; i < n; ++i) {
-            reverse[i] = (reverse[i] == 'U') ? 'D' : (reverse[i] == 'D') ? 'U' : reverse[i];
-        }
-        assert(std::string_view(reverse).size() == sv.size());
-        return (std::string_view(reverse) < sv);
-    }();
-
-    if (reverseIsLess) {
+    std::string_view rs = trace_snake_backwards(std::span<Pt>(visited, n+1), rf);
+    if (rs < sv) {
         return NOT_A_SNAKE;
-    } else if (mirrorIsLess || reverseMirrorIsLess) {
-        return has_cavities(visited, n+1) ? ONESIDED_CAVITOUS_SNAKE : ONESIDED_STRIP;
+    } else if (vertically_mirrored_is_less_than(sv, sv) || vertically_mirrored_is_less_than(rs, sv)) {
+        return has_cavities(sv, visited, n+1) ? ONESIDED_CAVITOUS_SNAKE : ONESIDED_STRIP;
     } else {
-        return has_cavities(visited, n+1) ? FREE_CAVITOUS_SNAKE : FREE_STRIP;
+        return has_cavities(sv, visited, n+1) ? FREE_CAVITOUS_SNAKE : FREE_STRIP;
     }
 }
 
