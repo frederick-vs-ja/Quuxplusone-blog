@@ -351,7 +351,7 @@ SnakeOutcome testOuroboros(std::string_view sv, Pt *pv)
     }
 }
 
-SnakeOutcome testSnake(std::string_view sv)
+SnakeOutcome testSnake(std::string_view sv, int *self_intersection)
 {
     const size_t n = sv.size();
     Facing f = Facing(0);
@@ -375,6 +375,7 @@ SnakeOutcome testSnake(std::string_view sv)
                     visited[n] = nextpos;
                     return testOuroboros(sv, visited);
                 }
+                *self_intersection = i;
                 return NOT_A_SNAKE;
             }
         }
@@ -393,48 +394,43 @@ SnakeOutcome testSnake(std::string_view sv)
     }
 }
 
-bool odometer(std::string& s)
-{
-    int n = s.size();
-    auto increment = [](char& ch) {
+struct Odometer {
+    static void increment(char& ch) {
         if (ch == 'D') ch = 'S';
         else if (ch == 'S') ch = 'R';
         else if (ch == 'R') ch = 'L';
         else if (ch == 'L') ch = 'U';
         else ch = 'D';
-    };
-again:
-    int i = n - 1;
-    do {
-        increment(s[i--]);
-    } while (s[i+1] == 'S');
-    if (s[i+1] == 'L' && s[i] == 'S') {
-        // Have we just made SSSSLSSSSS?
-        // Replace it with   SSSRSSSSSS.
-        if (s.find_first_not_of('S') == size_t(i+1)) {
+    }
+    static void fast_forward(std::string& s, int i) {
+        const int n = s.size();
+        for (int j = i+1; j < n; ++j) s[j] = 'D';
+    }
+    static bool advance(std::string& s) {
+        const int n = s.size();
+        int i = n - 1;
+        do {
+            increment(s[i--]);
+        } while (s[i+1] == 'S');
+        if (s[i+1] == 'L' && s[i] == 'S' && s.find_first_not_of('S') == size_t(i+1)) {
+            // Have we just made SSSSLSSSSS?
+            // Replace it with   SSSRSSSSSS.
             if (i == 0) {
                 return false;  // Done!
             }
             s[i] = 'R';
             s[i+1] = 'S';
         }
-    }
-    if (s[i] == s[i+1] && s[i] != 'S') {
-        // We just created LL, RR, DD, or UU:
-        // substrings that can't appear in a valid snake.
-        // (Except for the trivial 4-cube ouroboros SRR.)
-        // If we just made XYZRRSSS, change it to XYZRLSSS.
-        // If we just made XYZLLSSS, change it to XYZLUSSS.
-        // If we just made XYZUUSSS, change it to XYZUDSSS.
-        // If we just made XYZDDSSS, change it to XYZDDDDD and increment.
-        increment(s[i+1]);
-        if (s[i+1] == 'S') {
-            for (int j=i; j < n; ++j) s[j] = 'D';
-            goto again;
+        if (s[i] == s[i+1] && s[i] != 'S') {
+            // We just created LL, RR, DD, or UU:
+            // substrings that can't appear in a valid snake.
+            // (Except for the trivial 4-cube ouroboros SRR.)
+            fast_forward(s, i+1);
+            return advance(s);
         }
+        return true;
     }
-    return true;
-}
+};
 
 int main(int argc, char **argv)
 {
@@ -481,14 +477,19 @@ int main(int argc, char **argv)
         };
 
         std::string s(n-1, 'S');
+        int self_intersection_idx = -1;
         do {
             assert(is_canonical_form(s));
             nStrings += 1;
-            switch (testSnake(s)) {
+            switch (testSnake(s, &self_intersection_idx)) {
                 default:
                     assert(false);
                     break;
                 case NOT_A_SNAKE:
+                    if (self_intersection_idx != -1) {
+                        Odometer::fast_forward(s, self_intersection_idx);
+                        self_intersection_idx = -1;
+                    }
                     break;
                 case FREE_CAVITOUS_OUROBOROS:
                     nFreeOuroboroiWithCavities += 1;
@@ -519,7 +520,7 @@ int main(int argc, char **argv)
                 tick = 0;
                 print_stats('\r');
             }
-        } while (odometer(s));
+        } while (Odometer::advance(s));
         print_stats('\n');
     }
 }
