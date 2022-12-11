@@ -3,6 +3,7 @@ layout: post
 title: "Prince Rupert's Lego Cube"
 date: 2019-07-23 00:01:00 +0000
 tags:
+  lego
   math
   pretty-pictures
   science

@@ -3,7 +3,6 @@ layout: post
 title: "Polyomino strips, snakes, and ouroboroi"
 date: 2022-12-08 00:01:00 +0000
 tags:
-  celebration-of-mind
   math
   pretty-pictures
   puzzles
@@ -112,7 +111,8 @@ There are at least two ways to define the 3D equivalent of a "strip" (resp. "a s
 
 ![Sam's heart-shaped ouroboros](/blog/images/2022-12-08-sams-heart-polycube.jpg)
 
-A minor tweak gives a 24-cube ouroboros with a "corner-type pseudo-tunnel."
+A minor tweak gives a 24-cube ouroboros with a "corner-type pseudo-tunnel"; this can be reduced
+to a 22-cube ouroboros (see [my followup post](/blog/2022/12/11/lego-polycube-snakes/)).
 
 
 ## One-sided versus free polyominoes
@@ -233,10 +233,16 @@ ouroboros (one mirror-symmetric, the other two forming a chiral pair)?
 | 15 | 7890893    | 485        |        |        | 15753903      | 970           |          |          |
 | 16 | 32221475   | 2098       | 6465   | 4      | 64380796      | 4196          | 12562    | 8        |
 | 17 | 131812746  | 9381       |        |        | 263475472     | 18762         |          |          |
-| 18 |            |            |        |        | 1075780425    |               | 147350   |          |
+| 18 | 538059836  | 40566      | 74314  | 23     | 1075780425    | 81132         | 147350   | 46       |
 | 19 |            |            |        |        | 4397161320    |               |          |          |
 | 20 |            |            |        |        | 17939394036   |               | 1810165  |          |
 | 21 |            |            |        |        | 73251877235   |               |          |          |
 | 22 |            |            |        |        | 298646347226  |               | 22812552 |          |
 | 23 |            |            |        |        | 1218453344740 |               |          |          |
 {:.smaller}
+
+----
+
+See also:
+
+* ["Lego polycube snakes"](/blog/2022/12/11/lego-polycube-snakes/) (2022-12-11)
