@@ -261,9 +261,14 @@ bool cannot_have_cavities(std::string_view sv, Pt *visited, int n) {
         maxy = std::max(maxy, get<1>(visited[i]));
         maxz = std::max(maxz, get<2>(visited[i]));
     }
-    if (maxx <= minx + 1) return true;
-    if (maxy <= miny + 1) return true;
-    if (maxz <= minz + 1) return true;
+    int dx = (maxx - minx) + 1;
+    int dy = (maxy - miny) + 1;
+    int dz = (maxz - minz) + 1;
+    // There must be space for a cavity.
+    if (dx < 3 || dy < 3 || dz < 3) return true;
+    // There must be cubes enough to surround a cavity.
+    // The shortest cavitous snake fits 11 cubes into a 3x3x3 box.
+    if ((n-11 < dx-3) || (n-11 < dy-3) || (n-11 < dz-3)) return true;
     return false;
 }
 
