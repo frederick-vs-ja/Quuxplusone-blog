@@ -308,7 +308,6 @@ bool odometer(std::string& s)
 again:
         increment(s[i--]);
     } while (s[i+1] == 'S');
-#if 1
     if (s[i] == s[i+1] && s[i] != 'S') {
         // We just created LL or RR:
         // substrings that can't appear in a valid snake.
@@ -318,7 +317,6 @@ again:
         ++i;
         goto again;
     }
-#endif
     return true;
 }
 
@@ -340,6 +338,26 @@ int main(int argc, char **argv)
         auto elapsed_while_asleep = std::chrono::seconds(0);
         auto last_elapsed = std::chrono::seconds(0);
         auto start = std::chrono::system_clock::now();
+
+        auto print_stats = [&](char newline) {
+            auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - start);
+            if (elapsed - last_elapsed > std::chrono::seconds(30)) {
+                // The computer probably went to sleep. Don't count this interval.
+                elapsed_while_asleep += (elapsed - last_elapsed);
+                elapsed = last_elapsed;
+                start = std::chrono::system_clock::now() - elapsed;
+            } else {
+                last_elapsed = elapsed;
+            }
+            printf("| %d | %zu | %zu | %zu | %zu | %zu | %zu | %zu | (%zu sec, %zu sec asleep)%c",
+                n, nStrings,
+                nFreeStrips, nFreeSnakes, nFreeOuroboroi,
+                nOneSidedStrips, nOneSidedSnakes, nOneSidedOuroboroi,
+                size_t(elapsed.count()), size_t(elapsed_while_asleep.count()), newline
+            );
+            fflush(stdout);
+        };
+
         std::string s(n-1, 'S');
         do {
             assert(is_canonical_form(s));
@@ -377,28 +395,9 @@ int main(int argc, char **argv)
             }
             if (++tick == 1000000) {
                 tick = 0;
-                auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - start);
-                if (elapsed - last_elapsed > std::chrono::seconds(30)) {
-                    // The computer probably went to sleep. Don't count this interval.
-                    elapsed_while_asleep += (elapsed - last_elapsed);
-                    elapsed = last_elapsed;
-                    start = std::chrono::system_clock::now() - elapsed;
-                } else {
-                    last_elapsed = elapsed;
-                }
-                if (elapsed_while_asleep.count() > 0) {
-                    printf("| %d | %zu | %zu | %zu | %zu | %zu | %zu | %zu | (%zu sec, %zu sec asleep)\r",
-                        n, nStrings, nFreeStrips, nFreeSnakes, nFreeOuroboroi, nOneSidedStrips, nOneSidedSnakes, nOneSidedOuroboroi,
-                        size_t(elapsed.count()), size_t(elapsed_while_asleep.count()));
-                } else {
-                    printf("| %d | %zu | %zu | %zu | %zu | %zu | %zu | %zu | (%zu sec)\r",
-                        n, nStrings, nFreeStrips, nFreeSnakes, nFreeOuroboroi, nOneSidedStrips, nOneSidedSnakes, nOneSidedOuroboroi,
-                        size_t(elapsed.count()));
-                }
-                fflush(stdout);
+                print_stats('\r');
             }
         } while (odometer(s));
-        printf("| %d | %zu | %zu | %zu | %zu | %zu | %zu | %zu |\n",
-               n, nStrings, nFreeStrips, nFreeSnakes, nFreeOuroboroi, nOneSidedStrips, nOneSidedSnakes, nOneSidedOuroboroi);
+        print_stats('\n');
     }
 }
