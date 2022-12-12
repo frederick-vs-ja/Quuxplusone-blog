@@ -118,3 +118,21 @@ a cavity or not. I have thought of two algorithms and two quick-reject heuristic
 The quick-reject heuristics all suffer from the problem that the overwhelming majority of lengthy
 snakes are neither "deflated" nor "mostly straight."
 It would sure be nice to find a faster way to tell whether a snake has cavities or not.
+
+----
+
+UPDATE, still 2022-12-11: Right after finishing this post, I realized a much better quick-reject
+heuristic than any of the above. Every cavity must have a "southwest bottom corner," i.e., an empty
+cell which is the north neighbor of a snakey cell _and_ the east neighbor of a snakey cell _and_
+the upstairs neighbor of a snakey cell. So, make a list of all the north, east, and upstairs neighbors
+of each snakey cell, sort it (to sort duplicates together), and check whether any entry is repeated
+three times. If so, you _might_ have a cavity; if not, you definitely do not have a cavity.
+
+The same check can be repeated for the "northeast upper corner," the "northwest bottom corner," and
+so on. The first two checks also serve to compute some of the "perimeter" of the snake, all of which
+is needed as input to the flood-fill algorithm in the second bullet above.
+
+Since the majority of snakes do not have "corners" of all eight types, this heuristic lets us skip the
+rigorous cavity search in just about all cases. (Puzzle: How effective is this heuristic as $$n$$
+approaches infinity? Is there an $$n$$ above which the majority of snakes _do_ have corners of all
+eight types?)

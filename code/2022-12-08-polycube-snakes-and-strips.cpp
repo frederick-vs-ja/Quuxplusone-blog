@@ -36,6 +36,9 @@ struct Pt {
     bool adjacentTo(const Pt& p) const {
         return std::has_single_bit(i - p.i) || std::has_single_bit(p.i - i);
     }
+    struct Less {
+        bool operator()(const Pt& a, const Pt& b) const { return a.i < b.i; }
+    };
 };
 template<> struct std::tuple_size<Pt> : std::integral_constant<size_t, 3> {};
 template<size_t I> struct std::tuple_element<I, Pt> : std::type_identity<int> {};
@@ -190,27 +193,143 @@ std::string_view trace_snake_backwards(std::span<const Pt> visited, Facing rf)
 struct Floodfiller {
     explicit Floodfiller() = default;
 
+    void generate_corner_neighbors(std::span<const Pt> visited, int dx, int dy, int dz) {
+        for (const auto& [x, y, z] : visited) {
+            Pt p1 = { x + dx, y, z };
+            Pt p2 = { x, y + dy, z };
+            Pt p3 = { x, y, z + dz };
+            if (std::find(visited.begin(), visited.end(), p1) == visited.end()) *expected_last++ = p1;
+            if (std::find(visited.begin(), visited.end(), p2) == visited.end()) *expected_last++ = p2;
+            if (std::find(visited.begin(), visited.end(), p3) == visited.end()) *expected_last++ = p3;
+        }
+    }
+
     void reset_things(Pt *visited, int n) {
         this->n = n;
         Pt *visited_last = visited + n;
         expected_last = expected;
-        for (int i = 0; i < n; ++i) {
-            for (int a = -1; a <= 1; ++a) {
-                for (int b = -1; b <= 1; ++b) {
-                    for (int c = -1; c <= 1; ++c) {
-                        if (a == 0 && b == 0 && c == 0) continue;
-                        Pt p = { get<0>(visited[i]) + a, get<1>(visited[i]) + b, get<2>(visited[i]) + c };
-                        if (std::find(visited, visited_last, p) != visited_last) continue;
-                        if (std::find(expected, expected_last, p) != expected_last) continue;
-                        assert(expected_last < std::end(expected));
-                        *expected_last++ = p;
-                    }
+
+        struct Deltas { int dx, dy, dz; };
+        if (true) {
+            // Each cavity must contain at least one empty cell bordered by snake on these three faces,
+            // which will show up here as a threepeat in the sorted list of rookwise neighbors.
+            // If no such cell exists, this snake can't have a cavity.
+            // (This also starts building the "expected" volume we're going to flood-fill.)
+            generate_corner_neighbors(std::span(visited, n), -1, -1, -1);
+            std::sort(expected, expected_last, Pt::Less());
+            cannot_have_cavities_ = !has_threepeat(expected, expected_last);
+            if (cannot_have_cavities_) {
+                return;
+            }
+        }
+        if (true) {
+            Pt *first = expected_last;
+            generate_corner_neighbors(std::span(visited, n), +1, +1, +1);
+            std::sort(first, expected_last, Pt::Less());
+            cannot_have_cavities_ = !has_threepeat(first, expected_last);
+            if (cannot_have_cavities_) {
+                return;
+            }
+        }
+        if (true) {
+            Pt *first = expected_last;
+            generate_corner_neighbors(std::span(visited, n), -1, -1, +1);
+            std::sort(first, expected_last, Pt::Less());
+            cannot_have_cavities_ = !has_threepeat(first, expected_last);
+            if (cannot_have_cavities_) {
+                return;
+            }
+            expected_last = first;
+        }
+        if (true) {
+            Pt *first = expected_last;
+            generate_corner_neighbors(std::span(visited, n), -1, +1, -1);
+            std::sort(first, expected_last, Pt::Less());
+            cannot_have_cavities_ = !has_threepeat(first, expected_last);
+            if (cannot_have_cavities_) {
+                return;
+            }
+            expected_last = first;
+        }
+        if (true) {
+            Pt *first = expected_last;
+            generate_corner_neighbors(std::span(visited, n), -1, +1, +1);
+            std::sort(first, expected_last, Pt::Less());
+            cannot_have_cavities_ = !has_threepeat(first, expected_last);
+            if (cannot_have_cavities_) {
+                return;
+            }
+            expected_last = first;
+        }
+        if (true) {
+            Pt *first = expected_last;
+            generate_corner_neighbors(std::span(visited, n), +1, -1, -1);
+            std::sort(first, expected_last, Pt::Less());
+            cannot_have_cavities_ = !has_threepeat(first, expected_last);
+            if (cannot_have_cavities_) {
+                return;
+            }
+            expected_last = first;
+        }
+        if (true) {
+            Pt *first = expected_last;
+            generate_corner_neighbors(std::span(visited, n), +1, -1, +1);
+            std::sort(first, expected_last, Pt::Less());
+            cannot_have_cavities_ = !has_threepeat(first, expected_last);
+            if (cannot_have_cavities_) {
+                return;
+            }
+            expected_last = first;
+        }
+        if (true) {
+            Pt *first = expected_last;
+            generate_corner_neighbors(std::span(visited, n), +1, +1, -1);
+            std::sort(first, expected_last, Pt::Less());
+            cannot_have_cavities_ = !has_threepeat(first, expected_last);
+            if (cannot_have_cavities_) {
+                return;
+            }
+            expected_last = first;
+        }
+        if (true) {
+            // Now build the rest of the "expected" list.
+            static constexpr Deltas other_neighbors[20] = {
+                {-1, -1, -1},
+                {-1, -1,  0},
+                {-1, -1, +1},
+                {-1,  0, -1},
+                {-1,  0, +1},
+                {-1, +1, -1},
+                {-1, +1,  0},
+                {-1, +1, +1},
+                { 0, -1, -1},
+                { 0, -1, +1},
+                { 0, +1, -1},
+                { 0, +1, +1},
+                {+1, -1, -1},
+                {+1, -1,  0},
+                {+1, -1, +1},
+                {+1,  0, -1},
+                {+1,  0, +1},
+                {+1, +1, -1},
+                {+1, +1,  0},
+                {+1, +1, +1},
+            };
+            for (const auto& [x, y, z] : std::span(visited, n)) {
+                for (const auto& [dx, dy, dz] : other_neighbors) {
+                    Pt p = { x + dx, y + dy, z + dz };
+                    if (std::find(visited, visited_last, p) != visited_last) continue;
+                    assert(expected_last < std::end(expected));
+                    *expected_last++ = p;
                 }
             }
+            std::sort(expected, expected_last, Pt::Less());
+            expected_last = std::unique(expected, expected_last);
         }
     }
 
     void flood() {
+        assert(!cannot_have_cavities_);
         std::fill(flooded, flooded + sheath_volume(), false);
         flood(expected[0]);
     }
@@ -222,7 +341,20 @@ struct Floodfiller {
         return expected_last - expected;
     }
 
+    bool cannot_have_cavities() const { return cannot_have_cavities_; }
+
 private:
+    template<class It>
+    bool has_threepeat(It first, It last) {
+        assert(last - first >= 3);
+        for (; first+2 != last; ++first) {
+            if (first[0] == first[1] && first[1] == first[2]) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     void flood(Pt p) {
         auto it = std::find(expected, expected_last, p);
         if (it != expected_last && !flooded[it - expected]) {
@@ -238,6 +370,7 @@ private:
     }
 
     int n = 0;
+    bool cannot_have_cavities_ = false;
     Pt *expected_last = nullptr;
     Pt expected[25*MAXN+2];
     bool flooded[25*MAXN+2];
@@ -277,6 +410,9 @@ bool has_cavities(std::string_view sv, Pt *visited, int n) {
         return false;
     }
     g_floodfiller.reset_things(visited, n);
+    if (g_floodfiller.cannot_have_cavities()) {
+        return false;
+    }
     g_floodfiller.flood();
     return (g_floodfiller.flooded_volume() != g_floodfiller.sheath_volume());
 }
@@ -521,7 +657,7 @@ int main(int argc, char **argv)
                     nChiralSnakesWithCavities += 1;
                     break;
             }
-            if (++tick == 100000) {
+            if (++tick == 1000000) {
                 tick = 0;
                 print_stats('\r');
             }
