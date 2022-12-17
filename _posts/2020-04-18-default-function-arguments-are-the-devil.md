@@ -190,6 +190,32 @@ each signature on a line by itself.
 This code is trivially correct by inspection, and therefore easy to maintain and extend.
 
 
+## One name, varied functionalities
+
+Nir Friedman points out that our refactoring of `print_square` shouldn't stop there.
+We have succeeded in unpuzzling our API from the _maintainer's_ point of view; but
+now let's consider the puzzle from the _client's_ point of view. The client programmer
+doesn't want a "puzzling" `print_square(x)` that treats `x` sometimes as a side length
+and sometimes as a fill character! The client programmer wants an API that looks more
+like this:
+
+    // square.h
+    void print_square(int n, char fill);
+    inline void print_square_with_side(int n) { print_square(n, '+'); }
+    inline void print_square_with_fill(char fill) { print_square(10, fill); }
+    inline void print_default_square() { print_square(10, '+'); }
+
+In fact, maybe the client programmer doesn't even need some of those functionalities
+at all, and we can just eliminate those unused functions from our code.
+See ["Refactoring with `=delete`"](/blog/2022/11/11/refactoring-with-delete/) (2022-11-11)
+and ["API design advice from Anakin and Obi-Wan"](/blog/2022/12/17/kill-three-member-functions/) (2022-12-17).
+
+Reusing the same name for multiple distinct functionalities is a trap. It's still
+possible to fall into that trap without using default arguments. But it isn't possible
+to use default arguments without falling into that trap. The next section shows
+another example:
+
+
 ## The "boolean parameter tarpit"
 
 We've all seen code like this, right?
@@ -516,6 +542,34 @@ Of course not!
     MyType operator+(MyType x, MyType y = {});
 
 No way!
+
+
+## Buggy compilers
+
+I was surprised to learn there are still compiler bugs in such an old (1980s-era) feature.
+But in 2022 I learned about a longstanding bug in both GCC ([#96645](https://gcc.gnu.org/bugzilla/show_bug.cgi?id=96645))
+and Clang ([#36032](https://github.com/llvm/llvm-project/issues/36032)):
+
+    struct A {
+        struct B {
+            int i = 42;
+        };
+        static void f(B b = B());
+    };
+
+Both GCC and Clang reject this valid code, seemingly because they resist generating an
+implicitly declared default constructor before the end of an enclosing class — even when
+the constructor is `B`’s but the enclosing class is `A`! Work around this default-argument
+bug by eliminating default arguments: every vendor is happy with the following code,
+and it's clearer to boot.
+
+    struct A {
+        struct B {
+            int i = 42;
+        };
+        static void f() { f(B()); }
+        static void f(B b);
+    };
 
 
 ## What about `std::source_location`?
