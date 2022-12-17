@@ -55,7 +55,7 @@ line; say, "The nether god has influence above / At all times he has
 his brother's ear."
 
 In Zeus's last speech in Prologue scene 2, the typescript had
-"Though daily clamoured and complained"; I assumed the word
+"Though daily clamoured and complained." I assumed the word
 "Pluto" was missing, and inserted it.
 
 ----
@@ -80,13 +80,13 @@ reminded me that Greek tragedy hewed to the [Three Unities](https://en.wikipedia
 Euripides doesn't _show_ us Alcestis placing wreaths on the altars of her bedchamber,
 but merely describes it (because the action uniformly takes place in the courtyard of
 Admetus' palace). In fact in Euripides we get the whole action of the Prologue "told, not shown"
-as well, from Apollo's lips; it's only because Greene is a modern writer willing to dispense
+as well, from Apollo's lips. It's only because Greene is a modern writer willing to dispense
 with unity of time, place, and action that her Prologue is able to _show_ us occurrences that happened
 months earlier, in different cities, involving different characters.
 
 However, Greene still doesn't depart from Euripides far enough to _show_ us Heracles'
 fight with Death; that action still takes place offstage, and feels much less satisfactory
-here. The Prologue has already taken us into the Cyclopes' workshop, why shouldn't we see
+here. The Prologue has already taken us into the Cyclopes' workshop; why shouldn't we see
 Hades as well?
 
 ----
