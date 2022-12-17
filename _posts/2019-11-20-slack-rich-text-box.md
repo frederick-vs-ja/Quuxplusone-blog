@@ -4,7 +4,7 @@ title: "Slack's new WYSIWYG input box is really terrible"
 date: 2019-11-20 00:01:00 +0000
 tags:
   rant
-  slack
+  cpplang-slack
   web
 ---
 

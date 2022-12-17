@@ -6,7 +6,7 @@ tags:
   argument-dependent-lookup
   library-design
   metaprogramming
-  slack
+  cpplang-slack
 excerpt: |
   Previously on this blog:
 

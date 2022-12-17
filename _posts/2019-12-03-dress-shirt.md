@@ -5,7 +5,7 @@ date: 2019-12-03 00:01:00 +0000
 tags:
   classical-polymorphism
   rant
-  slack
+  cpplang-slack
 ---
 
 Here's a C++ problem where I still don't know what's a good way to deal with it.

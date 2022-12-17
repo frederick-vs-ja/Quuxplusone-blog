@@ -7,7 +7,7 @@ tags:
   constructors
   initialization
   pitfalls
-  slack
+  cpplang-slack
 excerpt: |
   Somehow the topic of [P0960 parenthesized aggregate initialization](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2019/p0960r3.html)
   has come up three times in the past week over on [the cpplang Slack](https://cppalliance.org/slack/).

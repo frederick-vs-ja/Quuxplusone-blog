@@ -5,7 +5,7 @@ date: 2021-05-22 00:01:00 +0000
 tags:
   implementation-divergence
   metaprogramming
-  slack
+  cpplang-slack
 ---
 
 I've received a few proposed solutions re

@@ -6,7 +6,7 @@ tags:
   implementation-divergence
   language-design
   name-lookup
-  slack
+  cpplang-slack
   templates
   today-i-learned
 ---

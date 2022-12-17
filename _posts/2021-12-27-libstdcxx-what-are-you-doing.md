@@ -9,7 +9,7 @@ tags:
   metaprogramming
   pitfalls
   ranges
-  slack
+  cpplang-slack
 excerpt: |
   Here's a C++ riddle for you: When does `std::invoke` not invoke?
 

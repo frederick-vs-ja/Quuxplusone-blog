@@ -6,7 +6,7 @@ tags:
   constexpr
   implementation-divergence
   metaprogramming
-  slack
+  cpplang-slack
 ---
 
 Via Mark de Wever on the

@@ -4,7 +4,7 @@ title: First post — Jekyll Now
 date: 2018-03-13 00:01:00 +0000
 tags:
   how-to
-  slack
+  cpplang-slack
   web
 ---
 

@@ -4,7 +4,7 @@ title: 'Left-folding and right-folding an arbitrary callable'
 date: 2020-10-12 00:01:00 +0000
 tags:
   metaprogramming
-  slack
+  cpplang-slack
   variadic-templates
 ---
 

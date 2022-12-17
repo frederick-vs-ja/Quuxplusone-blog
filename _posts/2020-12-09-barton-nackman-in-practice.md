@@ -5,7 +5,7 @@ date: 2020-12-09 00:01:00 +0000
 tags:
   argument-dependent-lookup
   hidden-friend-idiom
-  slack
+  cpplang-slack
   stl-classic
   templates
 ---

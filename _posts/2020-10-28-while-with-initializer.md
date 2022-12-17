@@ -4,7 +4,7 @@ title: "`while (auto x=y; z)`"
 date: 2020-10-28 00:01:00 +0000
 tags:
   language-design
-  slack
+  cpplang-slack
 ---
 
 This question has come up at least twice on the cpplang Slack now. C++ keeps

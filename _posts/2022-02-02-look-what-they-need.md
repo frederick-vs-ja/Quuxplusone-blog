@@ -6,7 +6,7 @@ tags:
   c++-learner-track
   holy-wars
   memes
-  slack
+  cpplang-slack
 excerpt: |
   Two convergent observations from my corner of the C++ world:
 

@@ -6,7 +6,7 @@ tags:
   implementation-divergence
   llvm
   standard-library-trivia
-  slack
+  cpplang-slack
 excerpt: |
   The C++11 and C++14 standard libraries defined many constexpr global variables like this:
 

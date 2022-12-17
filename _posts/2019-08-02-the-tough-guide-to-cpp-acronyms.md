@@ -4,7 +4,7 @@ title: "A C++ acronym glossary"
 date: 2019-08-02 00:01:00 +0000
 tags:
   c++-learner-track
-  slack
+  cpplang-slack
   wg21-folkloristics
 ---
 

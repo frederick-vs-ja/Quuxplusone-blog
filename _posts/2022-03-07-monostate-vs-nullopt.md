@@ -4,7 +4,7 @@ title: 'TIL: `nullopt_t` is not equality-comparable, but `monostate` is'
 date: 2022-03-07 00:01:00 +0000
 tags:
   ranges
-  slack
+  cpplang-slack
   standard-library-trivia
   today-i-learned
   value-semantics

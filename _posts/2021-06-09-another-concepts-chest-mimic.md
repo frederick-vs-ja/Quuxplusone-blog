@@ -7,7 +7,7 @@ tags:
   concepts
   implementation-divergence
   pitfalls
-  slack
+  cpplang-slack
 excerpt: |
   In my CppCon 2018 talk ["Concepts As She Is Spoke,"](https://www.youtube.com/watch?v=CXn02MPkn8Y)
   I presented some pitfalls in `requires`-clause syntax, such as:

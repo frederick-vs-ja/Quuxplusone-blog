@@ -4,7 +4,7 @@ title: 'Hidden `reinterpret_cast`s'
 date: 2020-01-22 00:02:00 +0000
 tags:
   pitfalls
-  slack
+  cpplang-slack
   templates
 excerpt: |
   [Here's](https://godbolt.org/z/hZYF2Q) a fun little puzzle, courtesy of Richard Hodges on Slack.

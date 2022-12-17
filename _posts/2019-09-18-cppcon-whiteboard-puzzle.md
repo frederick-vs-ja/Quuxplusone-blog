@@ -6,7 +6,7 @@ tags:
   concepts
   conferences
   cppcon
-  slack
+  cpplang-slack
 ---
 
 Seen on the whiteboard outside the Aurora D conference room at CppCon 2019:

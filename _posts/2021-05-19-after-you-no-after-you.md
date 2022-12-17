@@ -4,7 +4,7 @@ title: 'A metaprogramming puzzle: Overly interoperable libraries'
 date: 2021-05-19 00:01:00 +0000
 tags:
   metaprogramming
-  slack
+  cpplang-slack
 ---
 
 Here's an open problem I posted in the cpplang Slack the other day.

@@ -6,7 +6,7 @@ tags:
   concepts
   implementation-divergence
   implicit-move
-  slack
+  cpplang-slack
 excerpt: |
   Here's a puzzle for you: How do you write a class without a copy constructor?
 ---

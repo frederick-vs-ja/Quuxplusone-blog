@@ -7,7 +7,7 @@ tags:
   implicit-move
   pitfalls
   proposal
-  slack
+  cpplang-slack
 excerpt: |
   Yesterday Lauri Vasama showed me [this awesome Godbolt](https://godbolt.org/z/jG7x5h):
 

@@ -4,7 +4,7 @@ title: "Type-erased `UniquePrintable` and `PrintableRef`"
 date: 2020-11-24 00:01:00 +0000
 tags:
   pearls
-  slack
+  cpplang-slack
   type-erasure
 ---
 

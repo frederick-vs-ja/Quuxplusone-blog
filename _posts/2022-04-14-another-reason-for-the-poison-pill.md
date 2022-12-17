@@ -8,7 +8,7 @@ tags:
   library-design
   name-lookup
   pitfalls
-  slack
+  cpplang-slack
   standard-library-trivia
 excerpt: |
   As seen on the [cpplang Slack](https://cppalliance.org/slack/) (hat tip to Jody Hagins).
