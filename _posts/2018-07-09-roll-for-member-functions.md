@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'API design'
+title: 'Roll for member functions'
 date: 2018-07-09 00:01:00 +0000
 tags:
   memes
