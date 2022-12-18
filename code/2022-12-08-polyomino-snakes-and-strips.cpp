@@ -8,6 +8,10 @@
 #include <string_view>
 #include <vector>
 
+// This "should be enough for anyone." Don't assume n=MAXN will actually work.
+// If you want to test larger n, increase MAXN.
+#define MAXN 48
+
 // A polyomino snake is given by looking down one of its ends
 // and recording which way you "turn" each time you move
 // to the next cube; so a polysnake of n squares is represented
@@ -21,6 +25,7 @@
 
 struct Pt {
     union {
+        static_assert(2*MAXN < CHAR_MAX, "All coords must fit into the positive 'signed char' values");
         struct { signed char x, y, pad1=0, pad2=0; };
         unsigned int i;
     };
@@ -73,9 +78,9 @@ bool is_canonical_form(std::string_view sv)
     return true;
 }
 
-std::string trace_snake(std::span<const Pt> visited, Facing rf)
+std::string_view trace_snake(std::span<const Pt> visited, Facing rf)
 {
-    std::string rs = std::string(visited.size() - 1, 'S');
+    static char rs[MAXN] = "S";
     Pt pos = visited[0];
     assert(rf.step(pos) == visited[1]);
     for (size_t i=1; i < visited.size(); ++i) {
@@ -96,27 +101,14 @@ std::string trace_snake(std::span<const Pt> visited, Facing rf)
     return rs;
 }
 
-std::string trace_mirrored_snake(std::span<const Pt> visited, Facing rf)
+static bool horizontally_mirrored_is_less_than(std::string_view a, std::string_view b)
 {
-    std::string rs = std::string(visited.size() - 1, 'S');
-    Pt pos = visited[0];
-    assert(rf.step(pos) == visited[1]);
-    for (size_t i=1; i < visited.size(); ++i) {
-        const Pt& nextpos = visited[i];
-        // How do we get from pos to nextpos?
-        if (rf.step(pos) == nextpos) {
-            rs[i-1] = 'S';
-        } else if (rf.left().step(pos) == nextpos) {
-            rs[i-1] = 'R';
-            rf = rf.left();
-        } else {
-            assert(rf.right().step(pos) == nextpos);
-            rs[i-1] = 'L';
-            rf = rf.right();
-        }
-        pos = nextpos;
+    assert(a.size() == b.size());
+    for (size_t i = 0; i < a.size(); ++i) {
+        char mirrored = (a[i] == 'L') ? 'R' : (a[i] == 'R') ? 'L' : a[i];
+        if (mirrored != b[i]) return mirrored < b[i];
     }
-    return rs;
+    return false;
 }
 
 enum SnakeOutcome {
@@ -131,68 +123,45 @@ enum SnakeOutcome {
 
 SnakeOutcome testOuroboros(std::string_view sv, Pt *pv)
 {
+    bool mirroredIsLess = horizontally_mirrored_is_less_than(sv, sv);
     const int n = sv.size() + 1;
     auto visited = std::span<Pt>(pv, pv + n);
-    for (int t=0; t < n; ++t) {
+    for (int t=1; t < n; ++t) {
+        std::rotate(visited.begin(), visited.begin()+1, visited.end());
         for (int i=0; i < 4; ++i) {
             Facing rf = Facing(i);
-            if (visited[1] == rf.step(visited[0])) {
+            if (visited[1] == rf.step(visited[0]) && visited[2] != rf.step(visited[1])) {
                 auto rs = trace_snake(visited, rf);
                 assert(rs.size() == sv.size());
                 assert(is_canonical_form(rs));
                 if (rs < sv) {
                     return NOT_A_SNAKE;
                 }
+                if (horizontally_mirrored_is_less_than(rs, sv)) {
+                    mirroredIsLess = true;
+                }
             }
         }
-        std::rotate(visited.begin(), visited.begin()+1, visited.end());
     }
     std::reverse(visited.begin(), visited.end());
     for (int t=0; t < n; ++t) {
         for (int i=0; i < 4; ++i) {
             Facing rf = Facing(i);
-            if (visited[1] == rf.step(visited[0])) {
+            if (visited[1] == rf.step(visited[0]) && visited[2] != rf.step(visited[1])) {
                 auto rs = trace_snake(visited, rf);
                 assert(rs.size() == sv.size());
                 assert(is_canonical_form(rs));
                 if (rs < sv) {
                     return NOT_A_SNAKE;
                 }
-            }
-        }
-        std::rotate(visited.begin(), visited.begin()+1, visited.end());
-    }
-
-    for (int t=0; t < n; ++t) {
-        for (int i=0; i < 4; ++i) {
-            Facing rf = Facing(i);
-            if (visited[1] == rf.step(visited[0])) {
-                auto rs = trace_mirrored_snake(visited, rf);
-                assert(rs.size() == sv.size());
-                assert(is_canonical_form(rs));
-                if (rs < sv) {
-                    return ONESIDED_OUROBOROS;
+                if (horizontally_mirrored_is_less_than(rs, sv)) {
+                    mirroredIsLess = true;
                 }
             }
         }
         std::rotate(visited.begin(), visited.begin()+1, visited.end());
     }
-    std::reverse(visited.begin(), visited.end());
-    for (int t=0; t < n; ++t) {
-        for (int i=0; i < 4; ++i) {
-            Facing rf = Facing(i);
-            if (visited[1] == rf.step(visited[0])) {
-                auto rs = trace_mirrored_snake(visited, rf);
-                assert(rs.size() == sv.size());
-                assert(is_canonical_form(rs));
-                if (rs < sv) {
-                    return ONESIDED_OUROBOROS;
-                }
-            }
-        }
-        std::rotate(visited.begin(), visited.begin()+1, visited.end());
-    }
-    return FREE_OUROBOROS;
+    return mirroredIsLess ? ONESIDED_OUROBOROS : FREE_OUROBOROS;
 }
 
 bool is_strip(Pt *visited, int n) {
@@ -234,13 +203,13 @@ bool is_strip(Pt *visited, int n) {
     return (flooded.size() == rectSize - n);
 }
 
-SnakeOutcome testSnake(std::string_view sv)
+SnakeOutcome testSnake(std::string_view sv, int *self_intersection)
 {
     const size_t n = sv.size();
     Facing f = Facing(0);
     Facing rf = f.right().right();
-    Pt pos = {60, 60};
-    static Pt visited[64];
+    Pt pos = {MAXN, MAXN};
+    static Pt visited[MAXN];
     for (size_t i = 0; i < n; ++i) {
         switch (sv[i]) {
             case 'S': break;
@@ -256,6 +225,7 @@ SnakeOutcome testSnake(std::string_view sv)
                     visited[n] = nextpos;
                     return testOuroboros(sv, visited);
                 }
+                *self_intersection = i;
                 return NOT_A_SNAKE;
             }
         }
@@ -267,7 +237,7 @@ SnakeOutcome testSnake(std::string_view sv)
     // If this string is less than the reverse-trace, it's at least a one-sided snake/strip.
     // If this string is less than either its mirror-image or the mirror-image of its reverse-trace,
     // then it's a free snake/strip.
-    char reverse[64] = "S";
+    char reverse[MAXN] = "S";
     for (size_t i=1; i < n; ++i) {
         reverse[i] = sv[n-i];
     }
@@ -294,31 +264,33 @@ SnakeOutcome testSnake(std::string_view sv)
     }
 }
 
-bool odometer(std::string& s)
-{
-    int n = s.size();
-    auto increment = [](char& ch) {
+struct Odometer {
+    static void increment(char& ch) {
         if (ch == 'L') ch = 'S';
         else if (ch == 'S') ch = 'R';
         else ch = 'L';
-    };
-    int i = n - 1;
-    do {
-        if (i == 0) return false;
-again:
-        increment(s[i--]);
-    } while (s[i+1] == 'S');
-    if (s[i] == s[i+1] && s[i] != 'S') {
-        // We just created LL or RR:
-        // substrings that can't appear in a valid snake.
-        // (Except for the trivial 4-cube ouroboros SRR.)
-        // If we just made XYZRRSSS, change it to XYZRLSSS.
-        // If we just made XYZLLSSS, change it to XYZLSSSS.
-        ++i;
-        goto again;
     }
-    return true;
-}
+    static void fast_forward(std::string& s, int i) {
+        const int n = s.size();
+        for (int j = i+1; j < n; ++j) s[j] = 'L';
+    }
+    static bool advance(std::string& s) {
+        const int n = s.size();
+        int i = n - 1;
+        do {
+            if (i == 0) return false;
+            increment(s[i--]);
+        } while (s[i+1] == 'S');
+        if (s[i] == s[i+1] && s[i] != 'S') {
+            // We just created LL or RR:
+            // substrings that can't appear in a valid snake.
+            // (Except for the trivial 4-cube ouroboros SRR.)
+            fast_forward(s, i+1);
+            return advance(s);
+        }
+        return true;
+    }
+};
 
 int main(int argc, char **argv)
 {
@@ -359,14 +331,19 @@ int main(int argc, char **argv)
         };
 
         std::string s(n-1, 'S');
+        int self_intersection_idx = -1;
         do {
             assert(is_canonical_form(s));
             nStrings += 1;
-            switch (testSnake(s)) {
+            switch (testSnake(s, &self_intersection_idx)) {
                 default:
                     assert(false);
                     break;
                 case NOT_A_SNAKE:
+                    if (self_intersection_idx != -1) {
+                        Odometer::fast_forward(s, self_intersection_idx);
+                        self_intersection_idx = -1;
+                    }
                     break;
                 case FREE_OUROBOROS:
                     nFreeOuroboroi += 1;
@@ -397,7 +374,7 @@ int main(int argc, char **argv)
                 tick = 0;
                 print_stats('\r');
             }
-        } while (odometer(s));
+        } while (Odometer::advance(s));
         print_stats('\n');
     }
 }
