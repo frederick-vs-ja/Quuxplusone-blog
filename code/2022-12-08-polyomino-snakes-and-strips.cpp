@@ -206,10 +206,12 @@ bool is_strip(Pt *visited, int n) {
 SnakeOutcome testSnake(std::string_view sv, int *self_intersection)
 {
     const size_t n = sv.size();
+    assert(sv[n] == '\0');  // invariant used below, sv[i+1] != 'S'
     Facing f = Facing(0);
     Facing rf = f.right().right();
     Pt pos = {MAXN, MAXN};
     static Pt visited[MAXN];
+    bool might_have_hole = false;
     for (size_t i = 0; i < n; ++i) {
         switch (sv[i]) {
             case 'S': break;
@@ -227,6 +229,17 @@ SnakeOutcome testSnake(std::string_view sv, int *self_intersection)
                 }
                 *self_intersection = i;
                 return NOT_A_SNAKE;
+            }
+        }
+        if (i >= 5 && !might_have_hole && sv[i+1] != 'S') {
+            Pt continuedpos = f.step(nextpos);
+            Pt leftpos = f.left().step(continuedpos);
+            Pt rightpos = f.right().step(continuedpos);
+            for (int j = i-5; j >= 0; j -= 2) {
+                if (visited[j] == leftpos || visited[j] == rightpos) {
+                    might_have_hole = true;
+                    break;
+                }
             }
         }
         visited[i] = pos;
@@ -258,9 +271,9 @@ SnakeOutcome testSnake(std::string_view sv, int *self_intersection)
     if (reverseIsLess) {
         return NOT_A_SNAKE;
     } else if (mirrorIsLess || reverseMirrorIsLess) {
-        return is_strip(visited, n+1) ? ONESIDED_STRIP : ONESIDED_SNAKE;
+        return (might_have_hole && !is_strip(visited, n+1)) ? ONESIDED_SNAKE : ONESIDED_STRIP;
     } else {
-        return is_strip(visited, n+1) ? FREE_STRIP : FREE_SNAKE;
+        return (might_have_hole && !is_strip(visited, n+1)) ? FREE_SNAKE : FREE_STRIP;
     }
 }
 
