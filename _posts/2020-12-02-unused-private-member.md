@@ -61,49 +61,47 @@ unused. ([Godbolt.](https://godbolt.org/z/cMWPE1))
 Options-wise, I tested `-W1 -W2 -W3 -W4 -Od -O1 -O2` on MSVC,
 and `-Wall -Wextra -O0 -O1 -O2 -O3` on the other three.
 
-|------------------------------------------------------|-------|-------|-----|------|
-| Do we warn on an unused...                           | Clang | GCC   | ICC | MSVC |
-|------------------------------------------------------|-------|-------|-----|------|
-| static function                                      | -Wall | -Wall |     | -W4  |
-| static variable                                      | -Wall | -Wall |     |      |
-| private data member                                  | -Wall |       |     |      |
-| private static data member                           |       |       |     |      |
-| private member function                              |       |       |     |      |
-| private static member function                       |       |       |     |      |
-| data member of private class                         |       |       |     |      |
-| static data member of private class                  |       |       |     |      |
-| member function of private class                     |       |       |     |      |
-| static member function of private class              |       |       |     |      |
-| anonymous-namespaced function                        | -Wall | -Wall |     |      |
-| anonymous-namespaced variable                        | -Wall | -Wall |     |      |
-| data member of anonymous-namespaced class            |       |       |     |      |
-| static data member of anonymous-namespaced class     | -Wall | -Wall |     |      |
-| member function of anonymous-namespaced class        |       | -Wall |     |      |
-| static member function of anonymous-namespaced class |       | -Wall |     |      |
-| function taking anonymous-namespaced class           | -Wall | -Wall |     |      |
-|------------------------------------------------------|-------|-------|-----|------|
+| Do we warn on an unused...                           | Clang   | GCC     | ICC | MSVC  |
+|------------------------------------------------------|---------|---------|-----|-------|
+| static function                                      | `-Wall` | `-Wall` |     | `-W4` |
+| static variable                                      | `-Wall` | `-Wall` |     |       |
+| private data member                                  | `-Wall` |         |     |       |
+| private static data member                           |         |         |     |       |
+| private member function                              |         |         |     |       |
+| private static member function                       |         |         |     |       |
+| data member of private class                         |         |         |     |       |
+| static data member of private class                  |         |         |     |       |
+| member function of private class                     |         |         |     |       |
+| static member function of private class              |         |         |     |       |
+| anonymous-namespaced function                        | `-Wall` | `-Wall` |     |       |
+| anonymous-namespaced variable                        | `-Wall` | `-Wall` |     |       |
+| data member of anonymous-namespaced class            |         |         |     |       |
+| static data member of anonymous-namespaced class     | `-Wall` | `-Wall` |     |       |
+| member function of anonymous-namespaced class        |         | `-Wall` |     |       |
+| static member function of anonymous-namespaced class |         | `-Wall` |     |       |
+| function taking anonymous-namespaced class           | `-Wall` | `-Wall` |     |       |
+{:.smaller}
 
 <br>
 
-|------------------------------------------------------|-------|-----|-----|------|
-| Do we optimize out an unused...                      | Clang | GCC | ICC | MSVC |
-|------------------------------------------------------|-------|-----|-----|------|
-| static function                                      |  -O0  | -O1 | -O0 | -Od  |
-| static variable                                      |  -O0  | -O0 | -O1 | -Od  |
-| private data member                                  |   —   |  —  |  —  |  —   |
-| private static data member                           |   —   |  —  |  —  |  —   |
-| private member function                              |   —   |  —  |  —  |  —   |
-| private static member function                       |   —   |  —  |  —  |  —   |
-| static data member of private class                  |   —   |  —  |  —  |  —   |
-| member function of private class                     |   —   |  —  |  —  |  —   |
-| static member function of private class              |   —   |  —  |  —  |  —   |
-| anonymous-namespaced function                        |  -O0  | -O1 | -O0 |      |
-| anonymous-namespaced variable                        |  -O0  | -O0 | -O1 | -Od  |
-| static data member of anonymous-namespaced class     |  -O0  | -O0 | -O1 |      |
-| member function of anonymous-namespaced class        |  -O0  | -O1 | -O1 |      |
-| static member function of anonymous-namespaced class |  -O0  | -O1 | -O1 |      |
-| function taking anonymous-namespaced class           |  -O0  | -O1 | -O1 |      |
-|------------------------------------------------------|-------|-----|-----|------|
+| Do we optimize out an unused...                      | Clang | GCC   | ICC   | MSVC  |
+|------------------------------------------------------|:-----:|:-----:|:-----:|:-----:|
+| static function                                      | `-O0` | `-O1` | `-O0` | `-Od` |
+| static variable                                      | `-O0` | `-O0` | `-O1` | `-Od` |
+| private data member                                  |  —    |  —    |  —    |  —    |
+| private static data member                           |  —    |  —    |  —    |  —    |
+| private member function                              |  —    |  —    |  —    |  —    |
+| private static member function                       |  —    |  —    |  —    |  —    |
+| static data member of private class                  |  —    |  —    |  —    |  —    |
+| member function of private class                     |  —    |  —    |  —    |  —    |
+| static member function of private class              |  —    |  —    |  —    |  —    |
+| anonymous-namespaced function                        | `-O0` | `-O1` | `-O0` |       |
+| anonymous-namespaced variable                        | `-O0` | `-O0` | `-O1` | `-Od` |
+| static data member of anonymous-namespaced class     | `-O0` | `-O0` | `-O1` |       |
+| member function of anonymous-namespaced class        | `-O0` | `-O1` | `-O1` |       |
+| static member function of anonymous-namespaced class | `-O0` | `-O1` | `-O1` |       |
+| function taking anonymous-namespaced class           | `-O0` | `-O1` | `-O1` |       |
+{:.smaller}
 
 I claim that there's a fair bit of room for improvement here!
 
