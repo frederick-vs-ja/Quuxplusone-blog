@@ -397,6 +397,29 @@ But in general, `.reset` (and also `.get`, and even the rarely-used `.release`) 
 that's worth investigating closely.
 
 
+## Prefer `'\n'` over `std::endl`
+
+    std::cout << "Hello world" << std::endl;  // worse
+    std::cout << "Hello world\n";  // better
+
+On modern platforms, the standard output is almost always _at least_ line-buffered, so flushing
+the stream immediately after a newline (as `endl` does) is redundant.
+`std::endl` ("newline and flush") can always be reduced to `'\n'` ("newline and let the OS
+do its thing, just like you would in any other language").
+
+See [this StackOverflow question](https://stackoverflow.com/questions/213907/stdendl-vs-n) for various
+more or less interesting differences between `endl` and `'\n'`. One interesting tidbit is that `std::endl`
+is a function template! Thus `decltype(std::endl)` is ill-formed, and `std::cout << std::endl` works only
+thanks to the long-despised rule [[temp.deduct.funcaddr]](http://eel.is/c++draft/temp.fct.spec#temp.deduct.funcaddr),
+the same rule that permits things like
+
+    template<class T> T f(T);
+    int (*p1)(int) = f;                      // OK
+    std::ostream& (*p2)(std::ostream&) = f;  // OK
+
+If it weren't for iomanipulators like `endl` and `flush`, maybe we wouldn't need that rule in the core language?
+
+
 ## Finally, some near misses
 
 Regular readers of this blog will know that I advise strongly against [CTAD](/blog/tags/#class-template-argument-deduction),
