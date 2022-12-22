@@ -146,7 +146,7 @@ this:
     namespace my {
 
     template<class V = void, class Mutex, class... Args>
-    std::lock_guard<Mutex> lock_guard(Mutex& m, Args&&... args) {
+    [[nodiscard]] std::lock_guard<Mutex> lock_guard(Mutex& m, Args&&... args) {
         static_assert(std::is_void_v<V>, "No explicit template arguments, please!");
         try {
             return std::lock_guard<Mutex>(m, std::forward<Args>(args)...);
