@@ -32,6 +32,13 @@ excerpt: |
   still pass muster today? Let's reproduce Louis's benchmark numbers and find out!
 ---
 
+> UPDATE, 2022-12-25: Well, I have eggnog on my face. Turns out I used the wrong Clang binary for
+> some of my benchmarks! So today I reran all of the numbers. I also took this opportunity to control
+> for the cost of `#include <utility>`, which might have unfairly penalized the `std::forward` numbers.
+> These changes practically eliminated the observed effects at `-O2` and `-O3`!
+> If you want to see the previous numbers and find out how they changed, please check
+> [the git history]().
+
 In 2022 we saw a lot of interest (finally!) in the costs of `std::move` and
 `std::forward`. For example, in April Richard Smith landed
 [`-fbuiltin-std-forward`](https://github.com/llvm/llvm-project/commit/72315d02c432a0fe0acae9c96c69eac8d8e1a9f6)
@@ -78,7 +85,7 @@ I admit) are in ["How to build LLVM from source, monorepo version"](/blog/2019/1
     $ git checkout 540f665e51~
 
 At this point you might need to make some local changes to get the old revision of Hana to build.
-I had to make the following four changes.
+I had to make the following five changes.
 
 <b>1.</b> To avoid accidentally including headers from `/usr/local/include/boost/hana`:
 
@@ -105,6 +112,13 @@ I had to make the following four changes.
     -                prepend(uint<0>, tuple_c<unsigned int, 1>),
     +                prepend(boost::hana::uint<0>, tuple_c<unsigned int, 1>),
 
+<b>5.</b> I also made this change up front, because we're going to need this when we
+[switch to the real `std::forward`](#replace-detailstdforward-with-stdforward),
+and we don't want the cost of including `<utility>` to be a confounding factor.
+
+    $ echo '#include <utility>' >>include/boost/hana/detail/std/forward.hpp
+
+
 ## Build the test case
 
     $ mkdir build
@@ -116,10 +130,10 @@ This gives us an initial set of timing results:
 
 | `detail::forward<T>`<br>`-O0`<br> including link time | user | system | real |
 |---------------------------|---------|--------|---------|
-| `make compile.test.tuple` | 84.424s | 4.458s | 89.555s |
-| `make compile.test.tuple` | 82.242s | 4.268s | 86.967s |
-| `make compile.test.tuple` | 82.547s | 4.250s | 87.280s |
-| `make compile.test.tuple` | 83.257s | 4.252s | 87.887s |
+| `make compile.test.tuple` | 82.344s | 4.172s | 87.330s |
+| `make compile.test.tuple` | 81.244s | 4.101s | 85.581s |
+| `make compile.test.tuple` | 84.793s | 4.477s | 90.335s |
+| `make compile.test.tuple` | 82.913s | 4.254s | 87.494s |
 {:.smaller}
 
 ## Ignore the linker
@@ -135,11 +149,11 @@ provides this incantation:
     $ for i in 1 2 3 4; do make clean; time make -j1 compile.test.tuple; done
 
 | `detail::forward<T>`<br>`-O0` | user | system | real |
-|---------------------------|---------|--------|---------|
-| `make compile.test.tuple` | 80.572s | 3.554s | 86.178s |
-| `make compile.test.tuple` | 79.737s | 3.483s | 84.713s |
-| `make compile.test.tuple` | 80.750s | 3.569s | 85.307s |
-| `make compile.test.tuple` | 79.939s | 3.417s | 84.149s |
+|---------------------------|----------|--------|----------|
+| `make compile.test.tuple` | 102.424s | 4.774s | 108.066s |
+| `make compile.test.tuple` |  98.797s | 4.509s | 104.081s |
+| `make compile.test.tuple` |  98.696s | 4.433s | 103.805s |
+| `make compile.test.tuple` |  98.150s | 4.439s | 103.223s |
 {:.smaller}
 
 ## Compare `-O0`, `-O2 -g`, and `-O3`
@@ -154,12 +168,12 @@ the build types "RelWithDebugInfo" (`-O2 -g`) and "Release" (`-O3`).
           -DCMAKE_BUILD_TYPE=RelWithDebInfo
     $ for i in 1 2 3 4; do make clean; time make -j1 compile.test.tuple; done
 
-| `detail::forward<T>`<br>`-O2 -g`, excluding link time | user | system | real |
+| `detail::forward<T>`<br>`-O2 -g` | user | system | real |
 |---------------------------|----------|--------|----------|
-| `make compile.test.tuple` | 221.035s | 6.913s | 229.956s |
-| `make compile.test.tuple` | 217.392s | 6.862s | 225.573s |
-| `make compile.test.tuple` | 221.768s | 7.225s | 232.986s |
-| `make compile.test.tuple` | 219.901s | 6.967s | 229.589s |
+| `make compile.test.tuple` | 201.835s | 5.319s | 208.002s |
+| `make compile.test.tuple` | 198.748s | 5.124s | 204.587s |
+| `make compile.test.tuple` | 197.826s | 4.977s | 203.408s |
+| `make compile.test.tuple` | 198.257s | 4.976s | 203.810s |
 {:.smaller}
 
     $ cd .. ; rm -rf build ; mkdir build ; cd build
@@ -170,10 +184,10 @@ the build types "RelWithDebugInfo" (`-O2 -g`) and "Release" (`-O3`).
 
 | `detail::forward<T>`<br>`-O3` | user | system | real |
 |---------------------------|----------|--------|----------|
-| `make compile.test.tuple` | 164.884s | 4.435s | 170.144s |
-| `make compile.test.tuple` | 163.737s | 4.409s | 169.438s |
-| `make compile.test.tuple` | 162.173s | 4.274s | 167.295s |
-| `make compile.test.tuple` | 162.880s | 4.305s | 167.894s |
+| `make compile.test.tuple` | 151.065s | 3.298s | 154.963s |
+| `make compile.test.tuple` | 150.266s | 3.314s | 154.064s |
+| `make compile.test.tuple` | 150.521s | 3.310s | 154.798s |
+| `make compile.test.tuple` | 150.390s | 3.317s | 154.210s |
 {:.smaller}
 
 
@@ -192,7 +206,6 @@ and collect again:
     $ git grep -l 'std::forward' .. | xargs sed -i -e 's/boost::hana::detail::std::forward/::std::forward/g'
     $ git grep -l 'std::forward' .. | xargs sed -i -e 's/hana::detail::std::forward/::std::forward/g'
     $ git grep -l 'std::forward' .. | xargs sed -i -e 's/detail::std::forward/::std::forward/g'
-    $ echo '#include <utility>' >>include/boost/hana/detail/std/forward.hpp
     $ git commit -a -m 'dummy message'
     $ git stash pop
 
@@ -204,10 +217,10 @@ and collect again:
 
 | `std::forward<T>`<br>`-O0` | user | system | real |
 |---------------------------|---------|--------|----------|
-| `make compile.test.tuple` | 96.989s | 4.205s | 102.347s |
-| `make compile.test.tuple` | 93.747s | 4.061s |  98.442s |
-| `make compile.test.tuple` | 94.190s | 4.078s |  98.936s |
-| `make compile.test.tuple` | 93.716s | 3.982s |  98.372s |
+| `make compile.test.tuple` | 88.553s | 3.938s |  93.110s |
+| `make compile.test.tuple` | 89.222s | 4.000s |  93.864s |
+| `make compile.test.tuple` | 95.202s | 4.622s | 100.686s |
+| `make compile.test.tuple` | 92.416s | 4.320s |  97.466s |
 {:.smaller}
 
     $ cd .. ; rm -rf build ; mkdir build ; cd build
@@ -218,10 +231,10 @@ and collect again:
 
 | `std::forward<T>`<br>`-O2 -g` | user | system | real |
 |---------------------------|----------|--------|----------|
-| `make compile.test.tuple` | 218.415s | 6.895s | 228.219s |
-| `make compile.test.tuple` | 210.701s | 6.376s | 219.064s |
-| `make compile.test.tuple` | 211.242s | 6.379s | 219.168s |
-| `make compile.test.tuple` | 216.921s | 6.773s | 225.744s |
+| `make compile.test.tuple` | 194.538s | 5.179s | 200.581s |
+| `make compile.test.tuple` | 190.392s | 5.040s | 196.082s |
+| `make compile.test.tuple` | 190.625s | 5.074s | 196.337s |
+| `make compile.test.tuple` | 189.850s | 5.045s | 195.536s |
 {:.smaller}
 
     $ cd .. ; rm -rf build ; mkdir build ; cd build
@@ -232,10 +245,10 @@ and collect again:
 
 | `std::forward<T>`<br>`-O3` | user | system | real |
 |---------------------------|----------|--------|----------|
-| `make compile.test.tuple` | 162.218s | 4.360s | 167.295s |
-| `make compile.test.tuple` | 159.797s | 4.244s | 164.605s |
-| `make compile.test.tuple` | 159.719s | 4.230s | 164.631s |
-| `make compile.test.tuple` | 159.551s | 4.234s | 164.806s |
+| `make compile.test.tuple` | 151.877s | 3.873s | 156.633s |
+| `make compile.test.tuple` | 145.784s | 3.459s | 149.777s |
+| `make compile.test.tuple` | 146.058s | 3.508s | 150.233s |
+| `make compile.test.tuple` | 146.297s | 3.491s | 150.563s |
 {:.smaller}
 
 
@@ -255,11 +268,11 @@ compile.
     $ for i in 1 2 3 4; do make clean; time make -j1 compile.test.tuple; done
 
 | `std::forward<T>`<br>`-O0 -fno-builtin-std-forward` | user | system | real |
-|---------------------------|---------|--------|----------|
-| `make compile.test.tuple` | 99.215s | 4.666s | 105.764s |
-| `make compile.test.tuple` | 96.094s | 4.324s | 101.277s |
-| `make compile.test.tuple` | 99.047s | 4.566s | 105.448s |
-| `make compile.test.tuple` | 99.955s | 4.684s | 105.485s |
+|---------------------------|----------|--------|----------|
+| `make compile.test.tuple` | 103.059s | 4.628s | 108.567s |
+| `make compile.test.tuple` |  98.347s | 4.375s | 103.419s |
+| `make compile.test.tuple` |  98.467s | 4.429s | 103.717s |
+| `make compile.test.tuple` |  97.754s | 4.314s | 102.745s |
 {:.smaller}
 
     $ cd .. ; rm -rf build ; mkdir build ; cd build
@@ -271,10 +284,10 @@ compile.
 
 | `std::forward<T>`<br>`-O2 -g -fno-builtin-std-forward` | user | system | real |
 |---------------------------|----------|--------|----------|
-| `make compile.test.tuple` | 210.530s | 6.547s | 218.800s |
-| `make compile.test.tuple` | 210.457s | 6.506s | 218.027s |
-| `make compile.test.tuple` | 212.517s | 6.598s | 220.619s |
-| `make compile.test.tuple` | 215.020s | 6.686s | 223.429s |
+| `make compile.test.tuple` | 200.580s | 5.163s | 206.508s |
+| `make compile.test.tuple` | 209.466s | 5.804s | 216.405s |
+| `make compile.test.tuple` | 199.703s | 5.209s | 205.619s |
+| `make compile.test.tuple` | 198.682s | 5.161s | 204.487s |
 {:.smaller}
 
     $ cd .. ; rm -rf build ; mkdir build ; cd build
@@ -286,10 +299,10 @@ compile.
 
 | `std::forward<T>`<br>`-O3 -fno-builtin-std-forward` | user | system | real |
 |---------------------------|----------|--------|----------|
-| `make compile.test.tuple` | 174.529s | 5.181s | 182.072s |
-| `make compile.test.tuple` | 165.689s | 4.640s | 172.359s |
-| `make compile.test.tuple` | 163.069s | 4.419s | 168.253s |
-| `make compile.test.tuple` | 159.797s | 4.215s | 164.591s |
+| `make compile.test.tuple` | 151.541s | 3.371s | 155.614s |
+| `make compile.test.tuple` | 151.737s | 3.412s | 155.731s |
+| `make compile.test.tuple` | 151.931s | 3.423s | 155.918s |
+| `make compile.test.tuple` | 151.961s | 3.453s | 155.928s |
 {:.smaller}
 
 
@@ -311,10 +324,10 @@ and run all the same benchmarks again:
 
 | `static_cast<T&&>`<br>`-O0` | user | system | real |
 |---------------------------|---------|--------|---------|
-| `make compile.test.tuple` | 68.520s | 2.996s | 72.412s |
-| `make compile.test.tuple` | 66.733s | 3.008s | 70.380s |
-| `make compile.test.tuple` | 67.924s | 3.042s | 71.685s |
-| `make compile.test.tuple` | 68.961s | 3.158s | 72.901s |
+| `make compile.test.tuple` | 86.773s | 3.995s | 91.447s |
+| `make compile.test.tuple` | 84.633s | 3.914s | 89.144s |
+| `make compile.test.tuple` | 82.947s | 3.756s | 87.271s |
+| `make compile.test.tuple` | 83.218s | 3.770s | 87.584s |
 {:.smaller}
 
     $ cd .. ; rm -rf build ; mkdir build ; cd build
@@ -325,10 +338,10 @@ and run all the same benchmarks again:
 
 | `static_cast<T&&>`<br>`-O2 -g` | user | system | real |
 |---------------------------|----------|--------|---------|
-| `make compile.test.tuple` | 199.933s | 6.057s | 207.683s |
-| `make compile.test.tuple` | 194.558s | 5.559s | 200.970s |
-| `make compile.test.tuple` | 198.808s | 6.022s | 205.881s |
-| `make compile.test.tuple` | 195.495s | 5.889s | 202.192s |
+| `make compile.test.tuple` | 183.965s | 4.689s | 189.329s |
+| `make compile.test.tuple` | 192.803s | 5.414s | 199.231s |
+| `make compile.test.tuple` | 190.215s | 5.222s | 196.282s |
+| `make compile.test.tuple` | 187.584s | 4.950s | 193.301s |
 {:.smaller}
 
     $ cd .. ; rm -rf build ; mkdir build ; cd build
@@ -339,10 +352,10 @@ and run all the same benchmarks again:
 
 | `static_cast<T&&>`<br>`-O3` | user | system | real |
 |---------------------------|----------|--------|---------|
-| `make compile.test.tuple` | 153.146s | 4.150s | 158.101s |
-| `make compile.test.tuple` | 150.003s | 3.972s | 155.025s |
-| `make compile.test.tuple` | 152.015s | 4.183s | 156.924s |
-| `make compile.test.tuple` | 151.421s | 4.046s | 156.146s |
+| `make compile.test.tuple` | 142.249s | 3.322s | 146.925s |
+| `make compile.test.tuple` | 140.922s | 3.265s | 144.772s |
+| `make compile.test.tuple` | 140.088s | 3.292s | 144.578s |
+| `make compile.test.tuple` | 139.409s | 3.216s | 143.881s |
 {:.smaller}
 
     $ cd .. ; rm -rf build ; mkdir build ; cd build
@@ -354,10 +367,10 @@ and run all the same benchmarks again:
 
 | `static_cast<T&&>`<br>`-O0 -fno-builtin-std-forward` | user | system | real |
 |---------------------------|---------|--------|----------|
-| `make compile.test.tuple` | 89.814s | 4.363s | 96.116s |
-| `make compile.test.tuple` | 85.631s | 4.000s | 90.547s |
-| `make compile.test.tuple` | 87.802s | 4.230s | 94.220s |
-| `make compile.test.tuple` | 88.962s | 4.373s | 96.161s |
+| `make compile.test.tuple` | 83.990s | 3.802s | 88.519s |
+| `make compile.test.tuple` | 83.426s | 3.784s | 87.831s |
+| `make compile.test.tuple` | 84.804s | 3.961s | 89.741s |
+| `make compile.test.tuple` | 88.622s | 4.257s | 93.676s |
 {:.smaller}
 
     $ cd .. ; rm -rf build ; mkdir build ; cd build
@@ -369,10 +382,10 @@ and run all the same benchmarks again:
 
 | `static_cast<T&&>`<br>`-O2 -g -fno-builtin-std-forward` | user | system | real |
 |---------------------------|----------|--------|----------|
-| `make compile.test.tuple` | 220.881s | 8.070s | 234.485s |
-| `make compile.test.tuple` | 201.314s | 6.152s | 208.810s |
-| `make compile.test.tuple` | 202.640s | 6.281s | 210.371s |
-| `make compile.test.tuple` | 198.024s | 5.817s | 204.780s |
+| `make compile.test.tuple` | 186.031s | 4.909s | 191.701s |
+| `make compile.test.tuple` | 185.311s | 4.872s | 190.838s |
+| `make compile.test.tuple` | 187.472s | 5.009s | 193.205s |
+| `make compile.test.tuple` | 185.348s | 4.897s | 190.896s |
 {:.smaller}
 
     $ cd .. ; rm -rf build ; mkdir build ; cd build
@@ -384,10 +397,10 @@ and run all the same benchmarks again:
 
 | `static_cast<T&&>`<br>`-O3 -fno-builtin-std-forward` | user | system | real |
 |---------------------------|----------|--------|----------|
-| `make compile.test.tuple` | 156.198s | 4.289s | 161.519s |
-| `make compile.test.tuple` | 154.399s | 4.248s | 159.645s |
-| `make compile.test.tuple` | 157.304s | 4.499s | 164.054s |
-| `make compile.test.tuple` | 153.200s | 4.126s | 158.171s |
+| `make compile.test.tuple` | 143.341s | 3.384s | 147.518s |
+| `make compile.test.tuple` | 138.456s | 3.063s | 142.041s |
+| `make compile.test.tuple` | 144.837s | 3.477s | 149.169s |
+| `make compile.test.tuple` | 140.009s | 3.230s | 143.784s |
 {:.smaller}
 
 
@@ -403,23 +416,25 @@ without the `-fno-builtin` bars:
 
 ![Seasonal coloration](/blog/images/2022-12-24-builtin-std-forward-simplified.svg)
 
-Even on top-of-tree Clang, Boost.Hana's replacement of `std::forward<T>` with `static_cast<T&&>`
-still produces a compile-speed improvement somewhere between 5 and 28 percent on Louis's benchmark.
-That's massive — and not significantly changed from the 13.9% speedup Louis saw on his own machine
-back in 2015.
+On top-of-tree Clang, Boost.Hana's replacement of `std::forward<T>` with `static_cast<T&&>`
+produces a compile-speed improvement somewhere between 1 and 8 percent on Louis's benchmark.
+That's significantly changed from the 13.9% speedup Louis saw on his own machine back in 2015.
+I would even say that the `-O2` and `-O3` speedups are in the noise,
+although 8% at `-O0` is still concerning.
 
-We do observe that it's a bad idea to opt out of the optimization by passing
-`-fno-builtin-std-forward`. (Of course; but it's nice that the data show it.)
-Notice that `-fno-builtin-std-forward` has an effect even for the `static_cast<T&&>` bars;
-that's because libc++ uses `std::forward` itself internally.
+Note that switching from `detail::std::forward` (unrecognized by Clang) to
+the standard `std::forward` helps quite a bit on this benchmark, indicating that
+`-fbuiltin-std-forward` is doing its job. The opt-out flag `-fno-builtin-std-forward` does,
+as expected, return things to their previous (worse) state.
 
-Practically speaking, would you see a similar speedup if you made a similar change to your own codebase?
-Probably not, unless your codebase looks a lot like Hana.
-Hana sees a huge speedup because it uses a huge amount of perfect forwarding, and because
+Practically speaking, would you see an 8% speedup at `-O0` if you made a similar change to your own codebase?
+Unlikely, unless your codebase looks a lot like Hana.
+Hana sees a speedup because it uses a huge amount of perfect forwarding, and because
 this specific benchmark is a stress test focused on `std::tuple`. Contrariwise, the typical industry
 codebase ought to spend most of its time compiling non-templates, and use `std::forward` only rarely.
 But if you're a library writer, it seems that "for compile-time performance, avoid instantiating
-`std::forward`" is no less applicable today than it was seven years ago.
+`std::forward`" is still plausible advice: _less_ applicable today on Clang than it was seven years
+ago (or even one year ago), but an effect is still noticeable at `-O0`.
 
 ---
 

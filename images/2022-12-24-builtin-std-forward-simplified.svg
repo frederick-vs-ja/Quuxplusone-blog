@@ -19,16 +19,16 @@ The color scheme is due to Paul Tol, https://personal.sron.nl/~pault/
 colors = ["#CC3311", "#009988"]
 groups = [
     ("-O0", [
-      (["forward", ""], [102.347, 98.442, 98.936, 98.372]),
-      (["cast", ""], [72.412, 70.380, 71.685, 72.901]),
+      (["forward", ""], [93.110, 93.864, 100.686, 97.466]),
+      (["cast", ""], [91.447, 89.144, 87.271, 87.584]),
     ]),
     ("-O2 -g", [
-      (["forward", ""], [228.219, 219.064, 219.168, 225.744]),
-      (["cast", ""], [207.683, 200.970, 205.881, 202.192]),
+      (["forward", ""], [200.581, 196.082, 196.337, 195.536]),
+      (["cast", ""], [189.329, 199.231, 196.282, 193.301]),
     ]),
     ("-O3", [
-      (["forward", ""], [167.295, 164.605, 164.631, 164.806]),
-      (["cast", ""], [158.101, 155.025, 156.924, 156.146]),
+      (["forward", ""], [156.633, 149.777, 150.233, 150.563]),
+      (["cast", ""], [146.925, 144.772, 144.578, 143.881]),
     ]),
 ]
 BarWidth = 20
@@ -55,60 +55,59 @@ for (optlevel, results) in groups:
 <text x="120" y="325" text-anchor="middle" class="optlevel">-O0</text>
 <g>
   <text x="70" y="270" text-anchor="middle" class="technique">forward</text>
-  <text x="70" y="279" text-anchor="middle" class="technique"></text>
+  <text x="70" y="280" text-anchor="middle" class="technique"></text>
   <text x="70" y="290" text-anchor="middle" class="technique">100%</text>
-  <rect x="30" y="147" fill="#CC3311" width="20" height="102.347"/>
-  <rect x="50" y="151" fill="#CC3311" width="20" height="98.442"/>
-  <rect x="70" y="151" fill="#CC3311" width="20" height="98.936"/>
-  <rect x="90" y="151" fill="#CC3311" width="20" height="98.372"/>
+  <rect x="30" y="156" fill="#CC3311" width="20" height="93.110"/>
+  <rect x="50" y="156" fill="#CC3311" width="20" height="93.864"/>
+  <rect x="70" y="149" fill="#CC3311" width="20" height="100.686"/>
+  <rect x="90" y="152" fill="#CC3311" width="20" height="97.466"/>
 </g>
 <g>
   <text x="170" y="270" text-anchor="middle" class="technique">cast</text>
-  <text x="170" y="279" text-anchor="middle" class="technique"></text>
-  <text x="170" y="290" text-anchor="middle" class="technique">72%</text>
-  <rect x="130" y="177" fill="#009988" width="20" height="72.412"/>
-  <rect x="150" y="179" fill="#009988" width="20" height="70.380"/>
-  <rect x="170" y="178" fill="#009988" width="20" height="71.685"/>
-  <rect x="190" y="177" fill="#009988" width="20" height="72.901"/>
+  <text x="170" y="280" text-anchor="middle" class="technique"></text>
+  <text x="170" y="290" text-anchor="middle" class="technique">92%</text>
+  <rect x="130" y="158" fill="#009988" width="20" height="91.447"/>
+  <rect x="150" y="160" fill="#009988" width="20" height="89.144"/>
+  <rect x="170" y="162" fill="#009988" width="20" height="87.271"/>
+  <rect x="190" y="162" fill="#009988" width="20" height="87.584"/>
 </g>
 <text x="340" y="325" text-anchor="middle" class="optlevel">-O2 -g</text>
 <g>
   <text x="290" y="270" text-anchor="middle" class="technique">forward</text>
-  <text x="290" y="279" text-anchor="middle" class="technique"></text>
+  <text x="290" y="280" text-anchor="middle" class="technique"></text>
   <text x="290" y="290" text-anchor="middle" class="technique">100%</text>
-  <rect x="250" y="21" fill="#CC3311" width="20" height="228.219"/>
-  <rect x="270" y="30" fill="#CC3311" width="20" height="219.064"/>
-  <rect x="290" y="30" fill="#CC3311" width="20" height="219.168"/>
-  <rect x="310" y="24" fill="#CC3311" width="20" height="225.744"/>
+  <rect x="250" y="49" fill="#CC3311" width="20" height="200.581"/>
+  <rect x="270" y="53" fill="#CC3311" width="20" height="196.082"/>
+  <rect x="290" y="53" fill="#CC3311" width="20" height="196.337"/>
+  <rect x="310" y="54" fill="#CC3311" width="20" height="195.536"/>
 </g>
 <g>
   <text x="390" y="270" text-anchor="middle" class="technique">cast</text>
-  <text x="390" y="279" text-anchor="middle" class="technique"></text>
-  <text x="390" y="290" text-anchor="middle" class="technique">92%</text>
-  <rect x="350" y="42" fill="#009988" width="20" height="207.683"/>
-  <rect x="370" y="49" fill="#009988" width="20" height="200.970"/>
-  <rect x="390" y="44" fill="#009988" width="20" height="205.881"/>
-  <rect x="410" y="47" fill="#009988" width="20" height="202.192"/>
+  <text x="390" y="280" text-anchor="middle" class="technique"></text>
+  <text x="390" y="290" text-anchor="middle" class="technique">99%</text>
+  <rect x="350" y="60" fill="#009988" width="20" height="189.329"/>
+  <rect x="370" y="50" fill="#009988" width="20" height="199.231"/>
+  <rect x="390" y="53" fill="#009988" width="20" height="196.282"/>
+  <rect x="410" y="56" fill="#009988" width="20" height="193.301"/>
 </g>
 <text x="560" y="325" text-anchor="middle" class="optlevel">-O3</text>
 <g>
   <text x="510" y="270" text-anchor="middle" class="technique">forward</text>
-  <text x="510" y="279" text-anchor="middle" class="technique"></text>
+  <text x="510" y="280" text-anchor="middle" class="technique"></text>
   <text x="510" y="290" text-anchor="middle" class="technique">100%</text>
-  <rect x="470" y="82" fill="#CC3311" width="20" height="167.295"/>
-  <rect x="490" y="85" fill="#CC3311" width="20" height="164.605"/>
-  <rect x="510" y="85" fill="#CC3311" width="20" height="164.631"/>
-  <rect x="530" y="85" fill="#CC3311" width="20" height="164.806"/>
+  <rect x="470" y="93" fill="#CC3311" width="20" height="156.633"/>
+  <rect x="490" y="100" fill="#CC3311" width="20" height="149.777"/>
+  <rect x="510" y="99" fill="#CC3311" width="20" height="150.233"/>
+  <rect x="530" y="99" fill="#CC3311" width="20" height="150.563"/>
 </g>
 <g>
   <text x="610" y="270" text-anchor="middle" class="technique">cast</text>
-  <text x="610" y="279" text-anchor="middle" class="technique"></text>
-  <text x="610" y="290" text-anchor="middle" class="technique">95%</text>
-  <rect x="570" y="91" fill="#009988" width="20" height="158.101"/>
-  <rect x="590" y="94" fill="#009988" width="20" height="155.025"/>
-  <rect x="610" y="93" fill="#009988" width="20" height="156.924"/>
-  <rect x="630" y="93" fill="#009988" width="20" height="156.146"/>
+  <text x="610" y="280" text-anchor="middle" class="technique"></text>
+  <text x="610" y="290" text-anchor="middle" class="technique">96%</text>
+  <rect x="570" y="103" fill="#009988" width="20" height="146.925"/>
+  <rect x="590" y="105" fill="#009988" width="20" height="144.772"/>
+  <rect x="610" y="105" fill="#009988" width="20" height="144.578"/>
+  <rect x="630" y="106" fill="#009988" width="20" height="143.881"/>
 </g>
 
 </svg>
-
