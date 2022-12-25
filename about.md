@@ -12,7 +12,7 @@ permalink: /about/
 </div>
 
 Arthur O'Dwyer lives and works in Westchester, New York, with his lovely wife Sam
-and their cat and snek.
+and their ball python, cat, and Welsh terrier.
 
 I started this blog in March 2018 so that I'd have a place to dump short essays on C++ topics.
 I might occasionally say things that aren't about C++, too.
