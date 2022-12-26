@@ -32,10 +32,11 @@ excerpt: |
   still pass muster today? Let's reproduce Louis's benchmark numbers and find out!
 ---
 
-> UPDATE, 2022-12-25: Well, I have eggnog on my face. Turns out I used the wrong Clang binary for
+> UPDATE, 2022-12-26: Well, I have eggnog on my face. Turns out I used the wrong Clang binary for
 > some of my benchmarks! So today I reran all of the numbers. I also took this opportunity to control
-> for the cost of `#include <utility>`, which might have unfairly penalized the `std::forward` numbers.
-> These changes practically eliminated the observed effects at `-O2` and `-O3`!
+> for the cost of `#include <utility>` (which might have unfairly penalized the `std::forward` numbers),
+> and to use [this Python script](/blog/code/2022-12-24-harness.py) to shuffle and interleave the benchmark iterations.
+> These changes greatly reduced the observed effects!
 > If you want to see the previous numbers and find out how they changed, please check
 > [the git history]().
 
@@ -85,7 +86,7 @@ I admit) are in ["How to build LLVM from source, monorepo version"](/blog/2019/1
     $ git checkout 540f665e51~
 
 At this point you might need to make some local changes to get the old revision of Hana to build.
-I had to make the following five changes.
+I had to make the following five changes:
 
 <b>1.</b> To avoid accidentally including headers from `/usr/local/include/boost/hana`:
 
@@ -130,10 +131,10 @@ This gives us an initial set of timing results:
 
 | `detail::forward<T>`<br>`-O0`<br> including link time | user | system | real |
 |---------------------------|---------|--------|---------|
-| `make compile.test.tuple` | 82.344s | 4.172s | 87.330s |
-| `make compile.test.tuple` | 81.244s | 4.101s | 85.581s |
-| `make compile.test.tuple` | 84.793s | 4.477s | 90.335s |
-| `make compile.test.tuple` | 82.913s | 4.254s | 87.494s |
+| `make compile.test.tuple` | 114.115s | 6.726s | 127.441s |
+| `make compile.test.tuple` | 118.420s | 6.987s | 133.369s |
+| `make compile.test.tuple` | 114.480s | 6.430s | 127.353s |
+| `make compile.test.tuple` | 116.171s | 6.585s | 130.244s |
 {:.smaller}
 
 ## Ignore the linker
@@ -150,10 +151,10 @@ provides this incantation:
 
 | `detail::forward<T>`<br>`-O0` | user | system | real |
 |---------------------------|----------|--------|----------|
-| `make compile.test.tuple` | 102.424s | 4.774s | 108.066s |
-| `make compile.test.tuple` |  98.797s | 4.509s | 104.081s |
-| `make compile.test.tuple` |  98.696s | 4.433s | 103.805s |
-| `make compile.test.tuple` |  98.150s | 4.439s | 103.223s |
+| `make compile.test.tuple` | 105.757s | 4.984s | 113.710s |
+| `make compile.test.tuple` | 108.211s | 5.322s | 118.285s |
+| `make compile.test.tuple` | 114.888s | 6.059s | 125.776s |
+| `make compile.test.tuple` | 107.775s | 5.261s | 117.796s |
 {:.smaller}
 
 ## Compare `-O0`, `-O2 -g`, and `-O3`
@@ -170,10 +171,10 @@ the build types "RelWithDebugInfo" (`-O2 -g`) and "Release" (`-O3`).
 
 | `detail::forward<T>`<br>`-O2 -g` | user | system | real |
 |---------------------------|----------|--------|----------|
-| `make compile.test.tuple` | 201.835s | 5.319s | 208.002s |
-| `make compile.test.tuple` | 198.748s | 5.124s | 204.587s |
-| `make compile.test.tuple` | 197.826s | 4.977s | 203.408s |
-| `make compile.test.tuple` | 198.257s | 4.976s | 203.810s |
+| `make compile.test.tuple` | 214.718s | 6.197s | 225.538s |
+| `make compile.test.tuple` | 207.280s | 5.663s | 215.013s |
+| `make compile.test.tuple` | 207.382s | 6.160s | 216.759s |
+| `make compile.test.tuple` | 215.180s | 6.244s | 223.713s |
 {:.smaller}
 
     $ cd .. ; rm -rf build ; mkdir build ; cd build
@@ -184,20 +185,19 @@ the build types "RelWithDebugInfo" (`-O2 -g`) and "Release" (`-O3`).
 
 | `detail::forward<T>`<br>`-O3` | user | system | real |
 |---------------------------|----------|--------|----------|
-| `make compile.test.tuple` | 151.065s | 3.298s | 154.963s |
-| `make compile.test.tuple` | 150.266s | 3.314s | 154.064s |
-| `make compile.test.tuple` | 150.521s | 3.310s | 154.798s |
-| `make compile.test.tuple` | 150.390s | 3.317s | 154.210s |
+| `make compile.test.tuple` | 166.621s | 4.348s | 175.636s |
+| `make compile.test.tuple` | 161.489s | 3.985s | 168.599s |
+| `make compile.test.tuple` | 163.130s | 4.390s | 170.926s |
+| `make compile.test.tuple` | 170.153s | 4.604s | 178.123s |
 {:.smaller}
 
 
 ## Replace `detail::std::forward` with `std::forward`
 
 Now, Boost.Hana actually uses a hand-rolled template named `detail::std::forward`
-instead of the actual STL `std::forward`. That's certainly going to mess with our
-numbers, if Clang doesn't realize that `detail::std::forward` is a synonym for
-`std::forward`. (In the end, the data will indicate that `std::forward` and `detail::std::forward`
-perform pretty much the same.) Let's replace `detail::std::forward` with `std::forward`
+instead of the STL `std::forward`. That's certainly going to mess with our
+numbers, if Clang doesn't realize that `detail::std::forward` behaves like
+`std::forward`. Let's replace `detail::std::forward` with `std::forward`
 and collect again:
 
     $ git stash
@@ -217,38 +217,26 @@ and collect again:
 
 | `std::forward<T>`<br>`-O0` | user | system | real |
 |---------------------------|---------|--------|----------|
-| `make compile.test.tuple` | 88.553s | 3.938s |  93.110s |
-| `make compile.test.tuple` | 89.222s | 4.000s |  93.864s |
-| `make compile.test.tuple` | 95.202s | 4.622s | 100.686s |
-| `make compile.test.tuple` | 92.416s | 4.320s |  97.466s |
+| `make compile.test.tuple` | 103.223s | 5.352s | 115.064s |
+| `make compile.test.tuple` | 100.498s | 5.166s | 110.846s |
+| `make compile.test.tuple` | 100.564s | 4.951s | 109.218s |
+| `make compile.test.tuple` | 101.097s | 5.087s | 113.160s |
 {:.smaller}
-
-    $ cd .. ; rm -rf build ; mkdir build ; cd build
-    $ cmake .. -DCMAKE_CXX_LINK_EXECUTABLE=/usr/bin/true \
-          -DCMAKE_CXX_COMPILER=$HOME/llvm-project/build/bin/clang++ \
-          -DCMAKE_BUILD_TYPE=RelWithDebInfo
-    $ for i in 1 2 3 4; do make clean; time make -j1 compile.test.tuple; done
 
 | `std::forward<T>`<br>`-O2 -g` | user | system | real |
 |---------------------------|----------|--------|----------|
-| `make compile.test.tuple` | 194.538s | 5.179s | 200.581s |
-| `make compile.test.tuple` | 190.392s | 5.040s | 196.082s |
-| `make compile.test.tuple` | 190.625s | 5.074s | 196.337s |
-| `make compile.test.tuple` | 189.850s | 5.045s | 195.536s |
+| `make compile.test.tuple` | 197.714s | 5.325s | 204.809s |
+| `make compile.test.tuple` | 205.491s | 6.348s | 216.938s |
+| `make compile.test.tuple` | 210.890s | 6.581s | 221.418s |
+| `make compile.test.tuple` | 201.158s | 5.645s | 208.776s |
 {:.smaller}
-
-    $ cd .. ; rm -rf build ; mkdir build ; cd build
-    $ cmake .. -DCMAKE_CXX_LINK_EXECUTABLE=/usr/bin/true \
-          -DCMAKE_CXX_COMPILER=$HOME/llvm-project/build/bin/clang++ \
-          -DCMAKE_BUILD_TYPE=Release
-    $ for i in 1 2 3 4; do make clean; time make -j1 compile.test.tuple; done
 
 | `std::forward<T>`<br>`-O3` | user | system | real |
 |---------------------------|----------|--------|----------|
-| `make compile.test.tuple` | 151.877s | 3.873s | 156.633s |
-| `make compile.test.tuple` | 145.784s | 3.459s | 149.777s |
-| `make compile.test.tuple` | 146.058s | 3.508s | 150.233s |
-| `make compile.test.tuple` | 146.297s | 3.491s | 150.563s |
+| `make compile.test.tuple` | 159.796s | 4.275s | 167.517s |
+| `make compile.test.tuple` | 156.718s | 4.398s | 164.323s |
+| `make compile.test.tuple` | 160.336s | 4.120s | 169.296s |
+| `make compile.test.tuple` | 166.621s | 4.760s | 175.783s |
 {:.smaller}
 
 
@@ -256,7 +244,7 @@ and collect again:
 
 My understanding is that all of Clang's special handling for `std::forward`
 can be toggled on and off via `-fno-builtin-std-forward`
-(see [the relevant April 2022 commit](https://github.com/llvm/llvm-project/commit/72315d02c432a0fe0acae9c96c69eac8d8e1a9f6)).
+(see [the relevant commit](https://github.com/llvm/llvm-project/commit/72315d02c432a0fe0acae9c96c69eac8d8e1a9f6)).
 So we should discover if `-fno-builtin-std-forward` actually does slow down the
 compile.
 
@@ -269,47 +257,59 @@ compile.
 
 | `std::forward<T>`<br>`-O0 -fno-builtin-std-forward` | user | system | real |
 |---------------------------|----------|--------|----------|
-| `make compile.test.tuple` | 103.059s | 4.628s | 108.567s |
-| `make compile.test.tuple` |  98.347s | 4.375s | 103.419s |
-| `make compile.test.tuple` |  98.467s | 4.429s | 103.717s |
-| `make compile.test.tuple` |  97.754s | 4.314s | 102.745s |
+| `make compile.test.tuple` | 108.377s | 5.352s | 120.684s |
+| `make compile.test.tuple` | 112.791s | 5.913s | 125.567s |
+| `make compile.test.tuple` | 110.949s | 5.461s | 121.821s |
+| `make compile.test.tuple` | 108.780s | 5.253s | 118.924s |
 {:.smaller}
-
-    $ cd .. ; rm -rf build ; mkdir build ; cd build
-    $ cmake .. -DCMAKE_CXX_LINK_EXECUTABLE=/usr/bin/true \
-          -DCMAKE_CXX_COMPILER=$HOME/llvm-project/build/bin/clang++ \
-          -DCMAKE_CXX_FLAGS=-fno-builtin-std-forward \
-          -DCMAKE_BUILD_TYPE=RelWithDebInfo
-    $ for i in 1 2 3 4; do make clean; time make -j1 compile.test.tuple; done
 
 | `std::forward<T>`<br>`-O2 -g -fno-builtin-std-forward` | user | system | real |
 |---------------------------|----------|--------|----------|
-| `make compile.test.tuple` | 200.580s | 5.163s | 206.508s |
-| `make compile.test.tuple` | 209.466s | 5.804s | 216.405s |
-| `make compile.test.tuple` | 199.703s | 5.209s | 205.619s |
-| `make compile.test.tuple` | 198.682s | 5.161s | 204.487s |
+| `make compile.test.tuple` | 222.592s | 7.022s | 233.819s |
+| `make compile.test.tuple` | 220.630s | 6.608s | 230.786s |
+| `make compile.test.tuple` | 216.572s | 6.156s | 226.708s |
+| `make compile.test.tuple` | 212.081s | 5.916s | 221.148s |
 {:.smaller}
-
-    $ cd .. ; rm -rf build ; mkdir build ; cd build
-    $ cmake .. -DCMAKE_CXX_LINK_EXECUTABLE=/usr/bin/true \
-          -DCMAKE_CXX_COMPILER=$HOME/llvm-project/build/bin/clang++ \
-          -DCMAKE_CXX_FLAGS=-fno-builtin-std-forward \
-          -DCMAKE_BUILD_TYPE=Release
-    $ for i in 1 2 3 4; do make clean; time make -j1 compile.test.tuple; done
 
 | `std::forward<T>`<br>`-O3 -fno-builtin-std-forward` | user | system | real |
 |---------------------------|----------|--------|----------|
-| `make compile.test.tuple` | 151.541s | 3.371s | 155.614s |
-| `make compile.test.tuple` | 151.737s | 3.412s | 155.731s |
-| `make compile.test.tuple` | 151.931s | 3.423s | 155.918s |
-| `make compile.test.tuple` | 151.961s | 3.453s | 155.928s |
+| `make compile.test.tuple` | 160.622s | 3.822s | 167.232s |
+| `make compile.test.tuple` | 164.214s | 4.055s | 171.536s |
+| `make compile.test.tuple` | 171.738s | 4.612s | 180.935s |
+| `make compile.test.tuple` | 163.612s | 4.103s | 171.175s |
+{:.smaller}
+
+We should also collect these numbers for the original `detail::std::forward`.
+
+| `detail::forward<T>`<br>`-O0 -fno-builtin-std-forward` | user | system | real |
+|---------------------------|----------|--------|----------|
+| `make compile.test.tuple` | 109.730s | 5.318s | 120.951s |
+| `make compile.test.tuple` | 108.594s | 5.197s | 120.456s |
+| `make compile.test.tuple` | 106.325s | 5.006s | 116.721s |
+| `make compile.test.tuple` | 106.106s | 4.907s | 116.015s |
+{:.smaller}
+
+| `detail::forward<T>`<br>`-O2 -g -fno-builtin-std-forward` | user | system | real |
+|---------------------------|----------|--------|----------|
+| `make compile.test.tuple` | 213.302s | 6.133s | 222.003s |
+| `make compile.test.tuple` | 213.664s | 6.035s | 221.804s |
+| `make compile.test.tuple` | 221.149s | 6.862s | 231.551s |
+| `make compile.test.tuple` | 209.036s | 5.749s | 217.968s |
+{:.smaller}
+
+| `detail::forward<T>`<br>`-O3 -fno-builtin-std-forward` | user | system | real |
+|---------------------------|----------|--------|----------|
+| `make compile.test.tuple` | 161.180s | 4.017s | 168.324s |
+| `make compile.test.tuple` | 170.037s | 4.576s | 178.451s |
+| `make compile.test.tuple` | 167.476s | 4.481s | 179.675s |
+| `make compile.test.tuple` | 164.460s | 4.157s | 169.649s |
 {:.smaller}
 
 
-## Switch to `static_cast<T&&>`!
+## Switch to `static_cast<T&&>`
 
-Now for the moment we've been waiting for!
-Apply the commit that switched Hana from `std::forward` to `static_cast<T&&>`:
+Now the moment we've been waiting for!
+Apply the commit that switched Hana from `detail::std::forward` to `static_cast<T&&>`:
 
     $ git stash
     $ git checkout 540f665e51
@@ -324,83 +324,50 @@ and run all the same benchmarks again:
 
 | `static_cast<T&&>`<br>`-O0` | user | system | real |
 |---------------------------|---------|--------|---------|
-| `make compile.test.tuple` | 86.773s | 3.995s | 91.447s |
-| `make compile.test.tuple` | 84.633s | 3.914s | 89.144s |
-| `make compile.test.tuple` | 82.947s | 3.756s | 87.271s |
-| `make compile.test.tuple` | 83.218s | 3.770s | 87.584s |
+| `make compile.test.tuple` | 91.421s | 4.558s | 102.832s |
+| `make compile.test.tuple` | 95.103s | 4.918s | 106.348s |
+| `make compile.test.tuple` | 95.386s | 4.780s | 105.589s |
+| `make compile.test.tuple` | 98.711s | 5.516s | 111.344s |
 {:.smaller}
-
-    $ cd .. ; rm -rf build ; mkdir build ; cd build
-    $ cmake .. -DCMAKE_CXX_LINK_EXECUTABLE=/usr/bin/true \
-          -DCMAKE_CXX_COMPILER=$HOME/llvm-project/build/bin/clang++ \
-          -DCMAKE_BUILD_TYPE=RelWithDebInfo
-    $ for i in 1 2 3 4; do make clean; time make -j1 compile.test.tuple; done
 
 | `static_cast<T&&>`<br>`-O2 -g` | user | system | real |
 |---------------------------|----------|--------|---------|
-| `make compile.test.tuple` | 183.965s | 4.689s | 189.329s |
-| `make compile.test.tuple` | 192.803s | 5.414s | 199.231s |
-| `make compile.test.tuple` | 190.215s | 5.222s | 196.282s |
-| `make compile.test.tuple` | 187.584s | 4.950s | 193.301s |
+| `make compile.test.tuple` | 202.589s | 5.949s | 211.770s |
+| `make compile.test.tuple` | 194.883s | 5.456s | 202.536s |
+| `make compile.test.tuple` | 196.569s | 5.693s | 207.602s |
+| `make compile.test.tuple` | 193.946s | 5.444s | 201.535s |
 {:.smaller}
-
-    $ cd .. ; rm -rf build ; mkdir build ; cd build
-    $ cmake .. -DCMAKE_CXX_LINK_EXECUTABLE=/usr/bin/true \
-          -DCMAKE_CXX_COMPILER=$HOME/llvm-project/build/bin/clang++ \
-          -DCMAKE_BUILD_TYPE=Release
-    $ for i in 1 2 3 4; do make clean; time make -j1 compile.test.tuple; done
 
 | `static_cast<T&&>`<br>`-O3` | user | system | real |
 |---------------------------|----------|--------|---------|
-| `make compile.test.tuple` | 142.249s | 3.322s | 146.925s |
-| `make compile.test.tuple` | 140.922s | 3.265s | 144.772s |
-| `make compile.test.tuple` | 140.088s | 3.292s | 144.578s |
-| `make compile.test.tuple` | 139.409s | 3.216s | 143.881s |
+| `make compile.test.tuple` | 153.371s | 3.884s | 159.933s |
+| `make compile.test.tuple` | 149.820s | 3.681s | 156.982s |
+| `make compile.test.tuple` | 153.347s | 4.038s | 161.922s |
+| `make compile.test.tuple` | 151.943s | 3.947s | 159.044s |
 {:.smaller}
-
-    $ cd .. ; rm -rf build ; mkdir build ; cd build
-    $ cmake .. -DCMAKE_CXX_LINK_EXECUTABLE=/usr/bin/true \
-          -DCMAKE_CXX_COMPILER=$HOME/llvm-project/build/bin/clang++ \
-          -DCMAKE_CXX_FLAGS=-fno-builtin-std-forward \
-          -DCMAKE_BUILD_TYPE=Debug
-    $ for i in 1 2 3 4; do make clean; time make -j1 compile.test.tuple; done
 
 | `static_cast<T&&>`<br>`-O0 -fno-builtin-std-forward` | user | system | real |
 |---------------------------|---------|--------|----------|
-| `make compile.test.tuple` | 83.990s | 3.802s | 88.519s |
-| `make compile.test.tuple` | 83.426s | 3.784s | 87.831s |
-| `make compile.test.tuple` | 84.804s | 3.961s | 89.741s |
-| `make compile.test.tuple` | 88.622s | 4.257s | 93.676s |
+| `make compile.test.tuple` | 96.991s | 5.295s | 109.769s |
+| `make compile.test.tuple` | 93.719s | 4.668s | 105.419s |
+| `make compile.test.tuple` | 94.057s | 4.684s | 99.843s |
+| `make compile.test.tuple` | 93.761s | 4.699s | 103.461s |
 {:.smaller}
-
-    $ cd .. ; rm -rf build ; mkdir build ; cd build
-    $ cmake .. -DCMAKE_CXX_LINK_EXECUTABLE=/usr/bin/true \
-          -DCMAKE_CXX_COMPILER=$HOME/llvm-project/build/bin/clang++ \
-          -DCMAKE_CXX_FLAGS=-fno-builtin-std-forward \
-          -DCMAKE_BUILD_TYPE=RelWithDebInfo
-    $ for i in 1 2 3 4; do make clean; time make -j1 compile.test.tuple; done
 
 | `static_cast<T&&>`<br>`-O2 -g -fno-builtin-std-forward` | user | system | real |
 |---------------------------|----------|--------|----------|
-| `make compile.test.tuple` | 186.031s | 4.909s | 191.701s |
-| `make compile.test.tuple` | 185.311s | 4.872s | 190.838s |
-| `make compile.test.tuple` | 187.472s | 5.009s | 193.205s |
-| `make compile.test.tuple` | 185.348s | 4.897s | 190.896s |
+| `make compile.test.tuple` | 191.906s | 5.193s | 199.158s |
+| `make compile.test.tuple` | 196.225s | 5.444s | 204.091s |
+| `make compile.test.tuple` | 194.927s | 5.341s | 202.128s |
+| `make compile.test.tuple` | 201.406s | 5.967s | 210.618s |
 {:.smaller}
-
-    $ cd .. ; rm -rf build ; mkdir build ; cd build
-    $ cmake .. -DCMAKE_CXX_LINK_EXECUTABLE=/usr/bin/true \
-          -DCMAKE_CXX_COMPILER=$HOME/llvm-project/build/bin/clang++ \
-          -DCMAKE_CXX_FLAGS=-fno-builtin-std-forward \
-          -DCMAKE_BUILD_TYPE=Release
-    $ for i in 1 2 3 4; do make clean; time make -j1 compile.test.tuple; done
 
 | `static_cast<T&&>`<br>`-O3 -fno-builtin-std-forward` | user | system | real |
 |---------------------------|----------|--------|----------|
-| `make compile.test.tuple` | 143.341s | 3.384s | 147.518s |
-| `make compile.test.tuple` | 138.456s | 3.063s | 142.041s |
-| `make compile.test.tuple` | 144.837s | 3.477s | 149.169s |
-| `make compile.test.tuple` | 140.009s | 3.230s | 143.784s |
+| `make compile.test.tuple` | 153.070s | 3.940s | 160.831s |
+| `make compile.test.tuple` | 155.854s | 3.989s | 164.267s |
+| `make compile.test.tuple` | 150.787s | 3.783s | 158.836s |
+| `make compile.test.tuple` | 149.737s | 3.739s | 157.007s |
 {:.smaller}
 
 
@@ -417,24 +384,25 @@ without the `-fno-builtin` bars:
 ![Seasonal coloration](/blog/images/2022-12-24-builtin-std-forward-simplified.svg)
 
 On top-of-tree Clang, Boost.Hana's replacement of `std::forward<T>` with `static_cast<T&&>`
-produces a compile-speed improvement somewhere between 1 and 8 percent on Louis's benchmark.
-That's significantly changed from the 13.9% speedup Louis saw on his own machine back in 2015.
-I would even say that the `-O2` and `-O3` speedups are in the noise,
-although 8% at `-O0` is still concerning.
+produces a compile-speed improvement somewhere between 3 and 6 percent on Louis's benchmark.
+Replacing the opaque `detail::std::forward` with `static_cast` gives 7 to 10 percent.
+Both are significantly lessened from the 13.9% speedup Louis saw on his own machine back in 2015.
 
 Note that switching from `detail::std::forward` (unrecognized by Clang) to
 the standard `std::forward` helps quite a bit on this benchmark, indicating that
 `-fbuiltin-std-forward` is doing its job. The opt-out flag `-fno-builtin-std-forward` does,
 as expected, return things to their previous (worse) state.
 
-Practically speaking, would you see an 8% speedup at `-O0` if you made a similar change to your own codebase?
-Unlikely, unless your codebase looks a lot like Hana.
+Practically speaking, would you see any compile-time speedup if you made a similar change to your own codebase?
+Unlikely, unless your codebase looks a lot like this one.
 Hana sees a speedup because it uses a huge amount of perfect forwarding, and because
 this specific benchmark is a stress test focused on `std::tuple`. Contrariwise, the typical industry
 codebase ought to spend most of its time compiling non-templates, and use `std::forward` only rarely.
 But if you're a library writer, it seems that "for compile-time performance, avoid instantiating
-`std::forward`" is still plausible advice: _less_ applicable today on Clang than it was seven years
-ago (or even one year ago), but an effect is still noticeable at `-O0`.
+`std::forward`" is still plausible advice: _much less_ applicable today on Clang than it was seven years
+ago (or even one year ago), but a small effect is still noticeable.
+
+I'd be interested to hear the results of this benchmark on a recent GCC or MSVC.
 
 ---
 

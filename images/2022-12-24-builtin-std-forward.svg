@@ -19,28 +19,28 @@ The color scheme is due to Paul Tol, https://personal.sron.nl/~pault/
 colors = ["#55A4D1", "#DD7760", "#55BBAF", "#0077BB", "#CC3311", "#009988"]
 groups = [
     ("-O0", [
-      (["detail::fwd", "-fno-builtin"], [106.562, 104.146, 108.261, 110.639]),
-      (["std::forward", "-fno-builtin"], [108.567, 103.419, 103.717, 102.745]),
-      (["cast", "-fno-builtin"], [88.519, 87.831, 89.741, 93.676]),
-      (["detail::fwd", ""], [108.066, 104.081, 103.805, 103.223]),
-      (["std::forward", ""], [93.110, 93.864, 100.686, 97.466]),
-      (["cast", ""], [91.447, 89.144, 87.271, 87.584]),
+      (["detail::fwd", "-fno-builtin"], [120.951, 120.456, 116.721, 116.015]),
+      (["std::forward", "-fno-builtin"], [120.684, 125.567, 121.821, 118.924]),
+      (["cast", "-fno-builtin"], [109.769, 105.419, 99.843, 103.461]),
+      (["detail::fwd", ""], [113.710, 118.285, 125.776, 117.796]),
+      (["std::forward", ""], [115.064, 110.846, 109.218, 113.160]),
+      (["cast", ""], [102.832, 106.348, 105.589, 111.344]),
     ]),
     ("-O2 -g", [
-      (["detail::fwd", "-fno-builtin"], [214.089, 205.686, 207.657, 205.254]),
-      (["std::forward", "-fno-builtin"], [206.508, 216.405, 205.619, 204.487]),
-      (["cast", "-fno-builtin"], [191.701, 190.838, 193.205, 190.896]),
-      (["detail::fwd", ""], [208.002, 204.587, 203.408, 203.810]),
-      (["std::forward", ""], [200.581, 196.082, 196.337, 195.536]),
-      (["cast", ""], [189.329, 199.231, 196.282, 193.301]),
+      (["detail::fwd", "-fno-builtin"], [222.003, 221.804, 231.551, 217.968]),
+      (["std::forward", "-fno-builtin"], [233.819, 230.786, 226.708, 221.148]),
+      (["cast", "-fno-builtin"], [199.158, 204.091, 202.128, 210.618]),
+      (["detail::fwd", ""], [225.538, 215.013, 216.759, 223.713]),
+      (["std::forward", ""], [204.809, 216.938, 221.418, 208.776]),
+      (["cast", ""], [211.770, 202.536, 207.602, 201.535]),
     ]),
     ("-O3", [
-      (["detail::fwd", "-fno-builtin"], [159.524, 156.802, 156.875, 153.983]),
-      (["std::forward", "-fno-builtin"], [155.614, 155.731, 155.918, 155.928]),
-      (["cast", "-fno-builtin"], [147.518, 142.041, 149.169, 143.784]),
-      (["detail::fwd", ""], [154.963, 154.064, 154.798, 154.210]),
-      (["std::forward", ""], [156.633, 149.777, 150.233, 150.563]),
-      (["cast", ""], [146.925, 144.772, 144.578, 143.881]),
+      (["detail::fwd", "-fno-builtin"], [168.324, 178.451, 179.675, 169.649]),
+      (["std::forward", "-fno-builtin"], [167.232, 171.536, 180.935, 171.175]),
+      (["cast", "-fno-builtin"], [160.831, 164.267, 158.836, 157.007]),
+      (["detail::fwd", ""], [175.636, 168.599, 170.926, 178.123]),
+      (["std::forward", ""], [167.517, 164.323, 169.296, 175.783]),
+      (["cast", ""], [159.933, 156.982, 161.922, 159.044]),
     ]),
 ]
 BarWidth = 12
@@ -68,166 +68,166 @@ for (optlevel, results) in groups:
 <g>
   <text x="54" y="260" text-anchor="middle" class="technique">detail::fwd</text>
   <text x="54" y="269" text-anchor="middle" class="technique">-fno-builtin</text>
-  <text x="54" y="278" text-anchor="middle" class="technique">112%</text>
-  <rect x="30" y="143" fill="#55A4D1" width="12" height="106.562"/>
-  <rect x="42" y="145" fill="#55A4D1" width="12" height="104.146"/>
-  <rect x="54" y="141" fill="#55A4D1" width="12" height="108.261"/>
-  <rect x="66" y="139" fill="#55A4D1" width="12" height="110.639"/>
+  <text x="54" y="278" text-anchor="middle" class="technique">106%</text>
+  <rect x="30" y="129" fill="#55A4D1" width="12" height="120.951"/>
+  <rect x="42" y="129" fill="#55A4D1" width="12" height="120.456"/>
+  <rect x="54" y="133" fill="#55A4D1" width="12" height="116.721"/>
+  <rect x="66" y="133" fill="#55A4D1" width="12" height="116.015"/>
 </g>
 <g>
   <text x="114" y="260" text-anchor="middle" class="technique">std::forward</text>
   <text x="114" y="269" text-anchor="middle" class="technique">-fno-builtin</text>
   <text x="114" y="278" text-anchor="middle" class="technique">109%</text>
-  <rect x="90" y="141" fill="#DD7760" width="12" height="108.567"/>
-  <rect x="102" y="146" fill="#DD7760" width="12" height="103.419"/>
-  <rect x="114" y="146" fill="#DD7760" width="12" height="103.717"/>
-  <rect x="126" y="147" fill="#DD7760" width="12" height="102.745"/>
+  <rect x="90" y="129" fill="#DD7760" width="12" height="120.684"/>
+  <rect x="102" y="124" fill="#DD7760" width="12" height="125.567"/>
+  <rect x="114" y="128" fill="#DD7760" width="12" height="121.821"/>
+  <rect x="126" y="131" fill="#DD7760" width="12" height="118.924"/>
 </g>
 <g>
   <text x="174" y="260" text-anchor="middle" class="technique">cast</text>
   <text x="174" y="269" text-anchor="middle" class="technique">-fno-builtin</text>
   <text x="174" y="278" text-anchor="middle" class="technique">93%</text>
-  <rect x="150" y="161" fill="#55BBAF" width="12" height="88.519"/>
-  <rect x="162" y="162" fill="#55BBAF" width="12" height="87.831"/>
-  <rect x="174" y="160" fill="#55BBAF" width="12" height="89.741"/>
-  <rect x="186" y="156" fill="#55BBAF" width="12" height="93.676"/>
+  <rect x="150" y="140" fill="#55BBAF" width="12" height="109.769"/>
+  <rect x="162" y="144" fill="#55BBAF" width="12" height="105.419"/>
+  <rect x="174" y="150" fill="#55BBAF" width="12" height="99.843"/>
+  <rect x="186" y="146" fill="#55BBAF" width="12" height="103.461"/>
 </g>
 <g>
   <text x="234" y="260" text-anchor="middle" class="technique">detail::fwd</text>
   <text x="234" y="269" text-anchor="middle" class="technique"></text>
-  <text x="234" y="278" text-anchor="middle" class="technique">109%</text>
-  <rect x="210" y="141" fill="#0077BB" width="12" height="108.066"/>
-  <rect x="222" y="145" fill="#0077BB" width="12" height="104.081"/>
-  <rect x="234" y="146" fill="#0077BB" width="12" height="103.805"/>
-  <rect x="246" y="146" fill="#0077BB" width="12" height="103.223"/>
+  <text x="234" y="278" text-anchor="middle" class="technique">106%</text>
+  <rect x="210" y="136" fill="#0077BB" width="12" height="113.710"/>
+  <rect x="222" y="131" fill="#0077BB" width="12" height="118.285"/>
+  <rect x="234" y="124" fill="#0077BB" width="12" height="125.776"/>
+  <rect x="246" y="132" fill="#0077BB" width="12" height="117.796"/>
 </g>
 <g>
   <text x="294" y="260" text-anchor="middle" class="technique">std::forward</text>
   <text x="294" y="269" text-anchor="middle" class="technique"></text>
   <text x="294" y="278" text-anchor="middle" class="technique">100%</text>
-  <rect x="270" y="156" fill="#CC3311" width="12" height="93.110"/>
-  <rect x="282" y="156" fill="#CC3311" width="12" height="93.864"/>
-  <rect x="294" y="149" fill="#CC3311" width="12" height="100.686"/>
-  <rect x="306" y="152" fill="#CC3311" width="12" height="97.466"/>
+  <rect x="270" y="134" fill="#CC3311" width="12" height="115.064"/>
+  <rect x="282" y="139" fill="#CC3311" width="12" height="110.846"/>
+  <rect x="294" y="140" fill="#CC3311" width="12" height="109.218"/>
+  <rect x="306" y="136" fill="#CC3311" width="12" height="113.160"/>
 </g>
 <g>
   <text x="354" y="260" text-anchor="middle" class="technique">cast</text>
   <text x="354" y="269" text-anchor="middle" class="technique"></text>
-  <text x="354" y="278" text-anchor="middle" class="technique">92%</text>
-  <rect x="330" y="158" fill="#009988" width="12" height="91.447"/>
-  <rect x="342" y="160" fill="#009988" width="12" height="89.144"/>
-  <rect x="354" y="162" fill="#009988" width="12" height="87.271"/>
-  <rect x="366" y="162" fill="#009988" width="12" height="87.584"/>
+  <text x="354" y="278" text-anchor="middle" class="technique">95%</text>
+  <rect x="330" y="147" fill="#009988" width="12" height="102.832"/>
+  <rect x="342" y="143" fill="#009988" width="12" height="106.348"/>
+  <rect x="354" y="144" fill="#009988" width="12" height="105.589"/>
+  <rect x="366" y="138" fill="#009988" width="12" height="111.344"/>
 </g>
 <text x="576" y="300" text-anchor="middle" class="optlevel">-O2 -g</text>
 <g>
   <text x="426" y="260" text-anchor="middle" class="technique">detail::fwd</text>
   <text x="426" y="269" text-anchor="middle" class="technique">-fno-builtin</text>
-  <text x="426" y="278" text-anchor="middle" class="technique">106%</text>
-  <rect x="402" y="35" fill="#55A4D1" width="12" height="214.089"/>
-  <rect x="414" y="44" fill="#55A4D1" width="12" height="205.686"/>
-  <rect x="426" y="42" fill="#55A4D1" width="12" height="207.657"/>
-  <rect x="438" y="44" fill="#55A4D1" width="12" height="205.254"/>
+  <text x="426" y="278" text-anchor="middle" class="technique">105%</text>
+  <rect x="402" y="27" fill="#55A4D1" width="12" height="222.003"/>
+  <rect x="414" y="28" fill="#55A4D1" width="12" height="221.804"/>
+  <rect x="426" y="18" fill="#55A4D1" width="12" height="231.551"/>
+  <rect x="438" y="32" fill="#55A4D1" width="12" height="217.968"/>
 </g>
 <g>
   <text x="486" y="260" text-anchor="middle" class="technique">std::forward</text>
   <text x="486" y="269" text-anchor="middle" class="technique">-fno-builtin</text>
-  <text x="486" y="278" text-anchor="middle" class="technique">106%</text>
-  <rect x="462" y="43" fill="#DD7760" width="12" height="206.508"/>
-  <rect x="474" y="33" fill="#DD7760" width="12" height="216.405"/>
-  <rect x="486" y="44" fill="#DD7760" width="12" height="205.619"/>
-  <rect x="498" y="45" fill="#DD7760" width="12" height="204.487"/>
+  <text x="486" y="278" text-anchor="middle" class="technique">107%</text>
+  <rect x="462" y="16" fill="#DD7760" width="12" height="233.819"/>
+  <rect x="474" y="19" fill="#DD7760" width="12" height="230.786"/>
+  <rect x="486" y="23" fill="#DD7760" width="12" height="226.708"/>
+  <rect x="498" y="28" fill="#DD7760" width="12" height="221.148"/>
 </g>
 <g>
   <text x="546" y="260" text-anchor="middle" class="technique">cast</text>
   <text x="546" y="269" text-anchor="middle" class="technique">-fno-builtin</text>
-  <text x="546" y="278" text-anchor="middle" class="technique">97%</text>
-  <rect x="522" y="58" fill="#55BBAF" width="12" height="191.701"/>
-  <rect x="534" y="59" fill="#55BBAF" width="12" height="190.838"/>
-  <rect x="546" y="56" fill="#55BBAF" width="12" height="193.205"/>
-  <rect x="558" y="59" fill="#55BBAF" width="12" height="190.896"/>
+  <text x="546" y="278" text-anchor="middle" class="technique">96%</text>
+  <rect x="522" y="50" fill="#55BBAF" width="12" height="199.158"/>
+  <rect x="534" y="45" fill="#55BBAF" width="12" height="204.091"/>
+  <rect x="546" y="47" fill="#55BBAF" width="12" height="202.128"/>
+  <rect x="558" y="39" fill="#55BBAF" width="12" height="210.618"/>
 </g>
 <g>
   <text x="606" y="260" text-anchor="middle" class="technique">detail::fwd</text>
   <text x="606" y="269" text-anchor="middle" class="technique"></text>
-  <text x="606" y="278" text-anchor="middle" class="technique">104%</text>
-  <rect x="582" y="41" fill="#0077BB" width="12" height="208.002"/>
-  <rect x="594" y="45" fill="#0077BB" width="12" height="204.587"/>
-  <rect x="606" y="46" fill="#0077BB" width="12" height="203.408"/>
-  <rect x="618" y="46" fill="#0077BB" width="12" height="203.810"/>
+  <text x="606" y="278" text-anchor="middle" class="technique">103%</text>
+  <rect x="582" y="24" fill="#0077BB" width="12" height="225.538"/>
+  <rect x="594" y="34" fill="#0077BB" width="12" height="215.013"/>
+  <rect x="606" y="33" fill="#0077BB" width="12" height="216.759"/>
+  <rect x="618" y="26" fill="#0077BB" width="12" height="223.713"/>
 </g>
 <g>
   <text x="666" y="260" text-anchor="middle" class="technique">std::forward</text>
   <text x="666" y="269" text-anchor="middle" class="technique"></text>
   <text x="666" y="278" text-anchor="middle" class="technique">100%</text>
-  <rect x="642" y="49" fill="#CC3311" width="12" height="200.581"/>
-  <rect x="654" y="53" fill="#CC3311" width="12" height="196.082"/>
-  <rect x="666" y="53" fill="#CC3311" width="12" height="196.337"/>
-  <rect x="678" y="54" fill="#CC3311" width="12" height="195.536"/>
+  <rect x="642" y="45" fill="#CC3311" width="12" height="204.809"/>
+  <rect x="654" y="33" fill="#CC3311" width="12" height="216.938"/>
+  <rect x="666" y="28" fill="#CC3311" width="12" height="221.418"/>
+  <rect x="678" y="41" fill="#CC3311" width="12" height="208.776"/>
 </g>
 <g>
   <text x="726" y="260" text-anchor="middle" class="technique">cast</text>
   <text x="726" y="269" text-anchor="middle" class="technique"></text>
-  <text x="726" y="278" text-anchor="middle" class="technique">99%</text>
-  <rect x="702" y="60" fill="#009988" width="12" height="189.329"/>
-  <rect x="714" y="50" fill="#009988" width="12" height="199.231"/>
-  <rect x="726" y="53" fill="#009988" width="12" height="196.282"/>
-  <rect x="738" y="56" fill="#009988" width="12" height="193.301"/>
+  <text x="726" y="278" text-anchor="middle" class="technique">97%</text>
+  <rect x="702" y="38" fill="#009988" width="12" height="211.770"/>
+  <rect x="714" y="47" fill="#009988" width="12" height="202.536"/>
+  <rect x="726" y="42" fill="#009988" width="12" height="207.602"/>
+  <rect x="738" y="48" fill="#009988" width="12" height="201.535"/>
 </g>
 <text x="948" y="300" text-anchor="middle" class="optlevel">-O3</text>
 <g>
   <text x="798" y="260" text-anchor="middle" class="technique">detail::fwd</text>
   <text x="798" y="269" text-anchor="middle" class="technique">-fno-builtin</text>
   <text x="798" y="278" text-anchor="middle" class="technique">103%</text>
-  <rect x="774" y="90" fill="#55A4D1" width="12" height="159.524"/>
-  <rect x="786" y="93" fill="#55A4D1" width="12" height="156.802"/>
-  <rect x="798" y="93" fill="#55A4D1" width="12" height="156.875"/>
-  <rect x="810" y="96" fill="#55A4D1" width="12" height="153.983"/>
+  <rect x="774" y="81" fill="#55A4D1" width="12" height="168.324"/>
+  <rect x="786" y="71" fill="#55A4D1" width="12" height="178.451"/>
+  <rect x="798" y="70" fill="#55A4D1" width="12" height="179.675"/>
+  <rect x="810" y="80" fill="#55A4D1" width="12" height="169.649"/>
 </g>
 <g>
   <text x="858" y="260" text-anchor="middle" class="technique">std::forward</text>
   <text x="858" y="269" text-anchor="middle" class="technique">-fno-builtin</text>
-  <text x="858" y="278" text-anchor="middle" class="technique">103%</text>
-  <rect x="834" y="94" fill="#DD7760" width="12" height="155.614"/>
-  <rect x="846" y="94" fill="#DD7760" width="12" height="155.731"/>
-  <rect x="858" y="94" fill="#DD7760" width="12" height="155.918"/>
-  <rect x="870" y="94" fill="#DD7760" width="12" height="155.928"/>
+  <text x="858" y="278" text-anchor="middle" class="technique">102%</text>
+  <rect x="834" y="82" fill="#DD7760" width="12" height="167.232"/>
+  <rect x="846" y="78" fill="#DD7760" width="12" height="171.536"/>
+  <rect x="858" y="69" fill="#DD7760" width="12" height="180.935"/>
+  <rect x="870" y="78" fill="#DD7760" width="12" height="171.175"/>
 </g>
 <g>
   <text x="918" y="260" text-anchor="middle" class="technique">cast</text>
   <text x="918" y="269" text-anchor="middle" class="technique">-fno-builtin</text>
-  <text x="918" y="278" text-anchor="middle" class="technique">96%</text>
-  <rect x="894" y="102" fill="#55BBAF" width="12" height="147.518"/>
-  <rect x="906" y="107" fill="#55BBAF" width="12" height="142.041"/>
-  <rect x="918" y="100" fill="#55BBAF" width="12" height="149.169"/>
-  <rect x="930" y="106" fill="#55BBAF" width="12" height="143.784"/>
+  <text x="918" y="278" text-anchor="middle" class="technique">95%</text>
+  <rect x="894" y="89" fill="#55BBAF" width="12" height="160.831"/>
+  <rect x="906" y="85" fill="#55BBAF" width="12" height="164.267"/>
+  <rect x="918" y="91" fill="#55BBAF" width="12" height="158.836"/>
+  <rect x="930" y="92" fill="#55BBAF" width="12" height="157.007"/>
 </g>
 <g>
   <text x="978" y="260" text-anchor="middle" class="technique">detail::fwd</text>
   <text x="978" y="269" text-anchor="middle" class="technique"></text>
   <text x="978" y="278" text-anchor="middle" class="technique">102%</text>
-  <rect x="954" y="95" fill="#0077BB" width="12" height="154.963"/>
-  <rect x="966" y="95" fill="#0077BB" width="12" height="154.064"/>
-  <rect x="978" y="95" fill="#0077BB" width="12" height="154.798"/>
-  <rect x="990" y="95" fill="#0077BB" width="12" height="154.210"/>
+  <rect x="954" y="74" fill="#0077BB" width="12" height="175.636"/>
+  <rect x="966" y="81" fill="#0077BB" width="12" height="168.599"/>
+  <rect x="978" y="79" fill="#0077BB" width="12" height="170.926"/>
+  <rect x="990" y="71" fill="#0077BB" width="12" height="178.123"/>
 </g>
 <g>
   <text x="1038" y="260" text-anchor="middle" class="technique">std::forward</text>
   <text x="1038" y="269" text-anchor="middle" class="technique"></text>
   <text x="1038" y="278" text-anchor="middle" class="technique">100%</text>
-  <rect x="1014" y="93" fill="#CC3311" width="12" height="156.633"/>
-  <rect x="1026" y="100" fill="#CC3311" width="12" height="149.777"/>
-  <rect x="1038" y="99" fill="#CC3311" width="12" height="150.233"/>
-  <rect x="1050" y="99" fill="#CC3311" width="12" height="150.563"/>
+  <rect x="1014" y="82" fill="#CC3311" width="12" height="167.517"/>
+  <rect x="1026" y="85" fill="#CC3311" width="12" height="164.323"/>
+  <rect x="1038" y="80" fill="#CC3311" width="12" height="169.296"/>
+  <rect x="1050" y="74" fill="#CC3311" width="12" height="175.783"/>
 </g>
 <g>
   <text x="1098" y="260" text-anchor="middle" class="technique">cast</text>
   <text x="1098" y="269" text-anchor="middle" class="technique"></text>
-  <text x="1098" y="278" text-anchor="middle" class="technique">96%</text>
-  <rect x="1074" y="103" fill="#009988" width="12" height="146.925"/>
-  <rect x="1086" y="105" fill="#009988" width="12" height="144.772"/>
-  <rect x="1098" y="105" fill="#009988" width="12" height="144.578"/>
-  <rect x="1110" y="106" fill="#009988" width="12" height="143.881"/>
+  <text x="1098" y="278" text-anchor="middle" class="technique">94%</text>
+  <rect x="1074" y="90" fill="#009988" width="12" height="159.933"/>
+  <rect x="1086" y="93" fill="#009988" width="12" height="156.982"/>
+  <rect x="1098" y="88" fill="#009988" width="12" height="161.922"/>
+  <rect x="1110" y="90" fill="#009988" width="12" height="159.044"/>
 </g>
 
 </svg>
