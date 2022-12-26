@@ -38,7 +38,7 @@ excerpt: |
 > and to use [this Python script](/blog/code/2022-12-24-harness.py) to shuffle and interleave the benchmark iterations.
 > These changes greatly reduced the observed effects!
 > If you want to see the previous numbers and find out how they changed, please check
-> [the git history]().
+> [the git history](https://github.com/Quuxplusone/blog/compare/f0062d8df61f737a17e77aace409b16b2d8d08ff...18e4feef5434269360d8bf660a05e133946072f7).
 
 In 2022 we saw a lot of interest (finally!) in the costs of `std::move` and
 `std::forward`. For example, in April Richard Smith landed
@@ -255,7 +255,7 @@ compile.
           -DCMAKE_BUILD_TYPE=Debug
     $ for i in 1 2 3 4; do make clean; time make -j1 compile.test.tuple; done
 
-| `std::forward<T>`<br>`-O0 -fno-builtin-std-forward` | user | system | real |
+| `std::forward<T> -O0`<br>`-fno-builtin-std-forward` | user | system | real |
 |---------------------------|----------|--------|----------|
 | `make compile.test.tuple` | 108.377s | 5.352s | 120.684s |
 | `make compile.test.tuple` | 112.791s | 5.913s | 125.567s |
@@ -263,7 +263,7 @@ compile.
 | `make compile.test.tuple` | 108.780s | 5.253s | 118.924s |
 {:.smaller}
 
-| `std::forward<T>`<br>`-O2 -g -fno-builtin-std-forward` | user | system | real |
+| `std::forward<T> -O2 -g`<br>`-fno-builtin-std-forward` | user | system | real |
 |---------------------------|----------|--------|----------|
 | `make compile.test.tuple` | 222.592s | 7.022s | 233.819s |
 | `make compile.test.tuple` | 220.630s | 6.608s | 230.786s |
@@ -271,7 +271,7 @@ compile.
 | `make compile.test.tuple` | 212.081s | 5.916s | 221.148s |
 {:.smaller}
 
-| `std::forward<T>`<br>`-O3 -fno-builtin-std-forward` | user | system | real |
+| `std::forward<T> -O3`<br>`-fno-builtin-std-forward` | user | system | real |
 |---------------------------|----------|--------|----------|
 | `make compile.test.tuple` | 160.622s | 3.822s | 167.232s |
 | `make compile.test.tuple` | 164.214s | 4.055s | 171.536s |
@@ -281,7 +281,7 @@ compile.
 
 We should also collect these numbers for the original `detail::std::forward`.
 
-| `detail::forward<T>`<br>`-O0 -fno-builtin-std-forward` | user | system | real |
+| `detail::forward<T> -O0`<br>`-fno-builtin-std-forward` | user | system | real |
 |---------------------------|----------|--------|----------|
 | `make compile.test.tuple` | 109.730s | 5.318s | 120.951s |
 | `make compile.test.tuple` | 108.594s | 5.197s | 120.456s |
@@ -289,7 +289,7 @@ We should also collect these numbers for the original `detail::std::forward`.
 | `make compile.test.tuple` | 106.106s | 4.907s | 116.015s |
 {:.smaller}
 
-| `detail::forward<T>`<br>`-O2 -g -fno-builtin-std-forward` | user | system | real |
+| `detail::forward<T> -O2 -g`<br>`-fno-builtin-std-forward` | user | system | real |
 |---------------------------|----------|--------|----------|
 | `make compile.test.tuple` | 213.302s | 6.133s | 222.003s |
 | `make compile.test.tuple` | 213.664s | 6.035s | 221.804s |
@@ -297,7 +297,7 @@ We should also collect these numbers for the original `detail::std::forward`.
 | `make compile.test.tuple` | 209.036s | 5.749s | 217.968s |
 {:.smaller}
 
-| `detail::forward<T>`<br>`-O3 -fno-builtin-std-forward` | user | system | real |
+| `detail::forward<T> -O3`<br>`-fno-builtin-std-forward` | user | system | real |
 |---------------------------|----------|--------|----------|
 | `make compile.test.tuple` | 161.180s | 4.017s | 168.324s |
 | `make compile.test.tuple` | 170.037s | 4.576s | 178.451s |
@@ -346,7 +346,7 @@ and run all the same benchmarks again:
 | `make compile.test.tuple` | 151.943s | 3.947s | 159.044s |
 {:.smaller}
 
-| `static_cast<T&&>`<br>`-O0 -fno-builtin-std-forward` | user | system | real |
+| `static_cast<T&&> -O0`<br>`-fno-builtin-std-forward` | user | system | real |
 |---------------------------|---------|--------|----------|
 | `make compile.test.tuple` | 96.991s | 5.295s | 109.769s |
 | `make compile.test.tuple` | 93.719s | 4.668s | 105.419s |
@@ -354,7 +354,7 @@ and run all the same benchmarks again:
 | `make compile.test.tuple` | 93.761s | 4.699s | 103.461s |
 {:.smaller}
 
-| `static_cast<T&&>`<br>`-O2 -g -fno-builtin-std-forward` | user | system | real |
+| `static_cast<T&&> -O2 -g`<br>`-fno-builtin-std-forward` | user | system | real |
 |---------------------------|----------|--------|----------|
 | `make compile.test.tuple` | 191.906s | 5.193s | 199.158s |
 | `make compile.test.tuple` | 196.225s | 5.444s | 204.091s |
@@ -362,7 +362,7 @@ and run all the same benchmarks again:
 | `make compile.test.tuple` | 201.406s | 5.967s | 210.618s |
 {:.smaller}
 
-| `static_cast<T&&>`<br>`-O3 -fno-builtin-std-forward` | user | system | real |
+| `static_cast<T&&> -O3`<br>`-fno-builtin-std-forward` | user | system | real |
 |---------------------------|----------|--------|----------|
 | `make compile.test.tuple` | 153.070s | 3.940s | 160.831s |
 | `make compile.test.tuple` | 155.854s | 3.989s | 164.267s |
