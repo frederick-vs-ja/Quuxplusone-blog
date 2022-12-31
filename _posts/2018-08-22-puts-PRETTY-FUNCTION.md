@@ -3,6 +3,7 @@ layout: post
 title: 'Exploring C++ types with `puts(__PRETTY_FUNCTION__)`'
 date: 2018-08-22 00:01:00 +0000
 tags:
+  msvc
   pearls
   templates
 ---

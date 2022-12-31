@@ -6,6 +6,7 @@ tags:
   cppnow
   exception-handling
   move-semantics
+  msvc
   pitfalls
   relocatability
 excerpt: |
