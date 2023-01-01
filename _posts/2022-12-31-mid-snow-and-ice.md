@@ -31,3 +31,25 @@ Thus ([Godbolt](https://godbolt.org/z/E7eob9vcM)):
     }
 
 On MSVC with `-O1` or higher, this prints the first string twice.
+
+> UPDATE, 2023-01-01: David Bakin writes to tell me that MSVC calls this feature
+> ["String Pooling"](https://learn.microsoft.com/en-us/cpp/build/reference/gf-eliminate-duplicate-strings)
+> and that although it defaults to "on" at `-O1` and higher, it can be toggled
+> on and off with the command-line switch `-GF`/`-GF-`.
+>
+> MSVC's string pooling piggybacks on the existing COMDAT mechanism, which was
+> designed for inline functions and variables: situations where you need
+> to retain only one copy of a function with a given symbol name, and you expect
+> different copies to have different contents due to optimization level and so on.
+> String-pooling has exactly the opposite requirements: strings are anonymous,
+> and you care deeply about their contents.
+>
+> The best way to do string pooling, in my opinion (and in my experience at
+> Green Hills over a decade ago), is to have the compiler mark anonymous entities
+> whose addresses needn't be unique and then authorize the linker to lay out the
+> `.rodata` section in the most compacted way, based on content rather than
+> on symbol or section name. MSVC's symbol-based approach might be defended as
+> a decent approximation to content-addressing, that works without modification
+> to their present-day ('80s-era) linker — attacked as an example of moving work
+> from the tool that is ideally suited to that work, into a different tool
+> where it costs more to do a poorer job — or merely presented as a curiosity.
