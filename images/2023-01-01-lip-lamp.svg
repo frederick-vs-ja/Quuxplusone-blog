@@ -1,0 +1,19 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="700" height="250" viewBox="0 0 700 250">
+
+  <g transform="translate(125,125)">
+    <path d="M 86.6,49 A 100,100,0 0,1 -86.6,49 Z" fill="#FFA0A8"/>
+    <path d="M 0,-100 A 100,100,0 1,1 -86.6,50 L -57.62,57.76" stroke="black" fill="none" stroke-width="2"/>
+  </g>
+
+  <g transform="translate(350,125)">
+    <path d="M 86.6,49 A 100,100,0 0,1 -86.6,49 Z" fill="#FFA0A8"/>
+    <path d="M 70.7,70.7 A 100,100,0 0,1 -70.7,70.7 Z" fill="#FFA0A8" transform="rotate(18,0,0)"/>
+    <path d="M 0,-100 A 100,100,0 1,1 -86.6,50 L -57.62,57.76" stroke="black" fill="none" stroke-width="2" transform="rotate(3,0,0)"/>
+  </g>
+
+  <g transform="translate(575,125)">
+    <path d="M 83.9,53.5 A 100,100,0 0,1 -83.9,53.5 Z" fill="#FFA0A8"/>
+    <path d="M 0,-100 A 100,100,0 1,1 -86.6,50 L -57.62,57.76" stroke="black" fill="none" stroke-width="2" transform="rotate(-3,0,0)"/>
+  </g>
+
+</svg>
