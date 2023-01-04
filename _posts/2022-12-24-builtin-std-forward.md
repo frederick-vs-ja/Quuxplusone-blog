@@ -12,8 +12,9 @@ excerpt: |
   In 2022 we saw a lot of interest (finally!) in the costs of `std::move` and
   `std::forward`. For example, in April Richard Smith landed
   [`-fbuiltin-std-forward`](https://github.com/llvm/llvm-project/commit/72315d02c432a0fe0acae9c96c69eac8d8e1a9f6)
-  in Clang, and in September Vittorio Romeo lamented
-  ["The sad state of debug performance in C++"](https://vittorioromeo.info/index/blog/debug_performance_cpp.html).
+  in Clang; in September Vittorio Romeo lamented
+  ["The sad state of debug performance in C++"](https://vittorioromeo.info/index/blog/debug_performance_cpp.html);
+  and in December the MSVC team landed [`[[msvc::intrinsic]]`](https://devblogs.microsoft.com/cppblog/improving-the-state-of-debug-performance-in-c/).
 
   Recall that `std::forward<Arg>(arg)` should be used [only on forwarding references](/blog/2022/02/02/look-what-they-need/),
   and that when you do, it's exactly equivalent to `static_cast<Arg&&>(arg)`, or equivalently `decltype(arg)(arg)`.
@@ -43,8 +44,9 @@ excerpt: |
 In 2022 we saw a lot of interest (finally!) in the costs of `std::move` and
 `std::forward`. For example, in April Richard Smith landed
 [`-fbuiltin-std-forward`](https://github.com/llvm/llvm-project/commit/72315d02c432a0fe0acae9c96c69eac8d8e1a9f6)
-in Clang, and in September Vittorio Romeo lamented
-["The sad state of debug performance in C++"](https://vittorioromeo.info/index/blog/debug_performance_cpp.html).
+in Clang; in September Vittorio Romeo lamented
+["The sad state of debug performance in C++"](https://vittorioromeo.info/index/blog/debug_performance_cpp.html);
+and in December the MSVC team landed [`[[msvc::intrinsic]]`](https://devblogs.microsoft.com/cppblog/improving-the-state-of-debug-performance-in-c/).
 
 Recall that `std::forward<Arg>(arg)` should be used [only on forwarding references](/blog/2022/02/02/look-what-they-need/),
 and that when you do, it's exactly equivalent to `static_cast<Arg&&>(arg)`, or equivalently `decltype(arg)(arg)`.
