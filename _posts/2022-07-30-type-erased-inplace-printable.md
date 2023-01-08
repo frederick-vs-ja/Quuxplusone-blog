@@ -149,7 +149,7 @@ when `StoredT` is known to be trivially relocatable.
 
 Anyone who checks out this blog's [#exception-handling tag](/blog/tags/#exception-handling)
 will know that I'm not big on `noexcept`. My rule of thumb is to put it on move constructors
-(to undo the vector pessimization), optionally on `swap` and `operator=`, and (by default)
+(to undo the [vector pessimization](/blog/2022/08/26/vector-pessimization/)), optionally on `swap` and `operator=`, and (by default)
 nowhere else. So you might be surprised to see that I've marked the `destroy_` and
 `relocate_` function pointers as `noexcept`!
 

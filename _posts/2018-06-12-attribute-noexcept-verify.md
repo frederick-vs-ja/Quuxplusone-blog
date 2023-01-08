@@ -123,8 +123,8 @@ in this department.)
 
 So, adding a single `puts` or `printf` — or `memcpy` or `strlen` or `abort` — to your
 `noexcept(auto)` function can instantly render it "non-`noexcept`" from the compiler's
-point of view. Which might cause library pessimizations (such as how `vector<T>`
-reallocation falls off a cliff if you omit `noexcept` from `T`'s move-constructor)
+point of view. Which might cause library pessimizations (such as how
+[`vector<T>` reallocation falls off a cliff](/blog/2022/08/26/vector-pessimization/) if you omit `noexcept` from `T`'s move-constructor)
 or might even cause `static_assert` failures in far-removed client code.
 
 And the problem is not limited to the C library: there are actually lots of APIs
