@@ -5,6 +5,7 @@ date: 2022-11-18 00:01:00 +0000
 tags:
   celebration-of-mind
   coroutines
+  help-wanted
   math
   puzzles
 excerpt: |
