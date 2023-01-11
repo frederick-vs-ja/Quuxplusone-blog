@@ -4,6 +4,7 @@ title: 'C++2a Coroutines and dangling references'
 date: 2019-07-10 00:01:00 +0000
 tags:
   coroutines
+  cpplang-slack
   parameter-only-types
   pitfalls
 ---
@@ -21,12 +22,12 @@ First of all, here's the boring old way that I'm sure everyone's aware of by now
     }
 
     int main() {
-        for (char ch : explode("hello world")) {
+        for (char ch : explode("hello world"s)) {
             std::cout << ch << '\n';
         }
     }
 
-([Run it on Godbolt!](https://coro.godbolt.org/z/Z6iNru))
+([Run it on Godbolt!](https://godbolt.org/z/fr4M3rKx4))
 
 See, in C++2a-Coroutine-world, the function `explode` isn't really one indivisible routine. It's a _coroutine_,
 which means it gets split up by the compiler into a bunch of little code fragments — with the divisions between
@@ -43,7 +44,7 @@ suspend point.
 ## Boring old way, redux
 
 Let's fix that bug. Local variables are preserved by-value in the coroutine frame. So let's copy `s`
-into a local variable ASAP! ([Godbolt.](https://coro.godbolt.org/z/InuSdi))
+into a local variable ASAP! ([Godbolt.](https://godbolt.org/z/7YjfoaTKh))
 
     generator<char> explode(const std::string& s) {
         std::string copy = s;
@@ -60,7 +61,7 @@ coroutine gets around to executing `std::string copy = s;`, the reference `s` ha
 ## Boring old way, redux2
 
 Notice that we would have the same kind of issue if we used any "reference-semantic" type. It doesn't
-have to be a native reference.
+have to be a native reference. ([Godbolt.](https://godbolt.org/z/7v5YMEs8z))
 
     generator<char> explode(std::string_view sv) {
         for (char ch : sv) {
@@ -72,7 +73,7 @@ have to be a native reference.
 ## Exciting new way to dangle a reference
 
 Okay. Now let me show you the one I just learned on Slack today. (Hat tip to mikezackles, Lewis Baker,
-and Mathias Stearn!) ([Godbolt.](https://coro.godbolt.org/z/tMaVXY))
+and Mathias Stearn!) ([Godbolt.](https://godbolt.org/z/sqxPeW3aP))
 
     generator<char> explode(const std::string& s) {
         return [s]() -> generator<char> {
@@ -88,8 +89,8 @@ and Mathias Stearn!) ([Godbolt.](https://coro.godbolt.org/z/tMaVXY))
         }
     }
 
-This version uses an immediately invoked lambda expression (IILE — we love our
-[acronyms](/blog/2019/08/02/the-tough-guide-to-cpp-acronyms/#iile)!) where the
+This version uses an immediately invoked lambda expression
+([IILE](/blog/2019/08/02/the-tough-guide-to-cpp-acronyms/#iile)) where the
 body of the lambda is itself a coroutine (because it uses `co_yield`). In this version, `explode` is
 not a coroutine; it's just a plain old subroutine.
 
