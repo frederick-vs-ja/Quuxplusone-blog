@@ -79,9 +79,9 @@ OEIS sequences demonstrating the effect of holes include:
 * [OEIS A038119](https://oeis.org/A038119) counts free polycubes
   * [OEIS A357083](https://oeis.org/A357083) counts free polycubes with one or more holes
 
-Just to confuse matters, the title of [OEIS A151514](https://oeis.org/A151514) and
-a 2009 comment on [OEIS A002013](https://oeis.org/A002013) currently use the term "strip"
-when they actually mean "snake." I have submitted corrections.
+(Just to confuse matters, the title of [OEIS A151514](https://oeis.org/A151514) and
+a 2009 comment on [OEIS A002013](https://oeis.org/A002013) formerly used the term "strip"
+when they meant "snake." But I submitted corrections and these are now fixed.)
 
 
 ### Holes in 3D
@@ -160,7 +160,7 @@ OEIS sequences demonstrating the effect of chirality include:
 * [OEIS A151514](https://oeis.org/A151514) counts one-sided snake polyominoes
   * [OEIS A002013](https://oeis.org/A002013) counts free snake polyominoes
 
-* An unlisted sequence counts one-sided strip polyominoes
+* [OEIS _A359068_](https://oeis.org/A359068) counts one-sided strip polyominoes
   * [OEIS A333313](https://oeis.org/A333313) counts free strip polyominoes
 
 
@@ -168,8 +168,9 @@ OEIS sequences demonstrating the effect of chirality include:
 
 Here are my results for the 2D polyomino cases ([source code](/blog/code/2022-12-08-polyomino-snakes-and-strips.cpp)).
 Columns corresponding to existing OEIS sequences are marked accordingly.
+OEIS sequences that did not exist prior to this blog post are _italicized._
 
-| n  | Free strip polyominoes ([A333313](https://oeis.org/A333313)) | Free non-ouroboros snakes ([A002013](https://oeis.org/A002013)) | Free ouroboroi | One-sided strips | One-sided non-ouroboros snakes ([A151514](https://oeis.org/A151514)) | One-sided ouroboroi |
+| n  | Free strip polyominoes ([A333313](https://oeis.org/A333313)) | Free non-ouroboros snakes ([A002013](https://oeis.org/A002013)) | Free ouroboroi _([A359706](https://oeis.org/A359706))_ | One-sided strips _([A359068](https://oeis.org/A359068))_ | One-sided non-ouroboros snakes ([A151514](https://oeis.org/A151514)) | One-sided ouroboroi _([A359707](https://oeis.org/A359707))_ |
 |----|--------------|--------------|----------|---------------|---------------|----------|
 | 1  | 1            | 1            |          | 1             | 1             |          |
 | 2  | 1            | 1            |          | 1             | 1             |          |
