@@ -6,6 +6,7 @@ tags:
   adventure
   castlequest
   digital-antiquaria
+  help-wanted
 ---
 
 You might have noticed in your news feed recently a piece by David Cassel for
