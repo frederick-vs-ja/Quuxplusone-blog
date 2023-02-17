@@ -27,7 +27,7 @@ Key:
 - `No` means it's never trivially relocatable.
 - `D` means it's never trivially relocatable in debug mode, but always trivially relocatable in release.
 - `CD` means it's never trivially relocatable in debug mode, but conditionally trivially relocatable in release.
-- `?` means I haven't hazarded a guess yet.
+- `?` means I have only a tentative guess.
 
 | Library type                         | libc++ | libstdc++ | MSVC | Lowest |
 |:------------------------------------:|:------:|:---------:|:----:|:------:|
@@ -63,10 +63,10 @@ Key:
 | `forward_list<T,A>`                  | C | C | C |    C  |
 | `list<T>`                            | No | No | ✓ |  No |
 | `list<T,A>`                          | No | No | C |  No |
-| `{multi,}map<K,V,C,A>`               | No | No | ? |  No |
-| `{multi,}set<T,C,A>`                 | No | No | ? |  No |
-| `unordered_{multi,}map<K,V,H,C,A>`   | CD | No | ? |   No |
-| `unordered_{multi,}set<T,H,C,A>`     | CD | No | ? |   No |
+| `{multi,}map<K,V,C,A>`               | No | No | C |  No |
+| `{multi,}set<T,C,A>`                 | No | No | C |  No |
+| `unordered_{multi,}map<K,V,H,C,A>`   | No | No | C? |  No |
+| `unordered_{multi,}set<T,H,C,A>`     | No | No | C? |  No |
 | `vector<T>`                          | D | ✓ | ✓ |  No |
 | `vector<T,A>`                        | CD | C | C |  No |
 | `stack<T,C>`                         | C | C | C |   C |
@@ -160,6 +160,12 @@ The following types aren't relocatable at all (because they aren't move-construc
 ## Notes on MSVC
 
 - `list` allocates a "sentinel node" on the heap even in its default constructor, so it is not nothrow-move-constructible. However, as far as I can tell, it _is_ (conditionally) trivially relocatable.
+
+- `set` (et al.) allocates a "head node" on the heap, which acts as the one-past-the-end sentinel node and also holds pointers
+      to the root node, the leftmost node in the tree, and the rightmost node in the tree.
+
+- `unordered_set` (et al.) seem to be trivially relocatable in practice, but I admit I don't understand the code.
+      Empirical evidence is provided by [this test program](https://godbolt.org/z/d1rMYhe85).
 
 - `any` will store `T` inside its SBO buffer only if `is_trivially_move_constructible_v<T>`; but it permits `!is_trivially_destructible_v<T>`. There is a fast path for trivially copyable types.
 
