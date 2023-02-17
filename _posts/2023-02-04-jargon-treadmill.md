@@ -41,7 +41,7 @@ to saying and writing things like
 but these days that phrasing seems likely to lead to confusion on the part of some readers — "Wait, those are _concepts?_
 What's the definition of assignment look like as a concept?" So since 2017-ish I've made a conscious effort
 to switch to unloaded words like "notion" or "idea." For example,
-in ["P0732R0 and _trivially comparable_"](/blog/2018/03/19/p0732r0-and-trivially-comparable/) (2018-03-19)
+in ["P0732R0 and trivially comparable"](/blog/2018/03/19/p0732r0-and-trivially-comparable/) (2018-03-19)
 I talked about "C++'s notion of _trivially destructible_." C++20 does, literally, have
 [the concept of `destructible`](https://en.cppreference.com/w/cpp/concepts/destructible), but
 _trivial destructibility_ has been downgraded in my book to a mere _notion_.
