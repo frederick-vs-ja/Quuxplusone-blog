@@ -129,7 +129,8 @@ But there is one major point where P2786R0's disagreement with P1144R6 was wise 
 The trouble is, you can really only do the Right Thing on overlap if you can _detect_ overlap,
 and that's possible only if you are given contiguous iterators. Qt defines two different algorithms
 here: [`q_uninitialized_relocate_n`](https://github.com/qt/qtbase/blob/26fec96/src/corelib/tools/qcontainertools_impl.h#L71-L85)
-whose trivial path can use `memcpy`, and [`q_relocate_overlap_n`](https://github.com/qt/qtbase/blob/26fec96/src/corelib/tools/qcontainertools_impl.h#L203-L233)
+whose trivial path can use `memcpy` (EDIT: [now it does](https://github.com/qt/qtbase/commit/4dbd97c8f990e8ed5714cc2a599446920670e78d)),
+and [`q_relocate_overlap_n`](https://github.com/qt/qtbase/blob/26fec96/src/corelib/tools/qcontainertools_impl.h#L203-L233)
 whose trivial path must use `memmove`. Should the standard library do the same?
 
 In the next mailing, you can expect to see some changes in P1144R7 — beyond just shortening the darn thing! — and
