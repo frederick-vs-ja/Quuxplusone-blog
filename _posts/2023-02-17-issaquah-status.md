@@ -140,3 +140,9 @@ design-decision bullet points above (and maybe some others, too).
 Expect further blog posts in the next few weeks about trivial relocatability. If you're
 champing at the bit, see my existing posts tagged [relocatability](/blog/tags/#relocatability),
 and Dana Jansens' blog post ["Trivially Relocatable Types in C++/Subspace"](https://danakj.github.io/2023/01/15/trivially-relocatable.html) (January 2023).
+
+----
+
+The first followup post is here:
+
+- ["Trivial relocation, `std::swap`, and a $2000 prize"](/blog/2023/02/24/trivial-swap-x-prize/) (2023-02-24)

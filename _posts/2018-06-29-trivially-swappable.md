@@ -6,6 +6,7 @@ tags:
   move-semantics
   proposal
   relocatability
+  value-semantics
 ---
 
 This is a recycling of a reply I just made to Mingxin Wang and Gašper Ažman over at
