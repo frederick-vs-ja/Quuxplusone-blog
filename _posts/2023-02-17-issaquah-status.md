@@ -3,6 +3,7 @@ layout: post
 title: "How my papers did at Issaquah"
 date: 2023-02-17 00:01:00 +0000
 tags:
+  implementation-divergence
   initializer-list
   llvm
   relocatability
@@ -60,6 +61,32 @@ which you may remember from
 ["`std::span` should have a converting constructor from `initializer_list`"](/blog/2021/10/03/p2447-span-from-initializer-list/) (2021-10-03).
 I don't believe there was any movement on P2447 at Issaquah; in fact I've heard that it is dead (perhaps because
 it presented as a _change to C++26_ instead of as a _defect against C++20_); but I would love to see it revived.
+
+### GCC `-fmerge-all-constants`
+
+UPDATE, 2023-02-25: Kevin Zheng informs me that GCC trunk already has an even more powerful flag,
+`-fmerge-all-constants`. That flag does things the Standard will never in a million years condone, such as
+[merging the constant arrays](https://godbolt.org/z/9zc18zs4M) in
+
+    void h(const int*, const int*);
+    void test() {
+        const int a1[] = {1,2,3,4,5};
+        const int a2[] = {1,2,3,4,5};
+        h(a1, a2);
+    }
+
+GCC's `-fmerge-all-constants` produces optimal codegen for `initializer_list` — even more optimal than
+my quick-and-dirty prototype of `-fstatic-init-lists`! — but at the cost of non-conforming codegen for
+the above.
+
+Clang also has `-fmerge-all-constants`, but for historical reasons it is much less powerful. Historically,
+`-fmerge-all-constants` was Clang's _default_ behavior. So it was watered down to avoid many of
+the [obvious dangers](https://stackoverflow.com/questions/70219427/what-may-be-the-problem-with-clangs-fmerge-all-constants);
+for example, it would never merge `a1` and `a2` above. Still,
+people had been complaining about the non-conforming default [since at least 2014](https://bugs.llvm.org/show_bug.cgi?id=18538);
+and they finally turned it off entirely in Clang 6.0.1 (July 2018). Passing `-fmerge-all-constants` will
+still re-enable the non-conforming behavior — but only in the watered-down, almost-conforming state that
+it was in when it was turned off. Clang has nothing like GCC's full-strength behavior.
 
 ## Improving `std::hive`
 
