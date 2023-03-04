@@ -260,6 +260,10 @@ of `std::swap_ranges`, `std::rotate`, and `std::partition` — using `memmove`-b
 but falling back to a conforming `std::swap` implementation when the objects involved might be
 potentially overlapping subobjects.
 
+UPDATE, 2023-03-04: My libc++ fork now passes all eight cases in the test suite! So the prize for
+patches to libc++, specifically, is claimed. But as of this writing the prize remains claimable for
+patches to libstdc++ or Microsoft STL. See ["Update on my trivial `swap` prize offer"](/blog/2023/03/04/trivial-swap-prize-update/) (2023-03-04).
+
 [Here](https://godbolt.org/z/aa3aeqd3q) ([backup](/blog/code/2023-02-24-prize-test-suite.cpp))
 is the test suite that the winning implementation will pass. It consists of seven mandatory test cases:
 
@@ -281,7 +285,8 @@ failing the assertions. And of course your patched library should remain conform
 it should pass its own upstream test suite.
 
 As of 2023-02-22, [Clang trunk](https://godbolt.org/z/K8hqqjvhs) passes only tests 6 and 7;
-[my P1144 fork of libc++](https://godbolt.org/z/8x89ahxcP) passes only tests 1, 3, 5, and 8.
+my libc++ fork passes only tests 1, 3, 5, and 8.
+(UPDATE: As of 2023-03-04, [my libc++ fork passes all eight tests.](https://godbolt.org/z/8x89ahxcP))
 
 The easiest solutions for me to judge will be patches against libc++ (either against [trunk](https://github.com/llvm/llvm-project)
 or against [my P1144 fork](https://github.com/Quuxplusone/llvm-project/tree/trivially-relocatable)),
