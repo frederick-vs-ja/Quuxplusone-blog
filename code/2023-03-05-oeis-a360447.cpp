@@ -13,7 +13,34 @@ int elapsed_sec() {
 #endif
 
 // An Int must be big enough to hold the sum MAX+MAX.
+
+#if USE_40_BIT_INT
+struct Int {
+    Int() = default;
+    Int(size_t x) {
+        data_[0] = x;
+        data_[1] = x >> 8;
+        data_[2] = x >> 16;
+        data_[3] = x >> 24;
+        data_[4] = x >> 32;
+    }
+    operator size_t() const {
+        size_t result = 0;
+        for (int i=0; i < 5; ++i) {
+            result = (result << 8) | data_[4-i];
+        }
+        return result;
+    }
+    void operator++() {
+        *this = *this + 1;
+    }
+private:
+    unsigned char data_[5];
+};
+#else
 using Int = unsigned;
+#endif
+
 Int absdiff(Int a, Int b) { return (a < b) ? (b - a) : (a - b); }
 
 // A List::Pos must keep pointing to the same element, even when you insert an element anywhere to the left of it.
@@ -106,13 +133,12 @@ private:
 };
 
 #elif USE_CUSTOM_LIST
-// The most memory-efficient, since virtual address space seems to be the bottleneck.
 #include <memory>
 
 class List {
 public:
     // Pos points to the *first* element of the pair.
-    using SizeT = std::make_unsigned_t<Int>;
+    using SizeT = Int;
     using Pos = SizeT;
     explicit List() = default;
     static Pos nosuchpos() { return SizeT(-1); }
@@ -165,6 +191,59 @@ private:
     std::unique_ptr<Node[]> data_;
     Node *end_;  // points one past the last element in contiguous order
     SizeT back_;  // points at the last element in linked-list order
+};
+#elif USE_ARRAY_LIST
+// The most memory-efficient, since virtual address space is the bottleneck.
+#include <memory>
+
+class List {
+public:
+    // Pos points to the *first* element of the pair.
+    using Pos = Int;
+    explicit List() = default;
+    static Pos nosuchpos() { return Int(-1); }
+    Pos initialize() {
+        // Initialize to {1, 2}, and return the resulting Pos.
+        next_ = std::make_unique<Pos[]>(MAX+1);
+        next_[0] = 1;
+        next_[1] = 2;
+        next_[2] = nosuchpos();
+        back_ = 2;
+        return 1;
+    }
+    Int sum_at(Pos p) const {
+        return p + next_[p];
+    }
+    Int difference_at(Pos p) const {
+        return absdiff(p, next_[p]);
+    }
+    std::pair<Pos, Pos> insert_at(Pos p, Int i) {
+        // Insert between, and return the two resulting Poses.
+        Int q = next_[p];
+        next_[p] = i;
+        next_[i] = q;
+        return {p, i};
+    }
+    Pos insert_at_end(Int i) {
+        // Insert at end, and return the one resulting Pos.
+        Int q = std::exchange(back_, i);
+        next_[q] = i;
+        next_[i] = nosuchpos();
+        return q;
+    }
+    Int back() const { return back_; }
+    auto begin() const { return Iterator{this, 1}; }
+    auto end() const { return Iterator{this, nosuchpos()}; }
+private:
+    struct Iterator {
+        const List *self_;
+        Int pos_;
+        Int operator*() const { return pos_; }
+        void operator++() { pos_ = self_->next_[pos_]; }
+        bool operator==(const Iterator& rhs) const { return pos_ == rhs.pos_; }
+    };
+    std::unique_ptr<Int[]> next_;
+    Int back_;  // holds the last element in linked-list order
 };
 #else
  #error "Specify a LIST implementation with -DUSE_STD_FORWARD_LIST!"
@@ -266,6 +345,7 @@ private:
 };
 
 #elif USE_ARRAY_MAP
+#include <bit>
 #include <vector>
 
 class Map {
