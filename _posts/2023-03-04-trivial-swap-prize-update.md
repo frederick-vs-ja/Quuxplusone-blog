@@ -81,11 +81,14 @@ we don't need to work portably — in fact I only care about Clang — so I just
 
 <b>Caveat 1.</b> Thankfully, Clang supports `[[no_unique_address]]` in all dialects C++11 and later.
 But it doesn't support it in C++03 mode; not even as `__attribute__((no_unique_address))`. I don't know
-why. Also, Clang fails to support a double-underscored `__no_unique_address`, so it ends up
-encroaching on the user's namespace in C++11 through C++17. Effectively, Clang retroactively
+why. Also, Clang fails to support an uglified spelling `__no_unique_address`, so it
+encroaches on the user's namespace in C++11 through C++17. Effectively, Clang retroactively
 makes `no_unique_address` into a reserved word in pre-C++20 dialects. That's
-[not conforming](https://godbolt.org/z/5W4EoEM4E), and I'd love to see Clang fix it.
+[not conforming](https://github.com/llvm/llvm-project/issues/61196), and I'd love to see Clang fix it.
 But none of this matters for my purposes.
+[EDIT 2023-03-07: Never mind, Clang _does_ support `__no_unique_address__` when you affix leading _and_
+trailing underscores. It still lacks support in C++03 mode. As of this writing, libc++ trunk fails to
+use the uglified `__no_unique_address__`, but they'll likely fix that soon.]
 
 <b>Step 2.</b> Inside `std::swap`, use `__libcpp_memswap` to swap `__libcpp_datasizeof` bytes.
 Our entry point here is actually called `__generic_swap`, because it's called by both `std::swap`
