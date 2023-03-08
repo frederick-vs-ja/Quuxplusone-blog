@@ -52,8 +52,17 @@ private:
 using Int = IntN<5>;
 static_assert(Int(MAX) + Int(MAX) == size_t(MAX) + size_t(MAX), "Increase the size of Int");
 
-Int absdiff(const Int& a, const Int& b) { return (a < b) ? (b - a) : (a - b); }
+size_t absdiff(size_t a, size_t b) { return (a < b) ? (b - a) : (a - b); }
 
+bool can_find_better_insertion_point(const Int *a, size_t i, size_t sum, size_t diff) {
+    for (size_t p = 0; p < i - 1; ++p) {
+        size_t q = a[p];
+        if (p + q == sum && absdiff(p, q) < diff) {
+            return true;
+        }
+    }
+    return false;
+}
 
 // We maintain an array of MAX ints.
 // For each integer less than the current `i`, a[i] holds the successor of `i` in the list.
@@ -65,9 +74,40 @@ size_t print_update(const Int *a, size_t i) {
     while (true) {
         printf("%zu, ", p);
         size_t q = a[p];
-        if (p + q > i) {
-            printf("  (i=%zu, next update at i=%zu, elapsed=%ds)\n", i, p + q, elapsed_sec());
-            return p + q;
+        size_t sum = p + q;
+        if (sum <= i) {
+            // This sum has already been inserted elsewhere; q is stable.
+        } else {
+            printf("  (i=%zu, next update at i=%zu, elapsed=%ds)\n", i, sum, elapsed_sec());
+            return sum;
+        }
+        p = q;
+    }
+}
+
+void print_final_update(const Int *a, size_t i) {
+    printf("--------------------------------\n");
+    size_t p = 0;
+    size_t count = 0;
+    while (true) {
+        count += 1;
+        printf("%zu, ", p);
+        size_t q = a[p];
+        size_t sum = p + q;
+        if (sum <= i) {
+            // This sum has already been inserted elsewhere; q is stable.
+        } else if (can_find_better_insertion_point(a, i, sum, absdiff(p, q))) {
+            // This sum will be inserted elsewhere; q is stable.
+        } else {
+            printf("  (i=%zu, next update at i=%zu, elapsed=%ds)\n", i, sum, elapsed_sec());
+            printf("\nStable terms a(0)-a(%zu) appear above.\n", count - 1);
+            printf("As of i=%zu, the list continues with these (not-yet-stable) terms:", i);
+            for (int j=0; j < 10; ++j) {
+                p = a[p];
+                printf(" %zu,", p);
+            }
+            printf("\n\n");
+            return;
         }
         p = q;
     }
@@ -79,13 +119,10 @@ void maybe_map(Int *a, size_t p, size_t q) {
     size_t oldp = a[sum];
     if (oldp == 0) {
         a[sum] = p;
-        return;
-    }
-    size_t oldq = sum - oldp;
-    size_t olddiff = absdiff(oldp, oldq);
-    size_t newdiff = absdiff(p, q);
-    if (newdiff < olddiff) {
-        a[sum] = p;
+    } else {
+        // Otherwise we already found the place to insert this sum.
+        assert(p > oldp || q > oldp);
+        assert(absdiff(p, q) > absdiff(oldp, sum - oldp));
     }
 }
 
@@ -99,8 +136,9 @@ int main()
     size_t back = 2;  // the last element of {0,1,2} is 2
     size_t nextupdate = 100'000;
     for (size_t i = 3; i <= MAX; ++i) {
-        if (a[i] == 0) {
-            size_t p = back;
+        size_t p = a[i];
+        if (p == 0) {
+            p = back;
             // Insert `i` after `p` in the list.
             assert(a[p] == 0);
             a[p] = i;
@@ -108,8 +146,7 @@ int main()
             back = i;
             maybe_map(a, p, i);
         } else {
-            Int p = a[i];
-            Int q = i - a[i];
+            Int q = i - p;
             assert(q == a[p]);
             // Now insert `i` between `p` and `q` in the list.
             a[i] = a[p];
@@ -121,5 +158,5 @@ int main()
             }
         }
     }
-    print_update(a, MAX);
+    print_final_update(a, MAX);
 }
