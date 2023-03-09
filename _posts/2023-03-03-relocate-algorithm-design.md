@@ -17,7 +17,11 @@ excerpt: |
   Today's topic is new library algorithms for relocation.
 ---
 
-This is the second in a series of at least three weekly blog posts. Each post will explain
+This is the second in a series of at least three weekly blog posts. Each post
+([I](/blog/2023/02/24/trivial-swap-x-prize/),
+[II](/blog/2023/03/03/relocate-algorithm-design/),
+[III](/blog/2023/03/10/sharp-knife-dull-knife/))
+will explain
 one of the problems facing [P1144 "`std::is_trivially_relocatable`"](https://quuxplusone.github.io/draft/d1144-object-relocation.html)
 and [P2786R0 "Trivial relocatability options"](https://isocpp.org/files/papers/P2786R0.pdf) as
 we try to (1) resolve their technical differences and (2) convince the rest of the C++ Committee
