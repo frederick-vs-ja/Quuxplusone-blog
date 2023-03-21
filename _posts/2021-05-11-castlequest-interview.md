@@ -152,8 +152,8 @@ but I've heard of it as an adult in the sense that there are definitely people o
 ----
 
 After David Cassel's piece was published, I was invited to give a lightning talk on _Castlequest_ at C++Now;
-I'll post a link once the video is publicly available. In that talk, I gave a couple more examples of
-"lost games" that could use some press:
+watch it [here](https://www.youtube.com/watch?v=-4LN7Uy46-0).
+In that talk, I gave a few more examples of "lost games" that could use some press:
 
 - _Dor Sageth_, a sci-fi text adventure from GEnie
 
