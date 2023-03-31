@@ -7,7 +7,8 @@ tags:
   puzzles
 ---
 
-Here's a new integer sequence that does not appear to be in the OEIS yet:
+Here's a new integer sequence that does not appear to be in the OEIS yet.
+(UPDATE, 2023-03-31: This is now [OEIS A361928](https://oeis.org/A361928)!)
 
     d=       1  2  3  4  5  6  ...
           0
@@ -33,7 +34,7 @@ Here's a new integer sequence that does not appear to be in the OEIS yet:
     n=20  0  5  .  .  .  .  . 19 19 19 19 19 19 19 19 19 19 19 19 19  0
 
 
-However, I admit that my OEIS-fu isn't very good. I've seen that when there's a
+I admit that my OEIS-fu isn't very good. I've seen that when there's a
 triangular sequence like this, it'll generally be entered into OEIS in row-major
 order, i.e. $$1,2,2,2,3,3,3,4,4,4,3,5,5,5,5,3,6,6,6,6,6,3,6,7,$$—.
 

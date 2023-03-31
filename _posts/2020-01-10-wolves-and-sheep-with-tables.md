@@ -36,6 +36,8 @@ As with the ["Discrete Peaceful Encampments" puzzle](/blog/2019/10/18/discrete-p
     n=19     5 10  .  .  . 18 18 18 18 18 18 18 18 18 18 18 18 18  0
     n=20     5 10  .  .  .  . 19 19 19 19 19 19 19 19 19 19 19 19 19  0
 
+UPDATE, 2023-03-31: The non-zero elements of this triangle are now [OEIS sequence A361928](https://oeis.org/A361928).
+
 Column $$d=1$$ is simply $$\lceil\lg{n\choose k}\rceil$$.
 
 Column $$d=2$$ is related to [OEIS sequence A054961](https://oeis.org/A054961),
@@ -45,7 +47,6 @@ Zhao Hui Du adds that $$t(55, 2)\le 13$$, $$t(63, 2)\le 14$$, etc.; see the OEIS
 
 Column $$d=3$$ is related to [OEIS sequence A290492](https://oeis.org/A290492),
 the maximal number of columns $$n$$ in a 3-separable matrix with $$t$$ rows.
-Dmitry Kamenetsky has determined that $$t(15, 3)\le 13$$.
 
 Many, many thanks to [Elaqqad](https://stackoverflow.com/users/4752165/elaqqad) over on Math.SE
 for helping me come to these realizations, and for providing sample solutions for $$t(111,3)\le 37$$
