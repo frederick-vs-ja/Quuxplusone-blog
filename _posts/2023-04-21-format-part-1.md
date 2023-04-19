@@ -204,6 +204,6 @@ Speaking of non-default format specifiers: Our `.parse` method was pretty trivia
 so far; but that's exactly where we'd add code to allow the user-programmer to customize
 the formatting of their `Widget`.
 
-Tomorrow, we'll learn how to
+In [Part 2](/blog/2023/04/22/format-part-2/), we'll learn how to
 customize `Widget`'s formatting logic with a non-trivial format specifier.
 {% endraw %}
