@@ -148,6 +148,6 @@ The strings are sorted by `std::less<std::string>`; that is, in ordinary
 lexicographical order, sometimes called "ASCIIbetical order." The
 high-bit `"å"` (UTF-8 `"\xC3\xA5"`) sorts greater than the `"o"` in `"Howard"`.
 
-Tomorrow, we'll learn how to
+In [Part 3](/blog/2023/04/23/format-part-3/), we'll learn how to
 sort by a locale-specific string collation instead.
 {% endraw %}

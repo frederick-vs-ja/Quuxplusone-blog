@@ -17,6 +17,12 @@ These posts assume that you're already vaguely familiar with the
 basic way to _use_ `std::format` — e.g. that `std::format("{:.1f}{}x", 3.14, "abc")`
 returns a `std::string` with value `"3.1abcx"`.
 
+The series consists of the following posts:
+
+* [Part 1: Basic formatting](/blog/2023/04/21/format-part-1/)
+* [Part 2: Handling format specifiers](/blog/2023/04/22/format-part-2/)
+* [Part 3: Locale-specific formatting](/blog/2023/04/23/format-part-3/)
+
 ----
 
 Here's the type that we'd like to print out. It's just a thin wrapper
