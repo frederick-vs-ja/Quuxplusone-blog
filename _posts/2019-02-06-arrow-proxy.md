@@ -3,6 +3,7 @@ layout: post
 title: "C++ idiom of the day: `arrow_proxy`"
 date: 2019-02-06 00:02:00 +0000
 tags:
+  flat-containers
   library-design
   metaprogramming
   pearls

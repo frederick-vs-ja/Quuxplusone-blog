@@ -3,6 +3,7 @@ layout: post
 title: "_Contra_ P0429R6 `flat_map`"
 date: 2019-01-29 00:01:00 +0000
 tags:
+  flat-containers
   kona-2019
   library-design
   sg14

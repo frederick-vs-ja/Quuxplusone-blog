@@ -3,6 +3,7 @@ layout: post
 title: "Fetishizing class invariants"
 date: 2019-02-24 00:01:00 +0000
 tags:
+  flat-containers
   kona-2019
   library-design
   metaprogramming

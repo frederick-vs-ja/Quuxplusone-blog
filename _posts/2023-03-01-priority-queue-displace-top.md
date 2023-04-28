@@ -3,6 +3,7 @@ layout: post
 title: "Making `priority_queue` and `flat_set` work with move-only types"
 date: 2023-03-01 00:01:00 +0000
 tags:
+  flat-containers
   library-design
   llvm
   move-semantics

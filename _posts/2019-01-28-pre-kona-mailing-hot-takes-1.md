@@ -3,6 +3,7 @@ layout: post
 title: "Hot takes on `flat_map`, `resize_default_init`, and `ranges::to`"
 date: 2019-01-28 00:01:00 +0000
 tags:
+  flat-containers
   kona-2019
   rant
   wg21
