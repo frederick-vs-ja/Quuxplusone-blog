@@ -212,6 +212,14 @@ is destroyed, taking the `pair<KeyReference, ValueReference>` with it.
 
 ## Non-const `operator->()`
 
+> UPDATE, 2023-04-30: As of C++23, proxy reference types such as
+> [`vector<bool>::reference`](https://en.cppreference.com/w/cpp/container/vector_bool/reference#std::vector.3Cbool.3E::reference::operator.3D),
+> [`pair<K&, V&>`](https://en.cppreference.com/w/cpp/utility/pair/operator%3D),
+> and [`tuple<Ts&...>`](https://en.cppreference.com/w/cpp/utility/tuple/operator%3D)
+> are required to support a const-qualified `operator=`. So this whole section
+> is obsolete; you can mark your `arrow_proxy::operator->() const` without fear,
+> as long as you use C++23 or later ([Godbolt](https://godbolt.org/z/Mxa1Kbjva)).
+
 Notice that in our finished `arrow_proxy`, the `operator->()` is a non-const member function.
 This goes against everything we've been taught! (See
 ["`const` is a contract" (2019-01-03)](/blog/2019/01/03/const-is-a-contract/).)
@@ -221,17 +229,17 @@ need to modify an iterator in order to dereference it. That's why
 
 Yet [Godbolt shows](https://godbolt.org/z/KMmA4e) that if we add `const` to `arrow_proxy::operator->()`,
 we get weird compiler errors. This is because on all three major library implementations,
-`vector<bool>::reference::operator=(bool)` is a non-const member function! (This was
-probably a mistake, but it's too late for any library vendor to fix it now.)
+`vector<bool>::reference::operator=(bool)` is a non-const member function! [UPDATE: Until C++20,
+that is.]
 
 > We could eliminate the compiler error by making `r` a `mutable` member of
 > `arrow_proxy`, but in my opinion that cure would be worse than the disease.
 
 My intuition here is that `zip_iterator::operator->() const` is properly declared `const`
 because it represents the "dereferencing" operation; but `arrow_proxy::operator->()`
-can be declared non-const because it doesn't "represent" any semantic operation. An
+arguably can be declared non-const because it doesn't "represent" any semantic operation. An
 `arrow_proxy` is not a pointer-like thing that is semantically "dereferenced."
-We shouldn't bother trying to make it "const-correct" according to _semantic_ rules,
+We needn't bother trying to make it "const-correct" according to _semantic_ rules,
 because it _has no semantics;_ it's nothing but an invisible implementation detail of `zip_iterator`.
 
 So there you are. When implementing `zip_iterator`, you're going to need an `arrow_proxy`.
@@ -244,6 +252,8 @@ recommendations here — can be found in
 [Paul Fultz's `hmr`](https://github.com/pfultz2/hmr/blob/3966a4a94f76a94c681a0dba9ec64bcaabf09919/include/hmr/detail/operators.hpp#L18-L55),
 [Ryan Haining's `cppitertools`](https://github.com/ryanhaining/cppitertools/blob/af1e317864baeb7dee913b7219ffe4382ed885c7/internal/iterbase.hpp#L171-L186),
 [Boost `iterator_facade`](https://www.boost.org/doc/libs/1_69_0/boost/iterator/iterator_facade.hpp)
-(which calls it `operator_arrow_dispatch::proxy`), and
-[Boost `iterator_archetypes`](https://www.boost.org/doc/libs/1_69_0/boost/iterator/iterator_archetypes.hpp).
+(which calls it `operator_arrow_dispatch::proxy`),
+[Boost `iterator_archetypes`](https://www.boost.org/doc/libs/1_69_0/boost/iterator/iterator_archetypes.hpp),
+and
+[SG14 `flat_map`](https://github.com/Quuxplusone/SG14/blob/master/include/sg14/flat_map.h).
 {% endraw %}
