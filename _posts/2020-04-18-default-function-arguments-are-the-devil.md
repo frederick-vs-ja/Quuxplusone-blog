@@ -447,7 +447,7 @@ that we all use in C++ every day.
 
 Another of my pet guidelines is:
 
-> All constructors should be `explicit`.
+> [All constructors should be `explicit`.](/blog/2023/04/08/most-ctors-should-be-explicit/)
 > (Except for move and copy, because C++ makes implicit copies all over the place.)
 
 So for example I would write
@@ -465,7 +465,7 @@ The actual STL follows the guideline "All _single-argument_ constructors should 
 and all zero-argument and multi-argument constructors should be non-`explicit`." (An implicit multi-argument
 constructor can be used to do initialization from a braced sequence, like how `std::pair<int,char>` can be
 constructed from `return {1, 'x'}`. Implicit conversion like this is good for sequence-like vocabulary types
-such as `pair` and `vector`, but I claim it's surprising when `{std::less<>(), myVec}` is quietly
+like `tuple`, but I claim it's surprising when `{std::less<>(), myVec}` is quietly
 interpreted as a `priority_queue` object! Anyway...) The STL wants to write
 
     template<class T, class Comparator, class Container>

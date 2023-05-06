@@ -4,12 +4,12 @@ title: "Completeness preconditions considered harmful"
 date: 2021-12-27 00:01:00 +0000
 tags:
   concepts
+  cpplang-slack
   implementation-divergence
   library-design
   metaprogramming
   pitfalls
   ranges
-  cpplang-slack
 excerpt: |
   Here's a C++ riddle for you: When does `std::invoke` not invoke?
 

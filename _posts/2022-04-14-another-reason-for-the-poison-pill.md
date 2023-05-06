@@ -4,11 +4,11 @@ title: 'PSA: ADL requires that unqualified lookup has found a function'
 date: 2022-04-14 00:01:00 +0000
 tags:
   argument-dependent-lookup
+  cpplang-slack
   customization-points
   library-design
   name-lookup
   pitfalls
-  cpplang-slack
   standard-library-trivia
 excerpt: |
   As seen on the [cpplang Slack](https://cppalliance.org/slack/) (hat tip to Jody Hagins).

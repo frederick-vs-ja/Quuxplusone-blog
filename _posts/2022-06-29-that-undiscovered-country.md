@@ -4,8 +4,8 @@ title: '`void` versus `[[noreturn]]`'
 date: 2022-06-29 00:01:00 +0000
 tags:
   c++-learner-track
-  litclub
   cpplang-slack
+  litclub
 excerpt: |
   Yesterday someone on [the cpplang Slack](https://cppalliance.org/slack/) evinced confusion
   over the following code:

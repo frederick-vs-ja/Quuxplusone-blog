@@ -3,10 +3,10 @@ layout: post
 title: 'An example where `inline constexpr` makes a difference'
 date: 2022-07-08 00:01:00 +0000
 tags:
+  cpplang-slack
   implementation-divergence
   llvm
   standard-library-trivia
-  cpplang-slack
 excerpt: |
   The C++11 and C++14 standard libraries defined many constexpr global variables like this:
 

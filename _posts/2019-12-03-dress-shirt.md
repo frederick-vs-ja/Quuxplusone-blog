@@ -4,8 +4,8 @@ title: 'Setup and teardown routines in non-flat class hierarchies'
 date: 2019-12-03 00:01:00 +0000
 tags:
   classical-polymorphism
-  rant
   cpplang-slack
+  rant
 ---
 
 Here's a C++ problem where I still don't know what's a good way to deal with it.

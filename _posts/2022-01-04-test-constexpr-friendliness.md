@@ -4,9 +4,9 @@ title: "Test an expression for constexpr-friendliness"
 date: 2022-01-04 00:01:00 +0000
 tags:
   constexpr
+  cpplang-slack
   implementation-divergence
   metaprogramming
-  cpplang-slack
 ---
 
 Via Mark de Wever on the

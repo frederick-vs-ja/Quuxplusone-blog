@@ -4,9 +4,9 @@ title: 'A class without a copy constructor'
 date: 2021-09-17 00:01:00 +0000
 tags:
   concepts
+  cpplang-slack
   implementation-divergence
   implicit-move
-  cpplang-slack
 excerpt: |
   Here's a puzzle for you: How do you write a class without a copy constructor?
 ---

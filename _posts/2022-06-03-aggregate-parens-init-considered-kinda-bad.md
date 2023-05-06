@@ -5,9 +5,9 @@ date: 2022-06-03 00:01:00 +0000
 tags:
   c++-learner-track
   constructors
+  cpplang-slack
   initialization
   pitfalls
-  cpplang-slack
 excerpt: |
   Somehow the topic of [P0960 parenthesized aggregate initialization](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2019/p0960r3.html)
   has come up three times in the past week over on [the cpplang Slack](https://cppalliance.org/slack/).
@@ -41,7 +41,7 @@ Regular readers of this blog may remember my simple initialization guidelines fr
 
 And one more rule:
 
-* Every constructor should be `explicit`, unless you mean it to be usable as an implicit conversion.
+* [Every constructor should be `explicit`](/blog/2023/04/08/most-ctors-should-be-explicit/), unless you mean it to be usable as an implicit conversion.
 
 So for example we can write
 

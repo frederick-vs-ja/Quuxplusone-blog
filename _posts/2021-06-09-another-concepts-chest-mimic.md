@@ -5,9 +5,9 @@ date: 2021-06-09 00:01:00 +0000
 tags:
   compiler-diagnostics
   concepts
+  cpplang-slack
   implementation-divergence
   pitfalls
-  cpplang-slack
 excerpt: |
   In my CppCon 2018 talk ["Concepts As She Is Spoke,"](https://www.youtube.com/watch?v=CXn02MPkn8Y)
   I presented some pitfalls in `requires`-clause syntax, such as:

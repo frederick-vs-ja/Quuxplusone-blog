@@ -4,10 +4,10 @@ title: "Escape analysis hates copy elision"
 date: 2021-03-07 00:01:00 +0000
 tags:
   copy-elision
+  cpplang-slack
   implicit-move
   pitfalls
   proposal
-  cpplang-slack
 excerpt: |
   Yesterday Lauri Vasama showed me [this awesome Godbolt](https://godbolt.org/z/jG7x5h):
 

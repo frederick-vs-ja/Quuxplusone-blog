@@ -3,10 +3,10 @@ layout: post
 title: 'A quirk of qualified member lookup'
 date: 2020-01-11 00:02:00 +0000
 tags:
+  cpplang-slack
   implementation-divergence
   language-design
   name-lookup
-  cpplang-slack
   templates
   today-i-learned
 ---

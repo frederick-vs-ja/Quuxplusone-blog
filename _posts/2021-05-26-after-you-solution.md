@@ -4,9 +4,9 @@ title: 'Overly interoperable libraries, part 3'
 date: 2021-05-26 00:01:00 +0000
 tags:
   argument-dependent-lookup
+  cpplang-slack
   library-design
   metaprogramming
-  cpplang-slack
 excerpt: |
   Previously on this blog:
 

@@ -4,9 +4,9 @@ title: '"Universal reference" or "forwarding reference"?'
 date: 2022-02-02 00:01:00 +0000
 tags:
   c++-learner-track
+  cpplang-slack
   holy-wars
   memes
-  cpplang-slack
 excerpt: |
   Two convergent observations from my corner of the C++ world:
 
