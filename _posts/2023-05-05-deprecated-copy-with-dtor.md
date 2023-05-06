@@ -205,6 +205,16 @@ There are at least three ways you might address this warning:
     so that you can maintain this kind of cruft inside that single header
     instead of touching dozens of files.
 
+UPDATE, 2023-05-06: DV Henkel-Wallace writes in with a fourth option!
+
+- Introduce a class `ShimAnimal` between `Animal` and `Cat`. `=delete` the copy
+    operations of `ShimAnimal`, and make `Cat` inherit from `ShimAnimal` instead of `Animal`.
+    ([Godbolt.](https://godbolt.org/z/KqanvEG83)) This is just as surgical as the
+    second solution above, and much less error-prone; its only downside is that it
+    requires breaking up our nice flat hierarchy and making `Cat` a _grandchild_,
+    which is a solution that won't naturally occur to me, personally.
+    See ["Inheritance is for sharing an interface"](/blog/2020/10/09/when-to-derive-and-overload/#conclusions) (2020-10-09).
+
 ----
 
 Note that GCC trunk has a similar warning `-Wdeprecated-copy-dtor`; but
