@@ -87,6 +87,20 @@ before you use (some overloads of) `std::swap`. You have to `#include <memory>` 
 > to `bool`. Prior to GCC 9, if you see an error message ending in "...did you mean `bool`?", it's
 > a sure bet that you forgot to include some library header.
 
+One special case to be aware of:
+
+### Right header, wrong language version
+
+    #include <optional>
+    std::optional<int> o;
+
+All library vendors these days have converged on guarding _features_, not _headers_.
+(This makes sense: they can hide a feature in source code behind `#if`, but they can't
+hide the header file itself from the filesystem.) So if you compile the snippet above
+with `-std=c++11` or `-std=c++14`, libc++ will tell you it doesn't know what `optional` is —
+and libstdc++ will tell you it doesn't even know what `std` is! That's because the whole
+contents of `<optional>` are hidden behind `#ifdef`s. That header was introduced in C++17,
+so, pass `-std=c++17` to the compiler and the code will work as you intended.
 
 ## Its real name is more qualified than what you wrote
 
