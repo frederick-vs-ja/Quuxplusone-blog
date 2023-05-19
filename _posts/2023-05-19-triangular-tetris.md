@@ -4,6 +4,7 @@ title: "Triangular Tetris"
 date: 2023-05-19 00:01:00 +0000
 tags:
   celebration-of-mind
+  playable-games
   web
 excerpt: |
   At the Gathering 4 Gardner weekly meetup a few weeks ago, we were discussing

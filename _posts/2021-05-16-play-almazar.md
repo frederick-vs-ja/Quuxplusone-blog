@@ -5,6 +5,7 @@ date: 2021-05-16 00:01:00 +0000
 tags:
   adventure
   digital-antiquaria
+  playable-games
   web
 excerpt: |
   In [a previous post](/blog/2021/05/13/nifty-notes/#finally-there-s-two-pages-of-not),

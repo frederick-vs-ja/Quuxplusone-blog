@@ -4,6 +4,7 @@ title: 'Phantoms vs Phantoms (Geister)'
 date: 2020-08-22 00:01:00 +0000
 tags:
   board-games
+  playable-games
   web
 ---
 
