@@ -12,7 +12,7 @@ excerpt: |
   a variation of Tetris where the only shape you get is the hat.
   I was inspired to start work on something like that — I just haven't yet
   been inspired to finish! I only got as far as changing Tetris's square grid
-  to a triangular grid.
+  to a triangular — that is, polyiamond — grid.
 
   I present: [Triangular Tetris!](https://quuxplusone.github.io/HatTetris/triangular.html)
 ---
@@ -22,7 +22,7 @@ the [aperiodic monotile](/blog/2023/03/30/hat-parquet/) and someone proposed
 a variation of Tetris where the only shape you get is the hat.
 I was inspired to start work on something like that — I just haven't yet
 been inspired to finish! I only got as far as changing Tetris's square grid
-to a triangular grid.
+to a triangular — that is, polyiamond — grid.
 
 I present: [Triangular Tetris!](https://quuxplusone.github.io/HatTetris/triangular.html)
 
@@ -41,3 +41,8 @@ To turn this into Hat Tetris, one would need to divide each of those triangles i
 kites; figure out collision detection; figure out intuitive rotation controls; and (hardest
 of all, I think) figure out what "completing a row" looks like. I have some ideas;
 just have to find time to implement them...
+
+----
+
+For another interpretation of "triangular Tetris," check out David Bagley's
+[Tertris](https://sillycycle.com/altris.html), which is also [playable online](https://sillycycle.com/html5/Tertris.html).
