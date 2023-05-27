@@ -112,7 +112,12 @@ a single template instantiation of `void observe(const T&)`.
 ![](/blog/images/2022-02-02-look-what-they-need.jpg){: .meme}
 
 Forwarding references should generally be used only where there's an actual need for them;
-they shouldn't be the first tool you reach for. Related:
-["Don't blindly prefer `emplace_back` to `push_back`"](/blog/2021/03/03/push-back-emplace-back/) (2021-03-03).
+they shouldn't be the first tool you reach for.
 
 And "forwarding reference" is _absolutely_ the correct name for forwarding references.
+
+----
+
+See also:
+
+* ["Don't blindly prefer `emplace_back` to `push_back`"](/blog/2021/03/03/push-back-emplace-back/) (2021-03-03)
