@@ -14,7 +14,7 @@ in English by me!
 ----
 
 My one main-program session this year was a 90-minute summary of ["Trivially Relocatable"](https://www.youtube.com/watch?v=SGdfPextuAU).
-Regular readers of this blog's [_relocatability_ tag](/blog/tags/#relocatability)
+Regular readers of this blog's [#relocatability tag](/blog/tags/#relocatability)
 will have seen a lot of the raw material that went into this talk; but (A) there's some new material too, and
 more importantly (B) in this talk I pull together all of the material into one place, organized. "Part 1" of the
 talk is where I try to hook newcomers on the performance and safety benefits of P1144 `[[trivially_relocatable]]`.

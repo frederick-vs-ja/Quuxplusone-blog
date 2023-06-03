@@ -60,5 +60,5 @@ If you'd like to see P1144 in Clang, and you are a reviewer for Clang/LLVM, plea
 [the Clang pull request](https://reviews.llvm.org/D50119) (open since 2018-07-31).  Many thanks to Nicolas Lesser
 for his intensive commenting so far.
 
-For more information on P1144 trivial relocatability, see
-[its tag category on this blog](/blog/tags/#relocatability).
+For more information on P1144 trivial relocatability, see the
+[posts tagged #relocatability](/blog/tags/#relocatability) on this blog.

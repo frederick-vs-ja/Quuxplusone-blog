@@ -165,7 +165,7 @@ probably a new joint paper coauthored by Alisdair Meredith and myself that expan
 design-decision bullet points above (and maybe some others, too).
 
 Expect further blog posts in the next few weeks about trivial relocatability. If you're
-champing at the bit, see my existing posts tagged [relocatability](/blog/tags/#relocatability),
+champing at the bit, see my existing posts tagged [#relocatability](/blog/tags/#relocatability),
 and Dana Jansens' blog post ["Trivially Relocatable Types in C++/Subspace"](https://danakj.github.io/2023/01/15/trivially-relocatable.html) (January 2023).
 (EDIT: Here are the promised posts:
 [I](/blog/2023/02/24/trivial-swap-x-prize/),

@@ -17,7 +17,8 @@ has, in the past few months, been joined by three(!) papers out of Bloomberg:
 
 The reason for this sudden interest is that trivial relocatability turns out to have some
 surprising interactions with one of Bloomberg's pet interests: the polymorphic allocator model,
-known as "[PMR](/blog/2019/08/02/the-tough-guide-to-cpp-acronyms/#pmr)." Tomorrow I'll display
+known as "[PMR](/blog/2019/08/02/the-tough-guide-to-cpp-acronyms/#pmr)."
+In [tomorrow's post](/blog/2023/06/03/p1144-pmr-koans/) I'll display
 some of those surprising interactions, but today let's lay the groundwork by simply describing
 the current allocator model and its customization points.
 
@@ -284,6 +285,8 @@ For example, [P1825](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2019/p1
 Nobody (not even me!) noticed this change as it happened. I'd like to think
 that even if we had noticed it, we wouldn't have altered course.
 
-Tomorrow, we'll see several ways that PMR's lack of value semantics
+In the next post, we'll see several ways that PMR's lack of value semantics
 can bite us when we try to apply value-semantic operations — like
 relocation! — to PMR objects.
+
+* ["P1144 PMR koans"](/blog/2023/06/03/p1144-pmr-koans/) (2023-06-03)

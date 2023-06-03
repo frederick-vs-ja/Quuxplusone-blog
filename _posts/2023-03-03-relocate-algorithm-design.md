@@ -20,7 +20,8 @@ excerpt: |
 This is the second in a series of at least three weekly blog posts. Each post
 ([I](/blog/2023/02/24/trivial-swap-x-prize/),
 [II](/blog/2023/03/03/relocate-algorithm-design/),
-[III](/blog/2023/03/10/sharp-knife-dull-knife/))
+[III](/blog/2023/03/10/sharp-knife-dull-knife/),
+[IV](/blog/2023/06/03/p1144-pmr-koans/))
 will explain
 one of the problems facing [P1144 "`std::is_trivially_relocatable`"](https://quuxplusone.github.io/draft/d1144-object-relocation.html)
 and [P2786R0 "Trivial relocatability options"](https://isocpp.org/files/papers/P2786R0.pdf) as
