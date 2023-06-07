@@ -209,18 +209,15 @@ OEIS sequences that did not exist prior to this blog post are _italicized._
 
 ## Table of results (3D)
 
-Here's a partial table of 3D polycube cases.
-Columns corresponding to existing OEIS sequences are marked accordingly;
-which is to say, none of these sequences seem to be in the OEIS quite yet.
-Blanks (except in the odd ouroboros cases) indicate that I just haven't
-computed those values yet; but I'm working on filling those in
+Here's a partial table of 3D polycube cases
 ([source code](/blog/code/2022-12-08-polycube-snakes-and-strips.cpp)).
+Columns corresponding to existing OEIS sequences are marked, as above.
 
 The table below indicates the existence of two _chiral pairs_ among the 10-cube ouroboroi.
 Can you find them? How about the three different ways to enclose a cavity with a 12-cube
 ouroboros (one mirror-symmetric, the other two forming a chiral pair)?
 
-| n  | Free non-ouroboros snakes | Free non-ouroboros snakes with cavities | Free ouroboroi | Free ouroboroi with cavities | One-sided non-ouroboros snakes | One-sided non-ouroboros snakes with cavities | One-sided ouroboroi | One-sided ouroboroi with cavities |
+| n  | Free non-ouroboros snakes _([A363202](https://oeis.org/A363202))_ | Free non-ouroboros snakes with cavities | Free ouroboroi | Free ouroboroi with cavities | One-sided non-ouroboros snakes _([A363201](https://oeis.org/A363201))_ | One-sided non-ouroboros snakes with cavities | One-sided ouroboroi | One-sided ouroboroi with cavities |
 | 1  | 1             |            |           |         | 1              |               |           |          |
 | 2  | 1             |            |           |         | 1              |               |           |          |
 | 3  | 2             |            |           |         | 2              |               |           |          |
