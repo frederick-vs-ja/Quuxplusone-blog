@@ -4,6 +4,8 @@
 #include <chrono>
 #include <cstdio>
 #include <cstdlib>
+#include <fstream>
+#include <iostream>
 #include <span>
 #include <string>
 #include <string_view>
@@ -573,28 +575,13 @@ struct Odometer {
     }
 };
 
-int main(int argc, char **argv)
+void count_one_n(int n, std::string s, size_t nStrings, size_t nFreeSnakesWithCavities, size_t nFreeSnakesWithoutCavities,
+    size_t nFreeOuroboroiWithCavities, size_t nFreeOuroboroiWithoutCavities,
+    size_t nChiralSnakesWithCavities, size_t nChiralSnakesWithoutCavities,
+    size_t nChiralOuroboroiWithCavities, size_t nChiralOuroboroiWithoutCavities,
+    size_t tick, std::chrono::system_clock::time_point start, std::chrono::seconds elapsed_while_asleep)
 {
-    int n = (argc < 2 || atoi(argv[1]) < 3) ? 3 : atoi(argv[1]);
-    unit_test_facings();
-
-    printf("| n  | Strings | Free non-ouroboros snakes | Free non-ouroboros snakes with cavities | Free ouroboroi | Free ouroboroi with cavities "
-           "| One-sided non-ouroboros snakes | One-sided non-ouroboros snakes with cavities | One-sided ouroboroi | One-sided ouroboroi with cavities |\n");
-
-    for (; true; ++n) {
-        size_t nStrings = 0;
-        size_t nFreeSnakesWithCavities = 0;
-        size_t nFreeSnakesWithoutCavities = 0;
-        size_t nFreeOuroboroiWithCavities = 0;
-        size_t nFreeOuroboroiWithoutCavities = 0;
-        size_t nChiralSnakesWithCavities = 0;
-        size_t nChiralSnakesWithoutCavities = 0;
-        size_t nChiralOuroboroiWithCavities = 0;
-        size_t nChiralOuroboroiWithoutCavities = 0;
-        size_t tick = 0;
-        auto elapsed_while_asleep = std::chrono::seconds(0);
-        auto last_elapsed = std::chrono::seconds(0);
-        auto start = std::chrono::system_clock::now();
+        auto last_elapsed = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - start);
 
         auto print_stats = [&](char newline) {
             auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - start);
@@ -617,7 +604,6 @@ int main(int argc, char **argv)
             fflush(stdout);
         };
 
-        std::string s(n-1, 'S');
         int self_intersection_idx = -1;
         do {
             assert(is_canonical_form(s));
@@ -660,8 +646,60 @@ int main(int argc, char **argv)
             if (++tick == 1000000) {
                 tick = 0;
                 print_stats('\r');
+                auto ofs = std::ofstream("polycube-snakes-save.txt");
+                assert(bool(ofs) && "something went wrong with opening the save file");
+                auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - start);
+                ofs << n << ' ' << s << ' ' << nStrings << ' '
+                    << nFreeSnakesWithCavities << ' ' << nFreeSnakesWithoutCavities << ' '
+                    << nFreeOuroboroiWithCavities << ' ' << nFreeOuroboroiWithoutCavities << ' '
+                    << nChiralSnakesWithCavities << ' ' << nChiralSnakesWithoutCavities << ' '
+                    << nChiralOuroboroiWithCavities << ' ' << nChiralOuroboroiWithoutCavities << ' '
+                    << tick << ' ' << size_t(elapsed.count()) << ' ' << size_t(elapsed_while_asleep.count()) << '\n';
             }
         } while (Odometer::advance(s));
         print_stats('\n');
+}
+
+int main(int argc, char **argv)
+{
+    int n = (argc < 2 || atoi(argv[1]) < 3) ? 3 : atoi(argv[1]);
+    unit_test_facings();
+
+    printf("| n  | Strings | Free non-ouroboros snakes | Free non-ouroboros snakes with cavities | Free ouroboroi | Free ouroboroi with cavities "
+           "| One-sided non-ouroboros snakes | One-sided non-ouroboros snakes with cavities | One-sided ouroboroi | One-sided ouroboroi with cavities |\n");
+
+    if (argc == 2 && argv[1] == std::string("--continue")) {
+        auto ifs = std::ifstream("polycube-snakes-save.txt");
+        std::string s;
+        size_t nStrings;
+        size_t nFreeSnakesWithCavities, nFreeSnakesWithoutCavities;
+        size_t nFreeOuroboroiWithCavities, nFreeOuroboroiWithoutCavities;
+        size_t nChiralSnakesWithCavities, nChiralSnakesWithoutCavities;
+        size_t nChiralOuroboroiWithCavities, nChiralOuroboroiWithoutCavities;
+        size_t tick;
+        size_t elapsed;
+        size_t elapsed_while_asleep;
+        ifs >> n >> s >> nStrings
+            >> nFreeSnakesWithCavities >> nFreeSnakesWithoutCavities
+            >> nFreeOuroboroiWithCavities >> nFreeOuroboroiWithoutCavities
+            >> nChiralSnakesWithCavities >> nChiralSnakesWithoutCavities
+            >> nChiralOuroboroiWithCavities >> nChiralOuroboroiWithoutCavities
+            >> tick >> elapsed >> elapsed_while_asleep;
+        assert(bool(ifs) && "something went wrong with restoring from the save file");
+        ifs = std::ifstream();
+        Odometer::advance(s);
+
+        count_one_n(n, s, nStrings, nFreeSnakesWithCavities, nFreeSnakesWithoutCavities,
+                    nFreeOuroboroiWithCavities, nFreeOuroboroiWithoutCavities,
+                    nChiralSnakesWithCavities, nChiralSnakesWithoutCavities,
+                    nChiralOuroboroiWithCavities, nChiralOuroboroiWithoutCavities,
+                    tick, std::chrono::system_clock::now() - std::chrono::seconds(elapsed), std::chrono::seconds(elapsed_while_asleep));
+        ++n;
+    }
+
+    for (; true; ++n) {
+        count_one_n(n, std::string(n-1, 'S'), 0, 0, 0,
+                    0, 0, 0, 0, 0, 0,
+                    0, std::chrono::system_clock::now(), std::chrono::seconds(0));
     }
 }
