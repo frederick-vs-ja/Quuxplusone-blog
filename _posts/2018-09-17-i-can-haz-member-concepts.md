@@ -9,7 +9,7 @@ tags:
 ---
 
 I continue, very slowly, to work on my CppCon 2018 session "Concepts As She Is Spoke."
-A while back, someone on [the C++ Slack channel](http://cpplang-inviter.cppalliance.org)
+A while back, someone on [the cpplang Slack](https://cppalliance.org/slack/)
 asked whether it was possible to have either "template concept parameters" or
 "member concepts" — that is, either
 

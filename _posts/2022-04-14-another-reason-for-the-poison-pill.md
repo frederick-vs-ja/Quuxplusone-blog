@@ -11,7 +11,7 @@ tags:
   pitfalls
   standard-library-trivia
 excerpt: |
-  As seen on the [cpplang Slack](https://cppalliance.org/slack/) (hat tip to Jody Hagins).
+  As seen on [the cpplang Slack](https://cppalliance.org/slack/) (hat tip to Jody Hagins).
   Recall my post ["What is the `std::swap` two-step?"](/blog/2020/07/11/the-std-swap-two-step/) (2020-07-11), where I said:
 
   > A qualified call like `base::frotz(t)` indicates, "I'm sure I know how to `frotz` whatever this thing may be.
@@ -26,7 +26,7 @@ excerpt: |
   > I offer no guidance here."
 ---
 
-As seen on the [cpplang Slack](https://cppalliance.org/slack/) (hat tip to Jody Hagins).
+As seen on [the cpplang Slack](https://cppalliance.org/slack/) (hat tip to Jody Hagins).
 Recall my post ["What is the `std::swap` two-step?"](/blog/2020/07/11/the-std-swap-two-step/) (2020-07-11), where I said:
 
 > A qualified call like `base::frotz(t)` indicates, "I'm sure I know how to `frotz` whatever this thing may be.

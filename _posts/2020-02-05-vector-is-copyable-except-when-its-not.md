@@ -11,8 +11,8 @@ tags:
   templates
 ---
 
-Here's something that comes up a lot on the C++ Slack. Why is it that `std::vector<MoveOnlyType>`
-advertises copyability?
+Here's something that comes up a lot on [the cpplang Slack](https://cppalliance.org/slack/).
+Why is it that `std::vector<MoveOnlyType>` advertises copyability?
 
 In practice, this often manifests as cryptic compiler errors in which the caret points somewhere completely
 useless. [For example:](https://godbolt.org/z/fGYxTv)

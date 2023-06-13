@@ -74,7 +74,7 @@ about the `L`:
 >      void test() { extern void foo(); }
 >      static void foo();
 
-On [the C++ Slack](https://cppalliance.org/slack/), Ed Catmur showed an example
+On [the cpplang Slack](https://cppalliance.org/slack/), Ed Catmur showed an example
 of how this difference can be observed. This is a contrived example, for sure, but
 it does concretely demonstrate the difference between mere `constexpr` (internal linkage,
 one entity per TU) and `inline constexpr` (external linkage, one entity for the entire

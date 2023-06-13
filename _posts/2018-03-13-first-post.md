@@ -10,7 +10,7 @@ tags:
 
 I've been putting off creating a blog for years now, because I dreaded being one of those blogs
 where they put up an enthusiastic "First post!!" and then go dark for three years. But lately
-I've been hanging out on the [C++ Slack channel](https://cpplang.slack.com) and I keep finding
+I've been hanging out on [the cpplang Slack](https://cppalliance.org/slack/) and I keep finding
 myself in discussions (okay, occasionally they're "debates") where I say something and think,
 "Gee, I wish I could save that comment and repost it the next five times I'm discussing this
 same topic with someone who isn't here right now!"
@@ -25,5 +25,5 @@ So, thanks to those guys (and presumably some others as well).
 
 Now all I need to do is figure out how to [add tags to Jekyll posts...](https://github.com/barryclark/jekyll-now/issues/214)
 
-If you would like to join the [C++ Slack channel](https://cpplang.slack.com) as well,
+If you would like to join [the C++ Slack workspace](https://cpplang.slack.com) as well,
 you can get invited [here](https://cpplang.now.sh).
