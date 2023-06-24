@@ -7,7 +7,7 @@ tags:
   language-design
   metaprogramming
   proposal
-  wg21
+  varna-2023
 excerpt: |
   At the Varna WG21 meeting, Giuseppe D'Angelo presented his
   [P2782 "Type trait to detect if value initialization can be achieved by zero-filling"](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/p2782r0.html).

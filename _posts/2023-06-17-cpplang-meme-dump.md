@@ -5,10 +5,12 @@ date: 2023-06-17 00:01:00 +0000
 tags:
   concepts
   cpplang-slack
+  c++-style
   memes
+  move-semantics
   relocatability
   stl-classic
-  wg21
+  varna-2023
 excerpt: |
   A small dump of C++ memes, starting with two fresh off the grill from the Varna WG21 meeting.
 ---
