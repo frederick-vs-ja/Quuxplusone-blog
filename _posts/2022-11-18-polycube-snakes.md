@@ -5,7 +5,6 @@ date: 2022-11-18 00:01:00 +0000
 tags:
   celebration-of-mind
   coroutines
-  help-wanted
   math
   puzzles
 excerpt: |
@@ -66,6 +65,9 @@ I have [asked Math StackExchange](https://math.stackexchange.com/questions/45773
 in case anyone there knows. Someone else is also interested:
 
 * ["Polycube Snakes"](http://www.alaricstephen.com/main-featured/2017/5/20/polycube-snakes) (Alaric Stephen, May 2017)
+
+<b>UPDATE, 2023-06-27:</b> In March 2023 Scott told me his solution! Now it's recorded on this blog
+as well: ["Space-filling polycube snakes"](/blog/2023/06/27/space-filling-snakes/) (2023-06-27)
 
 ## Enumerating polycube snakes
 
