@@ -223,3 +223,6 @@ seems to trigger only on user-<i>provided</i> destructors like `~B() {}`, not me
 user-<i>declared</i> ones like `~B() = default`. I prefer Clang's behavior, since
 it matches the letter of the Standard re what's actually deprecated and therefore re
 what might actually change behavior someday in the future.
+
+UPDATE, 2023-06-28: Pete Bartlett points out that Clang's behavior used to match GCC's;
+it was strengthened only in Clang 13. (He, also, prefers Clang's new behavior.)
