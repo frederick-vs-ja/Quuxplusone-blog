@@ -112,3 +112,7 @@ as I understand it. (Thanks to JeanHeyd for previewing a draft of this post!)
 [Click here](https://p2752.godbolt.org/z/WsKT166dY) to see `#embed` and static braced initializers working in my Clang fork.
 
 For the code, [see my GitHub](https://github.com/Quuxplusone/llvm-project/compare/main...p2752).
+
+----
+
+UPDATE, July 2023: P2752 "Static storage for braced initializers" [was adopted for C++26!](/blog/2023/07/05/p2752-at-varna/)
