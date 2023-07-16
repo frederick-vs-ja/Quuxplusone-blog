@@ -59,7 +59,7 @@ the quip was repeated without the accompanying anecdote:
 
 > Character must be associated with great firmness and decision,
 > and the man who has it will not be turned from his course by
-> any amount of abuse, ridicule, or "[paper bullets of the brain](https://books.google.com/books?id=NlsMAAAAYAAJ&pg=RA2-PA65)."
+> any amount of abuse, ridicule, or "[paper bullets of the brain](https://books.google.com/books?id=NlsMAAAAYAAJ&pg=PA65)."
 > "My people and I," said Frederick the Great, "have come to an agreement
 > which satisfies us both. They are to say what they please,
 > and I am to do what I please." And he suffered all sorts of

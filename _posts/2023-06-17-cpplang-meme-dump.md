@@ -69,7 +69,7 @@ its definition.
     template<class U> int g(U u) requires Fungible<U>;
 
 Is `g(42)` a valid function call? We don't know unless we know the value of `Fungible<int>`, which requires
-seeing the definition of `Fungible`. Forwarding-declaring `concept Fungible` is useless. Therefore it's
+seeing the definition of `Fungible`. Forward-declaring `concept Fungible` is useless. Therefore it's
 not allowed.
 
 ----
