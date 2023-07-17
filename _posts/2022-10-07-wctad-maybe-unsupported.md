@@ -69,14 +69,17 @@ the icky corner cases that couldn't possibly be addressed by raw CTAD on `take_v
 The next level of compromise down from "never" is: Okay, you can use CTAD with a very small
 explicit whitelist of types. (Not "templates" — "types"!) Personally I would limit that list
 to `std::lock_guard<std::mutex>` and `std::unique_lock<std::mutex>`: it's convenient to be able
-to write those as `std::lock_guard` and `std::unique_lock` respectively. However, in a production
-codebase I think it would be quite reasonable to simply introduce a typedef, e.g.
+to write those as `std::lock_guard` and `std::unique_lock` respectively. But in a production
+codebase you could simply introduce a typedef, e.g.
 
     namespace my {
         using lock_guard = std::lock_guard<std::mutex>;
     }
 
     auto lk = my::lock_guard(m);  // compatible with -Wctad
+
+In fact, a production codebase might have good reason to
+[replace `std::lock_guard` with a factory function `my::lock_guard`!](/blog/2022/12/14/my-lock-guard/)
 
 ----
 

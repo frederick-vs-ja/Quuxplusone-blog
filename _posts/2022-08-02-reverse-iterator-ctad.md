@@ -73,7 +73,7 @@ Do you see it?
 
 ----
 
-Here's a test case that triggers the undefined behavior ([Godbolt](https://godbolt.org/z/hbr5WcxzK)):
+Here's a test case that triggers the undefined behavior ([Godbolt](https://godbolt.org/z/P1svYq35q)):
 
     std::string s = "foo";
     assert(!is_palindrome(s.begin(), s.end()));
