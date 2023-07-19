@@ -10,7 +10,7 @@ tags:
   today-i-learned
 ---
 
-In [a previous post on borrow types](/blog/2018/03/28/borrow-types-round-2),
+In [a previous post on parameter-only types](/blog/2018/03/28/borrow-types-round-2),
 I mentioned in passing the idea of `operator auto`. For the past couple of years,
 when I've used that phrase, I've meant something like what's proposed in
 Joël Falcou, Peter Gottschling, and Herb Sutter's [P0672 "Implicit Evaluation

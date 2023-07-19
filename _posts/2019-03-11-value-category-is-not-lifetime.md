@@ -58,7 +58,7 @@ then immediately destroys that temporary, meaning that any further use of `sv2` 
 dereference a dangling pointer and cause undefined behavior.
 
 > For more on `string_view` in particular, and why I don't see this as a difficult problem,
-> see my blog post ["`string_view` is a borrow type"](/blog/2018/03/27/string-view-is-a-borrow-type/)
+> see my blog post ["`string_view` is a parameter-only type"](/blog/2018/03/27/string-view-is-a-borrow-type/)
 > (2018-03-27).
 
 Or consider these two ways of using `TokenIterator`:

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Reference types with metadata cause problems'
+title: 'View types with metadata cause problems'
 date: 2018-05-30 00:02:00 +0000
 tags:
   library-design
@@ -43,7 +43,7 @@ informs the `ring_span` object of the boundaries between the elements which are
 currently "inside the ring-buffer" and those which are currently "unused capacity."
 
 Like Vinnie, I found that this was a confusing design for a C++ class type.
-A `ring_span` _looks_ like a non-owning reference type, so the temptation is very
+A `ring_span` _looks_ like a non-owning view type, so the temptation is very
 strong to write e.g.
 
     void consume_from(ring_span<Task> r) {
@@ -138,7 +138,7 @@ container. Consider:
         Container c;
         vector_span<T> vs;
     public:
-        explicit ring(size_t capacity) :
+        explicit vector(size_t capacity) :
             c(capacity), vs(c.begin(), c.end()) {}
         void push_back(T t) { vs.push_back(t); }
         T pop_front() { return vs.pop_front(); }
@@ -165,6 +165,6 @@ Disclaimer: I may be too close to `ring_span`, and too relatively far from `vect
 and show me what it looks like; or maybe you consider `ring_span`'s flaws to be fatal (meaning
 that the spot in the middle is no sweeter than anywhere else on the continuum).
 
-Anyway, the take-home point here is: when you design a type that represents a _non-owning reference
-to some objects, plus some other data members_, you are signing up for a whole lot of trouble.
+Anyway, the take-home point here is: when you design a type that represents a _non-owning view
+of some objects, plus some other data members_, you are signing up for a whole lot of trouble.
 I recommend against it.

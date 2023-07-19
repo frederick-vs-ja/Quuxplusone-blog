@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Borrow types, Round 2'
+title: 'Parameter-only types, Round 2'
 date: 2018-03-28 00:01:00 +0000
 tags:
   c++-style
@@ -8,12 +8,13 @@ tags:
   parameter-only-types
 ---
 
-> EDIT, 2019-05-27: I've pulled a Scott Meyers and decided that "borrow type" is just
-> a confusing name for this notion. My current pet term is
-> "parameter-only type," but I doubt I've hit on the best term yet.
-> Anyway, this blog post uses "borrow type" for now.
+> UPDATE, 2023-07-19: [The original of this post](https://web.archive.org/web/20190227232814/https://quuxplusone.github.io/blog/2018/03/28/borrow-types-round-2/)
+> used the term "borrow type," borrowed from Rust; but soon I decided that "parameter-only type" was a much better name,
+> both because it's more explanatory and because it avoids confusion with the Rust idea,
+> which is after all fairly different. I added a note to that effect in May 2019, but
+> it took me until July 2023 to actually re-edit this post.
 
-I wasn't planning to write another post about "borrow types" quite so soon as this,
+I wasn't planning to write another post about "parameter-only types" quite so soon as this,
 but my [previous post on the subject](/blog/2018/03/27/string-view-is-a-borrow-type/)
 generated some commentary, including this suggestion from Herb Sutter (with
 credit also given to Bjarne Stroustrup for prior observations on the subject):
@@ -51,7 +52,8 @@ respects: it syntactically looks like a function parameter, of course, but it al
 behaves like a function parameter in certain respects related to return value
 optimization (RVO), and also in the sense that when it is a reference, it refers
 to an object (the _exception object_) whose lifetime is greater than the scope
-of the variable `ex` itself. So in a very real sense, here, `ex` is of "borrow type"
+of the variable `ex` itself. So in a very real sense, here, `ex` is of a
+"parameter-only type"
 just the same way that it would be if it were a function parameter.
 
 *However.*
@@ -76,24 +78,25 @@ For the same reason, we will have a baaad time if we try to write this:
     std::string s2 = std::any_cast<std::string_view>(a);  // Throws bad_any_cast
 
 What we see in both of these examples is that — even though I stand by my assertion
-that native reference types such as `const std::string&` *are* borrow types — they
+that native reference types such as `const std::string&` *are* parameter-only types — they
 are *also* native reference types, and this gives them special core-language
 superpowers that are not granted to arbitrary user-defined types such as
 `std::string_view` and `std::reference_wrapper`. In the first example we saw
-essentially that C++'s internal mechanism for selecting catch-block handlers 
+essentially that C++'s internal mechanism for selecting catch-block handlers
 understands catch-by-reference as a special case; and in the second example we saw
 essentially that `typeid(T) == typeid(const T&)`.
 
 So what does this little digression mean for our simple rule of thumb? *Should* we
-permit "borrow types" in catch-block exception declarations?
+permit "parameter-only types" in catch-block exception declarations?
 
 *No.* We should certainly permit and encourage catching by reference —
-there are horrible pitfalls for catching by anything-except-`const&` —
+there are [horrible pitfalls](/blog/2018/09/16/data-race-when-catch-by-nonconst-reference/)
+for catching by anything-except-`const&` —
 but that's about catching by *native reference*. It has absolutely
-nothing to do with *borrow types* as a general rule. If you are trying to
+nothing to do with *parameter-only types* as a general rule. If you are trying to
 catch a `string_view`, you are doing it wrong and your code *will not work.*
 
-**Do not catch `string_view`!**
+> Don't catch `string_view`.
 
 
 ## Do not capture `string_view`
@@ -133,26 +136,26 @@ example, if you're passing it to the constructor of `std::thread` or
 [`std::packaged_task`](http://en.cppreference.com/w/cpp/thread/packaged_task)).
 
 The preceding paragraph should be tickling your brain. Short-lived... no ownership...
-function parameter... Yes, that's absolutely correct: we have a *borrow type*
-going on here! But the borrow type is not the type of the lambda *capture*; the
-borrow type is the type of *the callback lambda itself!*
+function parameter... Yes, that's absolutely correct: we probably have a *parameter-only type*
+going on here! But the parameter-only type is not the type of the lambda *capture*; the
+parameter-only type is the type of *the callback lambda itself!*
 
     auto x = [&](auto&& elt) {
         result.emplace_back(elt);
     };
 
-`decltype(x)`, here, is a borrow type: it refers to things it doesn't own, it makes
+`decltype(x)`, here, is a parameter-only type: it refers to things it doesn't own, it makes
 sense only if it is short-lived, and (by an utter but happy coincidence) it doesn't
 have an assignment operator.
 
-The important takeaway here is that *lambdas which capture `[&]` are borrow types,*
-and should follow all the usual borrow-type rules: don't return such lambdas from
+The important takeaway here is that *lambdas which capture `[&]` are parameter-only types,*
+and should follow all the usual rules: don't return such lambdas from
 functions, or capture them in long-lived variables, or otherwise allow them to
 *escape* the local context.
 
 So that's an interesting point (I hope)... but it's not what Herb meant. He was
-suggesting that the capture itself — `&result` — was of the borrow type `std::vector<int>&`,
-and therefore I should relax my rule of thumb and permit borrow types to appear in lambda
+suggesting that the capture itself — `&result` — was of the parameter-only type `std::vector<int>&`,
+and therefore I should relax my rule of thumb and permit parameter-only types to appear in lambda
 capture-lists.
 
 Is this true? Should we ever write something like this?...
@@ -175,7 +178,7 @@ Is this true? Should we ever write something like this?...
 Here we are capturing a copy of `prefix` — a `string_view` variable — in the lambda
 capture list of our filter. Is this good practice? Should we encourage this?
 
-*No, we should not.*
+*No, I don't think we should.*
 
 Our lambda captures `[prefix]`, when it *should* be capturing `[&]`. There is no reason
 to do anything "special" or "out of the ordinary" here; we are making a short-lived
@@ -184,36 +187,36 @@ no more and no less than `[&]`. Capturing by value would make sense if we knew t
 the lambda was going to outlive the current scope... but if we knew that, then capturing
 the borrowed `prefix` by value would actually lead us straight into dangling-pointer-land!
 
-*Capturing a borrow type by value is usually a bug, and never helpful. Don't do it.*
+*Capturing a parameter-only type by value is usually a bug, and never helpful. Don't do it.*
 
 In almost all cases, the correct thing to capture is `[&]`. If you are diverging
-from that, you are in expert territory and should tread carefully... and you *still*
-shouldn't be capturing borrow types!
+from that, you are in expert territory and should tread carefully... and in that
+case you *definitely* shouldn't be capturing parameter-only types!
 
-**Do not capture `string_view`!**
+> Don't capture `string_view`.
 
 
 ## Conclusion
 
 My previous post was muddled a little bit by my positing that native reference types
-were borrow types (which is true), but then my making a "rule of thumb" that claimed
-only two valid uses for "borrow types," which implied that there were only two valid
+were parameter-only types (which is true), but then my making a "rule of thumb" that claimed
+only two valid uses for "parameter-only types," which implied that there were only two valid
 uses for native references as well (since native references are a proper subset of
-the set of borrow types).
+parameter-only types).
 
 My rule of thumb remains the same:
 
-- Borrow types (other than native references) must appear *only* as
+- Parameter-only types (other than native references) must appear *only* as
   function parameters and for-loop control variables.
 
 With an exception for return types:
 
-- A function may have a borrow type as its return type, but if so, the function must
+- A function may have a parameter-only type as its return type, but if so, the function must
   be explicitly annotated as returning a potentially dangling reference. That is, the
   programmer must explicitly acknowledge responsibility for the annotated function's
   correctness.
 
-- Regardless, if `f` is a function so annotated, the result of `f` must not be stored
+- Regardless, if `f` is such a function, the result of `f` must not be stored
   into any named variable except a function parameter or for-loop control variable.
   For example, `auto x = f()` must still be diagnosed as a violation.
 
@@ -222,16 +225,16 @@ for native references. That's true! See, native reference types have a built-in
 [`operator auto`](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/p0672r0.pdf)
 that happens to return `T` instead of the more "natural" `T&`. Native references also
 have an assignment operator; remember that in the previous post I claimed that
-borrow types generally don't need assignment operators. But these "warts" aren't
-really warts; they're just because C++ native references are not *just* borrow types;
+parameter-only types generally don't need assignment operators. But these "warts" aren't
+really warts; they're just because C++ native references are not *just* parameter-only types;
 they're also an important part of the core language and have several deeply
 magical features.
 
 So here are my belated caveats for native reference types in particular:
 
 - When catching exceptions, always catch by `const T&`. (Never catch `string_view`
-  or any other non-magical borrow type!)
+  or any other non-magical view type!)
 
 - Lambdas should capture exactly `[&]` unless that would be semantically incorrect;
   in which case it is okay to capture any *value type* by value.
-  (Never capture `string_view`, or any other non-magical borrow type, by value!)
+  (Never capture `string_view`, or any other non-magical view type, by value!)

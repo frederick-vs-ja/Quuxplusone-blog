@@ -1,6 +1,6 @@
 ---
 layout: post
-title: '`std::string_view` is a borrow type'
+title: '`std::string_view` is a parameter-only type'
 date: 2018-03-27 00:01:00 +0000
 tags:
   c++-style
@@ -80,12 +80,7 @@ is always wrong.
 
 This suggests to me that we have a relatively new entrant into the field of
 "well-understood kinds of types" in C++. The two relatively old kinds of types are
-*object* types and *value* types. The new kid on the block is the *borrow* type.
-
-> EDIT, 2019-05-27: I've pulled a Scott Meyers and decided that "borrow type" is just
-> a confusing name for this notion. My current pet term is
-> "parameter-only type," but I doubt I've hit on the best term yet.
-> Anyway, this blog post uses "borrow type" for now.
+*object* types and *value* types. The new kid on the block is the *parameter-only* type.
 
 - *Object* types are generally immobile (deleted copy constructor, for example) and lack
   an assignment operator; they are identified by memory address; they rely on mutation;
@@ -96,13 +91,23 @@ This suggests to me that we have a relatively new entrant into the field of
   well to being moved around in memory, stored in `tuple`s, returned by value from
   functions, and so on.
 
-- *Borrow* types are essentially "borrowed" references to existing objects.
+- *Parameter-only* types are essentially "borrowed" references to existing objects.
   They lack ownership; they are short-lived; they generally can do without an
   assignment operator. They generally appear only in function parameter lists;
   because they lack ownership semantics, they generally cannot be stored in
   data structures or returned safely from functions.
 
-`string_view` is perhaps the first "mainstream" borrow type. But C++ has other
+> UPDATE, 2023-07-19: [The original of this post](https://web.archive.org/web/20180404223442/https://quuxplusone.github.io/blog/2018/03/27/string-view-is-a-borrow-type/)
+> used the term "borrow type," borrowed from Rust; but soon I decided that "parameter-only type" was a much better name,
+> both because it's more explanatory and because it avoids confusion with the Rust idea,
+> which is after all fairly different. I added a note to that effect in May 2019, but
+> it took me until July 2023 to actually re-edit this post.
+>
+> C++20 Ranges introduced the term ["borrowed range"](https://en.cppreference.com/w/cpp/ranges/borrowed_range)
+> for a view which can safely be "deboned" into iterators. Views are generally parameter-only
+> types, even when they don't satisfy the C++20 definition of a "borrowed range."
+
+`string_view` is the first "mainstream" parameter-only type. But C++ has other
 types that arguably match the criteria above:
 
 - `std::reference_wrapper<T>`. We see this type used as a function parameter to the constructor
@@ -113,7 +118,7 @@ types that arguably match the criteria above:
   one to me personally, because if I were designing the STL, I would have made this a completely
   separate class template, rather than recycling `std::tuple`. Notice that `std::tuple<Ts...>`
   is a *value* type according to our classification above; but `std::tuple<Ts&...>` is a
-  *borrow* type. To me, this change in semantics signals a mistake on par with `vector<bool>`.
+  parameter-only *view* type. To me, this change in semantics signals a mistake on par with `vector<bool>`.
 
 - `T&&`, either in the sense of "rvalue reference" (when `T` is some known object type) or
   in the sense of "forwarding reference" (when `T` is deduced). We see this type used as a
@@ -125,7 +130,7 @@ types that arguably match the criteria above:
 - And now, `std::string_view`.
 
 Notice that because all of the above types were designed by [Not Me](https://www.retroist.com/2012/09/13/family-circus-not-me-and-ida-know/),
-they all break some of the general rules for borrow types:
+they all break some of the general rules for parameter-only types:
 
 - `reference_wrapper<T>` is assignable: `rw1 = rw2`. [Assignment has shallow semantics](https://wandbox.org/permlink/RxH2TwIDLFC5fWsg),
   even though comparison `rw1 == rw2` has deep semantics.
@@ -144,9 +149,9 @@ operator at all; this would prevent any confusion about the meaning of assignmen
 removed a perennial complaint: that these types provide both copy/assignment and comparison, but
 in an inconsistent manner that makes them not [Regular](http://stepanovpapers.com/DeSt98.pdf) types.
 
-I originally wanted to call these types *"parameter-only types"*, but I changed it to
-*borrow types* because that's the fundamental property that allows us to reason about
-their semantics. You should use a *borrow* type if and only if it is *short-lived* enough
+I originally called these types *borrow types* (despite the confusion that would generate),
+because borrowing is the fundamental property that allows us to reason about
+their semantics. You should use a parameter-only type if and only if it is *short-lived* enough
 that it can safely (that is, unsafely) *borrow* ownership of another object and then
 go away again before the other object notices. In practice, this means it's got to be
 either a function parameter or a ranged-for-loop control variable;
@@ -165,26 +170,26 @@ it to outlive the function or loop.
     };
 
 In the above code sample, callback `f` is "borrowed" only for the lifetime of `for_each_element`;
-therefore it is correct to take it as the borrow type `const F&` instead of as the
+therefore it is correct to take it as the parameter-only type `const F&` instead of as the
 (potentially more expensive) value type `F`.
 
 Likewise, `elt` is "borrowed" only for the lifetime of the for-loop; therefore it is
-correct to take it as the borrow type `string_view` instead of as the (potentially
+correct to take it as `string_view` instead of as the (potentially
 more expensive) value type `string`. Notice that we could equally well take it as
-the borrow type `auto&&`, but I wanted to demonstrate a valid use of the borrow type
-`string_view` that proves it can't be pigeonholed as a parameter-*only* type, per se.
+the parameter-only type `auto&&` ([and perhaps we should](/blog/2018/12/15/autorefref-always-works/)),
+but I wanted to demonstrate a valid use of `string_view` that proves it might be useful
+outside a _function_ parameter list.
 
 I would hope that static analysis tools such as the C++ Core Guidelines would explicitly
-call out this pattern of "borrow" types, but it appears that they have not caught up
+call out this pattern of "borrowing," but it appears that they have not caught up
 just yet. The Core Guidelines discussion around `string_view` in particular seems to
 have gotten bogged down in [trying to *avoid* diagnosing sinful code](https://github.com/isocpp/CppCoreGuidelines/issues/1038),
 which I'd say is the exact opposite of the Core Guidelines' original mandate.
 
 
-## Returning borrow types
+## Returning parameter-only types
 
-One "sinful" case that I personally *would* carve out an exception for is the case of
-returning a borrow type from a method of an object type:
+One must be very careful when returning a parameter-only type from a getter method:
 
     class Widget {
         string name_;
@@ -195,31 +200,39 @@ returning a borrow type from a method of an object type:
     Widget w;
     std::cout << w.getName() << std::endl;
 
-However, in this case it would still be absolutely incorrect to capture the result of `getName`
+It's safe to pass the parameter-only object returned from `w.getName()` as a parameter to
+`operator<<`; but it would be absolutely incorrect to capture it
 into a local variable which is *not* a function parameter:
 
-    auto sv1 = w.getName();  // SIN! Borrow type used as non-parameter!
-    w.setName("hello world");  // Borrowed object's lifetime ends
+    auto sv1 = w.getName();  // SIN! Parameter-only type used as non-parameter!
+    w.setName("hello world");  // "Borrowed" object's lifetime ends
     std::cout << sv1 << std::endl;  // BUG! Dangling pointer!
 
+Therefore I think we should frown on returning parameter-only object types such as `string_view`
+from functions (without a very good reason). They're just too easy to misuse. Note that
+native reference types like `const string&` don't have this particular problem, because
+for them, `auto` will make a copy. (But see
+["On `function_ref` and `string_view`"](/blog/2019/05/10/function-ref-vs-string-view/) (2019-05-10)
+for an even subtler take on "making copies.")
 
-## Simple rules for borrow types
+
+## Simple rules for parameter-only types
 
 The rule of thumb is simple and statically checkable:
 
-- Borrow types must appear *only* as function parameters and for-loop control variables.
+- Parameter-only types must appear *only* as function parameters and for-loop control variables.
   
 We can make an exception for return types:
 
-- A function may have a borrow type as its return type, but if so, the function must
+- A function may have a parameter-only type as its return type, but if so, the function must
   be explicitly annotated as returning a potentially dangling reference. That is, the
   programmer must explicitly acknowledge responsibility for the annotated function's
   correctness.
 
-- Regardless, if `f` is a function so annotated, the result of `f` must not be stored
+- Regardless, if `f` is such a function, the result of `f` must not be stored
   into any named variable except a function parameter or for-loop control variable.
   For example, `auto x = f()` must still be diagnosed as a violation.
 
 Follow these rules and you shouldn't get into any trouble with `std::string_view`.
 It's perfectly usable and will even simplify your code,
-*if you follow the rules for borrow types in C++.*
+*if you follow the rules for parameter-only types in C++.*
