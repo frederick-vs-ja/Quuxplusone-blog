@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Fun with quadratic pack-expansions'
+title: "Fun with quadratic pack-expansions"
 date: 2023-08-05 00:01:00 +0000
 tags:
   compile-time-performance

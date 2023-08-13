@@ -6,6 +6,10 @@ tags:
   how-to
   library-design
   std-format
+excerpt: |
+  This is the first post in a three-part series showing how to
+  make a simple class type formattable with C++20 `std::format`
+  (and, incidentally, the C++98 iostreams way as well).
 ---
 
 {% raw %}

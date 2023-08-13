@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Kotlin AssertJ cheat sheet'
+title: "Kotlin AssertJ cheat sheet"
 date: 2023-07-28 00:01:00 +0000
 tags:
   how-to
