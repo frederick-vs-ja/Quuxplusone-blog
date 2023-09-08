@@ -3,6 +3,7 @@ layout: post
 title: 'An example where `inline constexpr` makes a difference'
 date: 2022-07-08 00:01:00 +0000
 tags:
+  constexpr
   cpplang-slack
   implementation-divergence
   llvm
