@@ -154,16 +154,16 @@ The latter string, being short enough to fit in [SSO](/blog/2019/08/02/the-tough
 
 ### Pointer-into-self matters
 
-libstdc++ rejects the following code ([Godbolt](https://godbolt.org/z/1ErrKjdbq)).
-(Microsoft accepts, but I think that might be an MSVC bug.)
+libstdc++ rejects the following code ([Godbolt](https://godbolt.org/z/1ErrKjdbq)),
+while Microsoft accepts.
 
     int main() {
       static constexpr std::string abc = "abc"; // OK
       constexpr std::string def = "def";        // Error!
     }
 
-The trick here is that libstdc++'s `std::string` always contains a pointer to its data,
-roughly like this:
+Both are correct! The trick here is that libstdc++'s `std::string` (unlike Microsoft's)
+always contains a pointer to its data, roughly like this:
 
     struct string {
       char *data_ = &sso_buffer_[0];
@@ -190,8 +190,7 @@ good to go.
 ### libc++'s SSO size changes at compile time
 
 [Trivial relocatability fans](/blog/2019/02/20/p1144-what-types-are-relocatable/) will be asking,
-"If `string`'s pointer-into-self is a problem for libstdc++ and Microsoft, then what about libc++,
-whose `string` doesn't contain a pointer-into-self? Can libc++ handle an example like `def`?"
+"What about libc++, whose `string` (like Microsoft's) involves no pointer-to-self? Can libc++ handle an example like `def`?"
 
 Sadly, no. libc++ makes a decision here that probably
 seemed like a good idea back in 2020 when constexpr `std::string` was first being implemented
