@@ -87,7 +87,7 @@ of looking it up in the scope of `t`. However, this only applies to template-dep
     }
     template void four<D>(D*);  // GCC calls B::foo
 
-[CWG issue 1089](http://cwg-issue-browser.herokuapp.com/cwg1089) deals with this kind of weirdness.
+[CWG issue 1089](https://cplusplus.github.io/CWG/issues/1089.html) deals with this kind of weirdness.
 
 Who benefits from this confusing double-lookup rule? The behavior of function `two` above seems utterly
 counterintuitive. It would be interesting to see compiler vendors emit a warning whenever this

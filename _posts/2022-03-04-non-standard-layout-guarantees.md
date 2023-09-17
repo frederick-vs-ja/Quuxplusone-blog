@@ -129,7 +129,7 @@ things, as far as I know (except for one near miss, mentioned in the numbered no
 </tr>
 <tr>
   <td colspan="5">
-    <a href="https://cwg-issue-browser.herokuapp.com/cwg568">CWG 568 "Definition of POD is too strict"</a><br/>
+    <a href="https://cplusplus.github.io/CWG/issues/568.html">CWG 568 "Definition of POD is too strict"</a><br/>
     <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2342.htm">N2342 "PODs Revisited"</a> (i.e. splitting up "POD" into "standard-layout and trivial")<br/>
   </td>
 </tr>
@@ -152,7 +152,7 @@ things, as far as I know (except for one near miss, mentioned in the numbered no
 </tr>
 <tr>
   <td colspan="5">
-    <a href="https://cwg-issue-browser.herokuapp.com/cwg1512">CWG 1512 "Pointer comparison vs qualification conversions"</a><br/>
+    <a href="https://cplusplus.github.io/CWG/issues/1512.html">CWG 1512 "Pointer comparison vs qualification conversions"</a><br/>
     <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3624.html">N3624 "Pointer comparison vs qualification conversions"</a>
   </td>
 </tr>
@@ -179,7 +179,7 @@ things, as far as I know (except for one near miss, mentioned in the numbered no
 <tr>
   <td colspan="5">
     <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0840r2.html">P840R2 "Language support for empty objects"</a> (i.e., <code>[[no_unique_address]]</code>)<br/>
-    <a href="https://cwg-issue-browser.herokuapp.com/cwg2404">CWG 2404 "[[no_unique_address]] and allocation order"</a><br/>
+    <a href="https://cplusplus.github.io/CWG/issues/2404.html">CWG 2404 "[[no_unique_address]] and allocation order"</a><br/>
     <a href="https://github.com/cplusplus/draft/pull/1977">Editorial: Clarify auxiliary partial ordering</a>
   </td>
 </tr>

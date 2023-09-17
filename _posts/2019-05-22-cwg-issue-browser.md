@@ -7,6 +7,14 @@ tags:
   wg21
 ---
 
+UPDATE, 2023-09-16: Heroku [dropped support for free plans](https://help.heroku.com/8GD2AVBW/why-am-i-seeing-an-application-error-after-the-termination-of-free-plans)
+in November 2022, so the web app described below is dead now. But CWG has followed LWG's lead
+and provided their own subpages! As of 2023, you can navigate directly to
+[cplusplus.github.io/CWG/issues/1234.html](https://cplusplus.github.io/CWG/issues/1234.html).
+So you don't need my dead app anyway.
+
+----
+
 Several weeks ago I made a thing:
 [cwg-issue-browser.herokuapp.com/cwg1234](https://cwg-issue-browser.herokuapp.com/cwg1234)
 is a faster way to browse WG21 Core Working Group issues by number than the official URL
@@ -30,4 +38,4 @@ As usual, the source code is available
 
 I used the same python+flask+heroku incantations that I'd previously used for
 [co.py.cat](http://farg-copycat.herokuapp.com). For writing
-little web applications like this, I highly recommend Heroku!
+little web applications like this, I [used to] highly recommend Heroku!

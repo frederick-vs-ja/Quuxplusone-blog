@@ -77,7 +77,7 @@ It is not clear to me what the intended behavior of the core language is, here.
 and eliminate the error even in the simplest case. This would also simplify the
 C++17 standard to the tune of one sentence. In fact, C++2a instead [balloons
 that one sentence into a whole paragraph](https://github.com/cplusplus/draft/commit/c6a936326699032b2c925b3875ef660164b2aca0),
-with a cross-reference to [CWG 253](http://cwg-issue-browser.herokuapp.com/cwg253).
+with a cross-reference to [CWG 253](https://cplusplus.github.io/CWG/issues/253.html).
 WG21 never met a simplification they couldn't turn into an opportunity for expansion!
 See also [P1155 "More Implicit Moves" suggested wording](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2019/p1155r3.html#wording)
 versus [what actually happened in C++2a](https://github.com/cplusplus/draft/commit/68aa22bc73235829d946394b7e97a5613b4d575f).)

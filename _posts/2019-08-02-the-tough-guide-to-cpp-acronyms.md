@@ -162,6 +162,45 @@ In specialized contexts, you might see "CAS" used to mean
 "[content-addressed storage](https://en.wikipedia.org/wiki/Content-addressable_storage),"
 also known as "content-addressable memory" (CAM) or "associative storage."
 
+## CNTTP
+
+"Class non-type template parameter" (see [NTTP](#nttp)). Since C++20 (specifically since
+[P0732](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0732r2.pdf) and
+[P1907](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2019/p1907r1.html)), NTTPs are allowed
+to be of class type, as long as that type is [structural](https://eel.is/c++draft/temp.param#7).
+A structural type is simply a class type all of whose non-static data members are public
+and (recursively) structural — basically, any C-style struct. Thus:
+
+    template<int N> void f();  // OK
+    template<std::pair<int, int> NN> void g();  // OK since C++20
+    template<std::string S> void h();  // Error
+
+When such a template is instantiated, the CNTTP's "value" (that is, the values of its data members,
+recursively) is mangled into the instantiation's linker symbol. On the Itanium [ABI](#abi), that
+looks like this.
+
+    struct A { bool one; float two; };
+    constexpr A x = {true, 1.0};
+    constexpr A y = {false, 3.14};
+    template<A Value> float foo() { return Value.two; }
+    int main() {
+      foo<x>(); // call _Z3fooIXtl1ALb1ELf3f800000EEEEfv
+      foo<y>(); // call _Z3fooIXtl1ALb0ELf4048f5c3EEEEfv
+    }
+
+> Why `3f800000` and `4048f5c3`? See ["Bit patterns of `float`"](/blog/2021/09/05/float-format/) (2021-09-05).
+
+Inside a function taking a CNTTP, the value of the template parameter is accessible
+as a [template parameter object](https://eel.is/c++draft/temp.param#8.sentence-1),
+which is more or less an `inline constexpr` variable shared by everyone in the program.
+([Godbolt.](https://godbolt.org/z/WczM7PW5q))
+
+Note that the type `A` might be non-comparable (as here), or even define its `operator==` such that `x == y`.
+Still, `foo<x>` and `foo<y>` will be distinct instantiations because the "structural" value representations of
+`x` and `y` differ, regardless of what `operator==` says. Back in 2019, I disliked this so much that I
+[wrote a paper](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2019/p1837r0.html) proposing to remove
+CNTTPs from C++20. WG21 didn't buy it.
+
 ## CPO
 
 "Customization point object." This is a notion introduced by Eric Niebler's Ranges library,
@@ -248,7 +287,7 @@ which allows you to write things like
     #include <ctre.hpp>
     static_assert(ctre::match<"^h.*[wxyz]orl[^y]">("hello world"));
 
-The current version of CTRE relies on C++20's class-type [NTTPs](#nttp). Before C++20, it relied on
+The current version of CTRE relies on C++20's [class-type NTTPs](#cnttp). Before C++20, it relied on
 a compiler extension supported by GCC 8.x and Clang 5–11 (but no longer by either compiler's trunk):
 
     using namespace ctre::literals;
@@ -278,12 +317,11 @@ By the way, "ISO WG21" stands for Working Group 21 of the
 [International Organization for Standardization](https://en.wikipedia.org/wiki/International_Organization_for_Standardization);
 and "SG17" means "Study Group 17." For a list of study groups, see [isocpp.org](https://isocpp.org/std/the-committee).
 
-When you see "CWG" or "LWG" followed by a number, as in "[CWG1430](http://cwg-issue-browser.herokuapp.com/cwg1430)"
+When you see "CWG" or "LWG" followed by a number, as in "[CWG1430](https://cplusplus.github.io/CWG/issues/1430.html)"
 or "[LWG3237](https://cplusplus.github.io/LWG/issue3237)," it's referring to an _issue_ on CWG's
 or LWG's plate — an open question raised by the wording of the Standard. LWG's FAQ gives
 [an exhaustive list](https://cplusplus.github.io/LWG/lwg-active.html#Status) of states
 an issue can be in, including resolved states such as "[DR](#dr)" and "NAD" (Not A Defect).
-See "[A faster WG21 CWG issue browser](/blog/2019/05/22/cwg-issue-browser/)" (2019-05-22).
 
 ## D&E
 
@@ -301,7 +339,7 @@ Formally, I believe the term "DR" refers to the _question_ or _problem_, whereas
 adopted _solution_ is formally a "technical corrigendum" (TC). In common parlance, you'll hear
 "ah, that issue was resolved by DR 409" — "DR 409" being a colloquial shorthand for "the resolution
 of the DR arising from [LWG issue 409](https://cplusplus.github.io/LWG/issue409)," and it is only from
-context that we can tell it was LWG 409, not [CWG 409](http://cwg-issue-browser.herokuapp.com/cwg409).
+context that we can tell it was LWG 409, not [CWG 409](https://cplusplus.github.io/CWG/issues/409.html).
 Defect Reports themselves are not numbered, _per se_.
 
 DRs are often applied retroactively. For example,
@@ -439,7 +477,7 @@ expression `&Foo::setValue` or the type `void (Foo::*)(int)`.
 "Heap Allocation eLision Optimization." This is the optimization on C++20 coroutines
 referred to in [Gor Nishanov's talk](https://www.youtube.com/watch?v=8C8NnE1Dg4A&t=6m00s)
 on the "disappearing coroutine" (CppCon 2016).
-See "[Announcing `Quuxplusone/coro`](/blog/2019/07/03/announcing-coro-examples/)" (2019-07-03),
+See ["Announcing `Quuxplusone/coro`"](/blog/2019/07/03/announcing-coro-examples/) (2019-07-03),
 specifically [this example](https://coro.godbolt.org/z/5vjlk8); see also
 [P0981 "HALO: the joint response"](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0981r0.html)
 (Richard Smith & Gor Nishanov, March 2018).
@@ -456,7 +494,7 @@ My understanding is that HALO will basically never happen in the multi-threaded/
 
 Even when the heap-allocation cannot be elided, C++20 `std::coroutine_traits` provides
 rudimentary hooks for the programmer to customize the heap allocation mechanism. See
-"[C++ Coroutines: Understanding the promise type](https://lewissbaker.github.io/2018/09/05/understanding-the-promise-type#customising-coroutine-frame-memory-allocation)"
+["C++ Coroutines: Understanding the promise type"](https://lewissbaker.github.io/2018/09/05/understanding-the-promise-type#customising-coroutine-frame-memory-allocation)
 (Lewis Baker, September 2018).
 
 ## ICE
@@ -711,10 +749,15 @@ A template template parameter is like `template<template<class> class TC>`.
 
 A non-type template parameter is like `template<int V>` or `template<auto V>`.
 
+Until C++20, NTTPs were allowed to be of only certain primitive types: integers, enums, pointers, and references.
+Starting in C++20, NTTPs are allowed to be of floating-point types (as in `MyTemplate<3.14>`) or
+even certain kinds of class types; see [CNTTP](#cnttp).
+
 ## NUA
 
 `[[no_unique_address]]`, an attribute that is new in C++20. I would never abbreviate it myself,
-but I'm starting to notice people using "NUA" in Slack, so, into the glossary it goes!
+but I'm starting to notice people using "NUA" in Slack, so, into the glossary it goes! Not to be
+confused with [NUMA](https://en.wikipedia.org/wiki/Non-uniform_memory_access).
 
 C++20 introduced `[[no_unique_address]]` basically to get rid of the need for the [EBO](#ebo-ebco).
 
@@ -839,8 +882,8 @@ and mostly in the nested namespace `std::pmr`. The most important components are
 `std::pmr::polymorphic_allocator<T>`, which is an allocator (similar to `std::allocator<T>`) which
 holds within itself a pointer to a `memory_resource` that it uses to fulfill requests for memory.
 
-For more on PMR, see "[`<memory_resource>` for libc++](/blog/2018/06/05/libcpp-memory-resource/)" (2018-06-05)
-and my talk "[An Allocator is a Handle to a Heap](https://www.youtube.com/watch?v=0MdSJsCTRkY)"
+For more on PMR, see ["`<memory_resource>` for libc++"](/blog/2018/06/05/libcpp-memory-resource/) (2018-06-05)
+and my talk ["An Allocator is a Handle to a Heap"](https://www.youtube.com/watch?v=0MdSJsCTRkY)
 (C++Now 2018, CppCon 2018).
 
 ## POCCA, POCMA, POCS, SOCCC

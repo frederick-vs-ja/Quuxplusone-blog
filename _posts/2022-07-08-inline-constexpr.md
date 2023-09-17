@@ -70,7 +70,7 @@ about the `L`:
 
 > GCC distinguishes between internal and external linkage symbols in
 > its mangling, to support cases like this that were valid C++ prior
-> to [DR426](http://cwg-issue-browser.herokuapp.com/cwg426):
+> to [CWG 426](https://cplusplus.github.io/CWG/issues/426.html):
 >
 >      void test() { extern void foo(); }
 >      static void foo();
