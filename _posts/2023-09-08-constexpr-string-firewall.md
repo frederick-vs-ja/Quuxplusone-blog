@@ -189,6 +189,9 @@ good to go.
 
 ### libc++'s SSO size changes at compile time
 
+> UPDATE: The following is no longer true of libc++ trunk!
+> See ["`constexpr std::string` update"](/blog/2023/10/13/constexpr-string-round-2/) (2023-10-13).
+
 [Trivial relocatability fans](/blog/2019/02/20/p1144-what-types-are-relocatable/) will be asking,
 "What about libc++, whose `string` (like Microsoft's) involves no pointer-to-self? Can libc++ handle an example like `def`?"
 
