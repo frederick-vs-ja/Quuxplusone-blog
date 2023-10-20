@@ -25,7 +25,7 @@ footer-links:
   instagram:
   linkedin: arthur-odwyer
   pinterest:
-  rss: # just type anything here for a working RSS icon
+  rss: yes # just type anything here for a working RSS icon
   twitter:
   stackoverflow: users/1424877/quuxplusone
   youtube: # channel/<your_long_string> or user/<user-name>
