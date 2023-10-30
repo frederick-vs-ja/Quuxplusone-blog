@@ -44,30 +44,19 @@ one Terminal tab at a time. I have no idea
                 | sort | uniq -c | sort -n
 
 <table class="smaller">
-<tr><th>Command</th><th>2020</th><th>2023</th></tr>
-<tr><td><code>git diff</code></td><td>37</td><td>58</td></tr>
-<tr><td><code>git grep</code></td><td></td><td>51</td></tr>
-<tr><td><code>git log</code></td><td>28</td><td>24</td></tr>
-<tr><td><code>git show</code></td><td>25</td><td>19</td></tr>
-<tr><td><code>git branch -v</code></td><td>24</td><td>5</td></tr>
-<tr><td><code>git status</code></td><td>4</td><td>12</td></tr>
-<tr><td><code>git commit -a</code></td><td>7</td><td>6</td></tr>
-<tr><td><code>git commit --amend -a</code></td><td>5</td><td>11</td></tr>
-<tr><td><code>git stash</code></td><td></td><td>9</td></tr>
-<tr><td><code>git push</code></td><td>5</td><td>2</td></tr>
-<tr><td><code>git stash pop</code></td><td></td><td>6</td></tr>
-<tr><td><code>git commit</code></td><td></td><td>6</td></tr>
-<tr><td><code>git pull</code></td><td>5</td><td>1</td></tr>
-<tr><td><code>git fetch</code></td><td>4</td><td>1</td></tr>
-<tr><td><code>git rebase -i</code></td><td></td><td>4</td></tr>
-<tr><td><code>git checkout</code></td><td></td><td>4</td></tr>
-<tr><td><code>git add</code></td><td></td><td>4</td></tr>
-<tr><td><code>git checkout -b</code></td><td></td><td>3</td></tr>
-<tr><td><code>git stash drop</code></td><td></td><td>2</td></tr>
-<tr><td><code>git rm</code></td><td></td><td>2</td></tr>
-<tr><td><code>git checkout -B</code></td><td></td><td>1</td></tr>
-<tr><td><code>git branch -D</code></td><td></td><td>1</td></tr>
-<tr><td><code>git blame</code></td><td></td><td>1</td></tr>
+<tr><th>Command</th><th>2020</th><th>2023</th><th>Command</th><th>2020</th><th>2023</th></tr>
+<tr><td><code>git diff</code></td><td>37</td><td>58</td><td><code>git pull</code></td><td>5</td><td>1</td></tr>
+<tr><td><code>git grep</code></td><td></td><td>51</td><td><code>git fetch</code></td><td>4</td><td>1</td></tr>
+<tr><td><code>git log</code></td><td>28</td><td>24</td><td><code>git rebase -i</code></td><td></td><td>4</td></tr>
+<tr><td><code>git show</code></td><td>25</td><td>19</td><td><code>git checkout</code></td><td></td><td>4</td></tr>
+<tr><td><code>git branch -v</code></td><td>24</td><td>5</td><td><code>git add</code></td><td></td><td>4</td></tr>
+<tr><td><code>git status</code></td><td>4</td><td>12</td><td><code>git checkout -b</code></td><td></td><td>3</td></tr>
+<tr><td><code>git commit -a</code></td><td>7</td><td>6</td><td><code>git stash drop</code></td><td></td><td>2</td></tr>
+<tr><td><code>git commit --amend -a</code></td><td>5</td><td>11</td><td><code>git rm</code></td><td></td><td>2</td></tr>
+<tr><td><code>git stash</code></td><td></td><td>9</td><td><code>git checkout -B</code></td><td></td><td>1</td></tr>
+<tr><td><code>git push</code></td><td>5</td><td>2</td><td><code>git branch -D</code></td><td></td><td>1</td></tr>
+<tr><td><code>git stash pop</code></td><td></td><td>6</td><td><code>git blame</code></td><td></td><td>1</td></tr>
+<tr><td><code>git commit</code></td><td></td><td>6</td><td></td><td></td><td></td></tr>
 </table>
 
 These numbers are smaller and noisier than I wish they were, but I think they adequately convey a point I'm trying to make:
