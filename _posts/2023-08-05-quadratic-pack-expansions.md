@@ -6,6 +6,7 @@ tags:
   compile-time-performance
   constexpr
   cpplang-slack
+  lambdas
   metaprogramming
   variadic-templates
 ---

@@ -4,6 +4,7 @@ title: 'When is `*x` also `&x`?'
 date: 2020-03-31 00:01:00 +0000
 tags:
   c++-learner-track
+  lambdas
   slogans
 ---
 
