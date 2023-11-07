@@ -411,5 +411,6 @@ The right way to format just your tiny diff is to use `git-clang-format`:
 
 See also:
 
-* ["How to Write a Git Commit Message"](https://cbea.ms/git-commit/) (Chris Beams, August 2014)
 * ["git: fetch and merge, don't pull"](https://longair.net/blog/2009/04/16/git-fetch-and-merge/) (Mark Longair, April 2009)
+* ["How to Write a Git Commit Message"](https://cbea.ms/git-commit/) (Chris Beams, August 2014)
+* ["git rebase: what can go wrong?"](https://jvns.ca/blog/2023/11/06/rebasing-what-can-go-wrong-/) (Julia Evans, November 2023)
