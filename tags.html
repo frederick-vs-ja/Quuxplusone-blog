@@ -12,7 +12,13 @@ title: Tag index
 
 <div class="posts">
   {% for tag in tags %}
-    <h2 id="{{ tag | slugify: 'pretty' }}">{{ tag | slugify: 'pretty' | escape }}</h2>
+    {% assign postcount = 0 %}
+    {% for post in site.posts %}
+      {% if post.tags contains tag %}
+        {% assign postcount = postcount | plus: 1 %}
+      {% endif %}
+    {% endfor %}
+    <h2 id="{{ tag | slugify: 'pretty' }}" class="h2-on-tags-page-expanded">{{ tag | slugify: 'pretty' | escape }} ({{ postcount }})</h2>
     <ul>
       {% for post in site.posts %}
         {% if post.tags contains tag %}
@@ -30,3 +36,18 @@ title: Tag index
     </ul>
   {% endfor %}
 </div>
+
+<script type="text/javascript">
+document.addEventListener("DOMContentLoaded", (event) => {
+  function toggleH2(e) {
+    e.stopPropagation();
+    e.target.className = (e.target.className == 'h2-on-tags-page-collapsed') ? 'h2-on-tags-page-expanded' : 'h2-on-tags-page-collapsed';
+  };
+  document.querySelectorAll("h2.h2-on-tags-page-expanded").forEach(h2 => {
+    h2.addEventListener("click", toggleH2);
+    if (window.location.hash != '#' + encodeURIComponent(h2.id)) {
+      h2.className = 'h2-on-tags-page-collapsed';
+    }
+  });
+});
+</script>

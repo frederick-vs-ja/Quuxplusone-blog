@@ -20,3 +20,30 @@
     color: white;
   }
 }
+
+h2.h2-on-tags-page-collapsed {
+  cursor: pointer;
+  margin: 8px 0 8px;
+  &:before {
+    content: "\f054";
+    font-family: FontAwesome;
+    padding-right: .4em;
+  }
+}
+h2.h2-on-tags-page-collapsed + ul {
+  display: none;
+}
+
+h2.h2-on-tags-page-expanded {
+  cursor: pointer;
+  margin: 8px 0 8px;
+  &:before {
+    content: "\f078";
+    font-family: FontAwesome;
+    padding-right: .4em;
+  }
+}
+h2.h2-on-tags-page-expanded + ul {
+  display: block;
+  margin: 15px 0 1em;
+}
