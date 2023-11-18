@@ -90,3 +90,9 @@ The results:
 | `shared_ptr<int>` | move                  | 98 | no |
 | `shared_ptr<int>` | relocate (no P1144)   | 99 | no |
 | `shared_ptr<int>` | relocate (with P1144) | 45 | yes |
+
+----
+
+See also:
+
+* ["`Quuxplusone/SG14` now has `inplace_vector`"](/blog/2023/10/20/sg14-inplace-vector/) (2023-10-20)

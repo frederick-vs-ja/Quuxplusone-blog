@@ -19,7 +19,8 @@ excerpt: |
 
 [P0843 "`inplace_vector`"](https://isocpp.org/files/papers/P0843R8.html#Move-semantics) (f.k.a. `static_vector`, `fixed_capacity_vector`);
 [P1144R8 §2.1.3](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/p1144r8.html#benefit-fixed-capacity).
-See ["P1144 case study: Moving a `fixed_capacity_vector`"](/blog/2019/02/22/p1144-fixed-capacity-vector/) (2019-02-22).
+See ["P1144 case study: Moving a `fixed_capacity_vector`"](/blog/2019/02/22/p1144-fixed-capacity-vector/) (2019-02-22)
+and ["`Quuxplusone/SG14` now has `inplace_vector`"](/blog/2023/10/20/sg14-inplace-vector/) (2023-10-20).
 
 `std::pmr::vector` either clears itself after move or not, depending on library vendor and
 most importantly depending on whether the destination has the same arena. Neither criterion

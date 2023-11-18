@@ -99,7 +99,7 @@ Its return type is `char`, not `int`. But it still matches our concept!
 We can fix the last, smallest, problem by writing `-> std::same<int>` instead of simply `-> int`.
 The `-> some-concrete-type` syntax is essentially a trap; no Standard Library components are
 specified using that syntax because it is so rarely what you want. I wouldn't be surprised
-if it is dropped from C++2a.
+if it is dropped from C++2a. (*C++20 UPDATE: Reader, [it was](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1084r2.pdf).*)
 
 Anyway, our step-two concept also accepts some types that would be rejected by a strict reading
 of OP's question, even though in the real world we'd probably be happy to accept them for
