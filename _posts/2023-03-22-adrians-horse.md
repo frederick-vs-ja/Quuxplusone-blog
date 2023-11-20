@@ -7,6 +7,7 @@ tags:
   jokes
   litclub
   old-shit
+  poetry
   weird-fiction
 ---
 

@@ -5,6 +5,7 @@ date: 2019-03-28 00:01:00 +0000
 tags:
   food
   old-shit
+  poetry
 ---
 
 My father recently forwarded me an article from the Folger Theatre

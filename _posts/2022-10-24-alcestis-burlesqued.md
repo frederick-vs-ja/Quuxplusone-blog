@@ -7,6 +7,7 @@ tags:
   gilbert-and-sullivan
   litclub
   old-shit
+  poetry
 ---
 
 Previously on this blog: ["Sonia Greene's _Alcestis_"](/blog/2022/10/22/alcestis/) (2022-10-22),

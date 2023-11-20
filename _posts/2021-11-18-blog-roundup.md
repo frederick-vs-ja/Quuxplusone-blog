@@ -5,8 +5,9 @@ date: 2021-11-18 00:01:00 +0000
 tags:
   blog-roundup
   cppcon
-  litclub
   morality
+  movies
+  poetry
   puzzles
   us-politics
 ---
