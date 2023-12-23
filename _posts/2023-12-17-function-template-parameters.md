@@ -217,8 +217,7 @@ supplying a value for one of them.
     // Preventable mistake: j is 10
     auto j = implicitly_convert_to<int, float>(9.9999999);
 
-The easiest solution isn't quite foolproof:
-you can insert a ["stack canary"](https://en.wikipedia.org/wiki/Buffer_overflow_protection#Canaries)
+The basic idea is to insert a ["stack canary"](https://en.wikipedia.org/wiki/Buffer_overflow_protection#Canaries)
 between the must-supply and must-not-supply parameters, like this:
 
     template<class T, class Canary = void, class A>
@@ -233,19 +232,26 @@ between the must-supply and must-not-supply parameters, like this:
     // But a truly hostile caller can still do it: k is 10
     auto k = implicitly_convert_to<int, void, float>(9.9999999);
 
-I'm not sure there's any 100% foolproof way to prevent a hostile caller from
-filling in a value for a "must-not-supply" parameter. It seems like you might be
-able to do it by providing a better-matching overload that's deleted, like this:
+An anonymous reader points out that you can make this truly foolproof — and eliminate
+the `<type_traits>` dependency at the same time — by making the canary a _pack_.
+At least in present-day C++, the first pack inexorably expands to consume all the remaining
+explicit template arguments, so our hostile caller _can't_ bypass it.
 
-    template<class T, class A>
-    T implicitly_convert_to(A a) { return a; }
+> So instead of a "canary," it's more of a "pelican." A pack also acts as an explicit-argument-specification firewall;
+> but I've called one thing a "firewall" in this blog post already. To stretch a plumbing
+> metaphor, we might call it a "[surge tank](https://en.wikipedia.org/wiki/Surge_tank)":
+> it goes unused in normal operation, but when too many arguments come in at once,
+> it can safely hold the excess so as not to damage the infrastructure downstream of it.
 
-    template<class T, class A>
-    T implicitly_convert_to(type_identity_t<A>) = delete;
+    template<class T, class... Canary, class A>
+    T implicitly_convert_to(A a) {
+      static_assert(sizeof...(Canary) == 0, "Only one explicit template parameter, please");
+      return a;
+    }
 
-That deleted overload will be non-viable for `implicitly_convert_to<int>(3.14)`
-and will be the best match for `implicitly_convert_to<int, float>(3.14)`.
-However, I'm not sure this approach works in all possible situations.
+    // No longer compile
+    auto j = implicitly_convert_to<int, float>(9.9999999);
+    auto k = implicitly_convert_to<int, void, float>(9.9999999);
 
 ## A third kind of template parameter
 
