@@ -156,19 +156,18 @@ decided to make it a regular type, so that you can put spans inside containers a
 and in exchange, it loses some of this property we're trying to give it.
 On the other hand, I can't resist pointing out that we do have _some_ safety here:
 
-    v = {{1,2,3}};
+    v = {1,2,3};
 
 compiles when `v` is `vector<int>&` (and incidentally also when `v` is `span<const int>`),
 but safely fails to compile when `v` is `span<int>`. That's because `span<int>`, like
 `reference_wrapper<int>`, binds only to mutable lvalues; it can't bind to an rvalue like that.
 
-Those doubled braces certainly look strange, Socrates.
+> UPDATE, 2023-12-28: Here Socrates originally used "archaic" double-braces `{{1,2,3}}` for
+> C++23 compatibility; see ["`std::span` should have a converting constructor..."](/blog/2021/10/03/p2447-span-from-initializer-list/)
+> (2021-10-03). [In C++26](https://github.com/cplusplus/draft/pull/6691)
+> `span<const int>` no longer needs double braces.
 
-Yes, Eryximachus, they do look rather archaic, don't they? I have
-[a paper addressing that very issue](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/p2447r4.html).
-But let's return to the topic at hand.
-
-All right. We were talking about the operations provided by `vector<int>&`, and
+To resume — said Eryximachus — we're talking about the operations provided by `vector<int>&`, and
 asking for each operation whether it does the same thing on `span<int>`, or a different thing.
 In the latter case it should refuse to compile.
 

@@ -14,6 +14,11 @@ excerpt: |
 ---
 
 {% raw %}
+> UPDATE, 2023-12-28: This blog post describes a feature that was missing from C++20
+> and C++23; but [P2447](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/p2447r6.html)
+> has been adopted for C++26, so if you try these examples in C++26 you'll find that
+> they all work fine, and that's a good thing.
+
 C++17 introduced `std::string_view` as a "parameter-only" drop-in replacement
 for `const std::string&`. This allows us to make clean refactorings such as:
 
@@ -82,7 +87,7 @@ function parameters — the way `string_view` drops in for `const string&` — w
 Federico Kircheis has drafted a proposal for C++23 to fix this problem. It should appear
 in an upcoming mailing as paper number P2447. I've done a quick reference implementation
 for libc++, which you can find [here](https://github.com/Quuxplusone/llvm-project/commit/span-ctor),
-and you can play with it on Godbolt Compiler Explorer [here](https://p1144.godbolt.org/z/aKz3PvMKP).
+and you can play with it on Godbolt Compiler Explorer [here](https://p1144.godbolt.org/z/qosqxMeP4).
 
 
 ## But... dangling?
