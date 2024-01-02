@@ -138,6 +138,7 @@ The major places where P2786R0 disagreed with P1144 are:
     is then filled with the new data ([as in Folly's `fbvector`](https://github.com/facebook/folly/blob/1d4690d0a3/folly/FBVector.h#L1273-L1292)),
     or whether it _must_ be implemented in terms of assignment.
     P1144 says "optimize," P2786 says "don't."
+    See ["Should assignment affect `is_trivially_relocatable`?"](/blog/2024/01/02/bsl-vector-erase/) (2024-01-02).
 
 - Whether a type containing a data member of type `boost::interprocess::offset_ptr<T>` may be
     explicitly warranted as `[[trivially_relocatable]]` ([Godbolt](https://godbolt.org/z/hz56dqq4Y)).

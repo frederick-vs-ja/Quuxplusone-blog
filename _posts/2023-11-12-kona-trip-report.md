@@ -98,7 +98,9 @@ is what you deserve. Want something that optimizes well? Use a regular type, suc
 `int*` or `reference_wrapper<int>` or `tuple<int*>` (all three of which are trivially
 relocatable: [Godbolt](https://p1144.godbolt.org/z/d1W3qbcsP)).
 
-> Previously: ["P1144 PMR koans"](/blog/2023/06/03/p1144-pmr-koans/) (2023-06-03).
+> UPDATE, January 2024: Reader, [I did bring that paper.](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/p3055r0.html)<br>
+> Previously: ["P1144 PMR koans"](/blog/2023/06/03/p1144-pmr-koans/) (2023-06-03).<br>
+> Subsequently: ["Should assignment affect `is_trivially_relocatable`?"](/blog/2024/01/02/bsl-vector-erase/) (2024-01-02).
 
 During the meeting, I submitted to
 [Charles Salvia's GitHub repository](https://github.com/charles-salvia/std_error)
