@@ -152,3 +152,22 @@ to `std::vector` on a technicality.
 My [P3055R0 "Relax wording to permit relocation optimizations in the STL"](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/p3055r0.html)
 (December 2023) aims to patch this hole. [D3055R1](https://quuxplusone.github.io/draft/d3055-relocation.html)
 adds a few "stretch goal" patches on top of R0. Feedback welcome; send me an email!
+
+## Test yourself
+
+- As a type author: Suppose your type `Cat` has a defaulted copy constructor and defaulted destructor,
+    but you rely on non-value-semantic side-effects of `Cat::operator=`; your program will
+    misbehave if an assignment operation is replaced with destroy-and-reconstruct. Is `Cat`
+    "trivially relocatable"?
+
+- As a type author: Your program's correctness depends on the compiler's never eliding assignments of `Cat`.
+    Suppose you mark it with the attribute — `struct [[trivially_relocatable]] Cat` — thus forcing
+    `is_trivially_relocatable_v<Cat>` to yield `true`. Is this "lying to the compiler"?
+    Will your program behave correctly after that change?
+
+- As the compiler (or the human reader): Suppose you see a type `struct Dog` (not marked with the attribute).
+    All of its data members are trivially relocatable. Its destructor and move-constructor are defaulted. But its
+    move-assignment operator is user-provided; you can't tell exactly what it does. As the compiler
+    (or the human reader), is it safe to assume that `Dog` is trivially relocatable?
+
+(No; yes; no; no.)
