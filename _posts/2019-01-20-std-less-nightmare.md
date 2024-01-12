@@ -105,10 +105,10 @@ order on pointers? [Here's the code.](https://github.com/llvm-mirror/libcxx/blob
 
 That's all. No magic. The libc++ authors basically assume that `<` Does The Right Thing for
 pointers and provides a total order — and if it doesn't, well, [here's a nickel, get yourself
-a better compiler](https://dilbert.com/strip/1995-06-24).
+a better compiler](https://web.archive.org/web/20160319223530/http://2ndscale.com/rtomayko/2006/that-dilbert-cartoon).
 
 (If you're just looking for best practices, you can stop here. The rest of this post is going
-to be a horror story about what happens when you step off the path and head into the overgrowth.)
+to be a horror story about what happens when you step off the path and head into the undergrowth.)
 
 ----
 
@@ -148,7 +148,7 @@ shoved into the high bits of the `uintptr_t`. For many more fun and exotic ways 
 Joe Nelson's ["C Portability Lessons from Weird Machines"](https://begriffs.com/posts/2018-11-15-c-portability.html) (2018-11-15).)
 But that's fine. The libstdc++ authors basically
 assume that casting-to-`uintptr_t` Does The Right Thing for pointers — and if it doesn't, well,
-[here's a nickel, get yourself a better compiler](https://dilbert.com/strip/1995-06-24).
+[here's a nickel, get yourself a better compiler](https://web.archive.org/web/20160319223530/http://2ndscale.com/rtomayko/2006/that-dilbert-cartoon).
 
 The confusing thing about this code is that it seems to be doing the logic exactly backwards.
 We're not worried about a _hardware platform_ where `<` does the wrong thing for pointers at
@@ -362,7 +362,7 @@ So there we are: into the weeds and back out, having learned for our trouble onl
 original problem — to detect when a "built-in operator comparing pointers is called" — is insoluble.
 
 libc++ has it right: `std::less<void>` should be a one-liner. If you try to do more than that,
-then not only are you [solving a non-problem](https://dilbert.com/strip/1995-06-24),
+then not only are you solving a non-problem,
 but your attempted solution will be [a source of bugs](https://gcc.gnu.org/bugzilla/show_bug.cgi?id=78420)
 and even if you fix all the bugs, [your entire approach may still be wrong](https://godbolt.org/z/YUKe5A).
 

@@ -31,6 +31,10 @@ Some speculation about how the hack actually worked is
 to what might (although I have not personally investigated it) be the original LGP-30
 [bkjck.tx](ftp://ftp.informatik.uni-stuttgart.de/pub/cm/lgp30/papertapes/Games/)!
 
+> UPDATE, 2024-01-13: A new site called "Mel's Loop" hosts
+> [a detailed biography of Mel Kaye (1931–2018) himself](https://melsloop.com/docs/the-story-of-mel/pages/mel-kaye-cv),
+> among other Story-of-Meliana.
+
 Even if you haven't already clicked through to Ed Barnard's slide deck, it is important
 to bear in mind (in this decadent era of _Stranger Things_ and _Halt and Catch Fire_) that
 this story was written in 1983 about events that actually happened sometime in the Eisenhower era.
