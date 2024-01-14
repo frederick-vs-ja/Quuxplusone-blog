@@ -1,0 +1,146 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="340" height="210" viewBox="-10 -10 330 200">
+<g id="P" transform="translate(200 -40) rotate(270 60 60)">
+  <rect x="0" y="0" width="20" height="20" stroke="black" fill-opacity="20%" fill="red"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="10" y="10" transform="rotate(90 10 10)">0</text>
+  <rect x="20" y="0" width="20" height="20" stroke="black" fill-opacity="20%" fill="red"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="30" y="10" transform="rotate(90 30 10)">1</text>
+  <rect x="40" y="0" width="20" height="20" stroke="black" fill-opacity="20%" fill="red"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="50" y="10" transform="rotate(90 50 10)">3</text>
+  <rect x="0" y="20" width="20" height="20" stroke="black" fill-opacity="20%" fill="red"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="10" y="30" transform="rotate(90 10 30)">2</text>
+  <rect x="20" y="20" width="20" height="20" stroke="black" fill-opacity="20%" fill="red"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="30" y="30" transform="rotate(90 30 30)">4</text>
+</g>
+<g id="I" transform="translate(50 -60) rotate(90 20 20)">
+  <rect x="60" y="0" width="20" height="20" stroke="black" fill-opacity="20%" fill="yellow"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="70" y="10" transform="rotate(270 70 10)">0</text>
+  <rect x="80" y="0" width="20" height="20" stroke="black" fill-opacity="20%" fill="yellow"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="90" y="10" transform="rotate(270 90 10)">2</text>
+  <rect x="100" y="0" width="20" height="20" stroke="black" fill-opacity="20%" fill="yellow"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="110" y="10" transform="rotate(270 110 10)">1</text>
+  <rect x="120" y="0" width="20" height="20" stroke="black" fill-opacity="20%" fill="yellow"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="130" y="10" transform="rotate(270 130 10)">4</text>
+  <rect x="140" y="0" width="20" height="20" stroke="black" fill-opacity="20%" fill="yellow"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="150" y="10" transform="rotate(270 150 10)">3</text>
+</g>
+<g id="U" transform="translate(20 -50) rotate(90 20 20)">
+  <rect x="160" y="0" width="20" height="20" stroke="black" fill-opacity="20%" fill="green"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="170" y="10" transform="rotate(270 170 10)">1</text>
+  <rect x="180" y="0" width="20" height="20" stroke="black" fill-opacity="20%" fill="green"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="190" y="10" transform="rotate(270 190 10)">3</text>
+  <rect x="180" y="20" width="20" height="20" stroke="black" fill-opacity="20%" fill="green"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="190" y="30" transform="rotate(270 190 30)">2</text>
+  <rect x="160" y="40" width="20" height="20" stroke="black" fill-opacity="20%" fill="green"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="170" y="50" transform="rotate(270 170 50)">0</text>
+  <rect x="180" y="40" width="20" height="20" stroke="black" fill-opacity="20%" fill="green"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="190" y="50" transform="rotate(270 190 50)">4</text>
+</g>
+<g id="F" transform="translate(-20 40) rotate(270 20 20)">
+  <rect x="40" y="20" width="20" height="20" stroke="black" fill-opacity="20%" fill="blue"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="50" y="30" transform="rotate(90 50 30)">1</text>
+  <rect x="20" y="40" width="20" height="20" stroke="black" fill-opacity="20%" fill="blue"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="30" y="50" transform="rotate(90 30 50)">2</text>
+  <rect x="40" y="40" width="20" height="20" stroke="black" fill-opacity="20%" fill="blue"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="50" y="50" transform="rotate(90 50 50)">3</text>
+  <rect x="60" y="40" width="20" height="20" stroke="black" fill-opacity="20%" fill="blue"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="70" y="50" transform="rotate(90 70 50)">0</text>
+  <rect x="60" y="60" width="20" height="20" stroke="black" fill-opacity="20%" fill="blue"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="70" y="70" transform="rotate(90 70 70)">4</text>
+</g>
+<g id="Z" transform="translate(190 70)">
+  <rect x="60" y="20" width="20" height="20" stroke="black" fill-opacity="20%" fill="green"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="70" y="30">3</text>
+  <rect x="80" y="20" width="20" height="20" stroke="black" fill-opacity="20%" fill="green"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="90" y="30">0</text>
+  <rect x="80" y="40" width="20" height="20" stroke="black" fill-opacity="20%" fill="green"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="90" y="50">2</text>
+  <rect x="80" y="60" width="20" height="20" stroke="black" fill-opacity="20%" fill="green"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="90" y="70">1</text>
+  <rect x="100" y="60" width="20" height="20" stroke="black" fill-opacity="20%" fill="green"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="110" y="70">4</text>
+</g>
+<g id="L" transform="translate(80 60) rotate(270 60 60)">
+  <rect x="100" y="20" width="20" height="20" stroke="black" fill-opacity="20%" fill="blue"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="110" y="30" transform="rotate(90 110 30)">3</text>
+  <rect x="120" y="20" width="20" height="20" stroke="black" fill-opacity="20%" fill="blue"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="130" y="30" transform="rotate(90 130 30)">2</text>
+  <rect x="140" y="20" width="20" height="20" stroke="black" fill-opacity="20%" fill="blue"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="150" y="30" transform="rotate(90 150 30)">1</text>
+  <rect x="160" y="20" width="20" height="20" stroke="black" fill-opacity="20%" fill="blue"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="170" y="30" transform="rotate(90 170 30)">4</text>
+  <rect x="100" y="40" width="20" height="20" stroke="black" fill-opacity="20%" fill="blue"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="110" y="50" transform="rotate(90 110 50)">0</text>
+</g>
+<g id="T" transform="translate(210 10) rotate(90 60 60)">
+  <rect x="0" y="40" width="20" height="20" stroke="black" fill-opacity="20%" fill="green"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="10" y="50" transform="rotate(270 10 50)">0</text>
+  <rect x="0" y="60" width="20" height="20" stroke="black" fill-opacity="20%" fill="green"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="10" y="70" transform="rotate(270 10 70)">2</text>
+  <rect x="20" y="60" width="20" height="20" stroke="black" fill-opacity="20%" fill="green"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="30" y="70" transform="rotate(270 30 70)">4</text>
+  <rect x="40" y="60" width="20" height="20" stroke="black" fill-opacity="20%" fill="green"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="50" y="70" transform="rotate(270 50 70)">1</text>
+  <rect x="0" y="80" width="20" height="20" stroke="black" fill-opacity="20%" fill="green"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="10" y="90" transform="rotate(270 10 90)">3</text>
+</g>
+<g id="W" transform="translate(20 -30) rotate(90 90 90)">
+  <rect x="120" y="40" width="20" height="20" stroke="black" fill-opacity="20%" fill="red"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="130" y="50" transform="rotate(270 130 50)">4</text>
+  <rect x="140" y="40" width="20" height="20" stroke="black" fill-opacity="20%" fill="red"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="150" y="50" transform="rotate(270 150 50)">3</text>
+  <rect x="140" y="60" width="20" height="20" stroke="black" fill-opacity="20%" fill="red"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="150" y="70" transform="rotate(270 150 70)">0</text>
+  <rect x="160" y="60" width="20" height="20" stroke="black" fill-opacity="20%" fill="red"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="170" y="70" transform="rotate(270 170 70)">2</text>
+  <rect x="160" y="80" width="20" height="20" stroke="black" fill-opacity="20%" fill="red"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="170" y="90" transform="rotate(270 170 90)">1</text>
+</g>
+<g id="X" transform="translate(50 60)">
+  <rect x="120" y="60" width="20" height="20" stroke="black" fill-opacity="20%" fill="yellow"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="130" y="70">2</text>
+  <rect x="100" y="80" width="20" height="20" stroke="black" fill-opacity="20%" fill="yellow"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="110" y="90">0</text>
+  <rect x="120" y="80" width="20" height="20" stroke="black" fill-opacity="20%" fill="yellow"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="130" y="90">1</text>
+  <rect x="140" y="80" width="20" height="20" stroke="black" fill-opacity="20%" fill="yellow"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="150" y="90">3</text>
+  <rect x="120" y="100" width="20" height="20" stroke="black" fill-opacity="20%" fill="yellow"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="130" y="110">4</text>
+</g>
+<g id="V" transform="translate(-110 60)">
+  <rect x="180" y="60" width="20" height="20" stroke="black" fill-opacity="20%" fill="blue"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="190" y="70">0</text>
+  <rect x="180" y="80" width="20" height="20" stroke="black" fill-opacity="20%" fill="blue"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="190" y="90">3</text>
+  <rect x="140" y="100" width="20" height="20" stroke="black" fill-opacity="20%" fill="blue"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="150" y="110">1</text>
+  <rect x="160" y="100" width="20" height="20" stroke="black" fill-opacity="20%" fill="blue"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="170" y="110">4</text>
+  <rect x="180" y="100" width="20" height="20" stroke="black" fill-opacity="20%" fill="blue"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="190" y="110">2</text>
+</g>
+<g id="Y" transform="translate(220 100) rotate(90 60 60)">
+  <rect x="20" y="80" width="20" height="20" stroke="black" fill-opacity="20%" fill="yellow"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="30" y="90" transform="rotate(270 30 90)">0</text>
+  <rect x="0" y="100" width="20" height="20" stroke="black" fill-opacity="20%" fill="yellow"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="10" y="110" transform="rotate(270 10 110)">1</text>
+  <rect x="20" y="100" width="20" height="20" stroke="black" fill-opacity="20%" fill="yellow"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="30" y="110" transform="rotate(270 30 110)">3</text>
+  <rect x="40" y="100" width="20" height="20" stroke="black" fill-opacity="20%" fill="yellow"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="50" y="110" transform="rotate(270 50 110)">2</text>
+  <rect x="60" y="100" width="20" height="20" stroke="black" fill-opacity="20%" fill="yellow"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="70" y="110" transform="rotate(270 70 110)">4</text>
+</g>
+<g id="N" transform="translate(70 0) rotate(270 60 60)">
+  <rect x="40" y="80" width="20" height="20" stroke="black" fill-opacity="20%" fill="red"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="50" y="90" transform="rotate(90 50 90)">4</text>
+  <rect x="60" y="80" width="20" height="20" stroke="black" fill-opacity="20%" fill="red"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="70" y="90" transform="rotate(90 70 90)">0</text>
+  <rect x="80" y="80" width="20" height="20" stroke="black" fill-opacity="20%" fill="red"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="90" y="90" transform="rotate(90 90 90)">3</text>
+  <rect x="80" y="100" width="20" height="20" stroke="black" fill-opacity="20%" fill="red"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="90" y="110" transform="rotate(90 90 110)">1</text>
+  <rect x="100" y="100" width="20" height="20" stroke="black" fill-opacity="20%" fill="red"></rect>
+  <text stroke="black" text-anchor="middle" dominant-baseline="central" x="110" y="110" transform="rotate(90 110 110)">2</text>
+</g>
+</svg>
