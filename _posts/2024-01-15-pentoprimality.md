@@ -76,12 +76,18 @@ there are 12,347,672 possible labelings. This is the lexicographically first of 
 
 When we consider not just this one packing but also the other 2338 possible packings,
 we find that the total number of viable labelings satisfying the sum-to-a-prime criterion
-is truly astronomical. So far my computer search has churned out 585,401,512 labelings
-in which the upper right corner is occupied by the F pentomino; 1,116,710,101 where it's
-occupied by the I pentomino in horizontal orientation; 2,557,931,515 where it's
-occupied by the I in vertical orientation; 2,471,381,448 where it's occupied by the L;
-1,182,035,984 by the N; 2,405,917,776 by the P; 2,419,068,152 by the T...
-The total number of viable labelings is probably about 20 or 30 billion.
+is truly astronomical: 20,116,548,805.
+Here's the number of labelings found by my computer search (up to rotation and reflection —
+we ensure the F pentomino isn't flipped and occupies the left side of the rectangle) where
+the upper right corner is occupied by:
+
+|---|-----------:|---|-----------:|
+| F |  585401512 | U | 2503719527 |
+| I | 3674641616 | V | 2290775642 |
+| L | 2471381448 | W |  559212338 |
+| N | 1182035984 | X |          — |
+| P | 2405917776 | Y | 1320223809 |
+| T | 2419068152 | Z |  704171001 |
 
 ----
 
