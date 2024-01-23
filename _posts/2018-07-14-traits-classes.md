@@ -233,6 +233,9 @@ such as this `__construct_backward`. (Full disclosure: I do have
 on code-cleanliness grounds. But I fully endorse the underlying notion that `allocator_traits`
 is the library's own personal playground.)
 
+[UPDATE, 2024-01-30: C++23 finally codifies this notion; user specializations of `allocator_traits`
+are officially forbidden since [P2652](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/p2652r2.html).)
+
 ----
 
 Another example in this category is `iterator_traits`.
