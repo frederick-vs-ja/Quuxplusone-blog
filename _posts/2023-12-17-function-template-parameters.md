@@ -85,6 +85,10 @@ risking breakage when we upgrade our vendor's STL.
 > guaranteed that the wording of [alg.sort] won't change!
 > A future revision of C++ might change `sort`'s template parameters,
 > in the same way C++11 changed `make_pair`'s template parameters.
+>
+> UPDATE, 2024-01-31: No, in fact [[algorithm.requirements]/15](https://eel.is/c++draft/algorithms.requirements#15)
+> already makes it "unspecified" both whether `std::sort<int*>` is well-formed
+> and (if so) what it does. The "Wrong" line is, officially, wrong.
 
 Another classic example is `swap` (with or without the [`std::swap` two-step](/blog/2020/07/11/the-std-swap-two-step/)):
 
@@ -112,6 +116,11 @@ but I'm telling you it's better not to: `min` and `max`.
     int i = std::min(int(strlen(s)), 42);    // Better
     int i = std::min(strlen(s), size_t(42)); // Better
     int i = std::min(strlen(s), 42uz);       // Better (C++23)
+
+> [[algorithm.requirements]/15](https://eel.is/c++draft/algorithms.requirements#15)
+> doesn't apply here because [[alg.min.max]/4](https://eel.is/c++draft/alg.min.max#4)
+> overrules it. Here, you really do have to take my word for it that the "Bad" line
+> is bad.
 
 ## What about "maybe-supply" function template parameters?
 
