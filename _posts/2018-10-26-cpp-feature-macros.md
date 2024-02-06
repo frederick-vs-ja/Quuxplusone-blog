@@ -4,6 +4,7 @@ title: "C++2a idioms for library feature detection"
 date: 2018-10-26 00:02:00 +0000
 tags:
   c++-style
+  feature-test-macros
 ---
 
 The C++2a standard will introduce the `<version>` header, which contains all
