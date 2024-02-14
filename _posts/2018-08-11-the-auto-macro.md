@@ -4,6 +4,7 @@ title: 'The `Auto` macro'
 date: 2018-08-11 00:01:00 +0000
 tags:
   c++-style
+  lambdas
   memes
   pearls
   preprocessor
@@ -19,7 +20,7 @@ The contents of "Auto.h" fit comfortably on a single slide:
         L& m_lambda;
     public:
         AtScopeExit(L& action) : m_lambda(action) {}
-        ~AtScopeExit() { m_lambda(); }
+        ~AtScopeExit() noexcept(false) { m_lambda(); }
     };
 
     #define TOKEN_PASTEx(x, y) x ## y
@@ -48,12 +49,12 @@ Wrap any arbitrary amount of code in `Auto(...)` to generate a hygienic "scope g
         return true;
     }
 
-This scope guard has [perfect codegen with zero overhead](https://godbolt.org/g/nr4BiK)
+This scope guard has [perfect codegen with zero overhead](https://godbolt.org/z/szqfxzq6j)
 (at `-O2`) on all major compilers. Because it requires no explicit captures, no novel
 variable name, and no special treatment for `this`, it is highly suited for
 mechanically generated code. It is portable all the way back to C++11.
 
-[It even nests!](https://godbolt.org/g/ZchqCG)
+[It even nests!](https://godbolt.org/z/bsbvT6Tz5)
 
     void Example()
     {
@@ -66,3 +67,7 @@ mechanically generated code. It is portable all the way back to C++11.
     }
 
 ![I don't always use ad-hoc scope guards. But when I do, I prefer "Auto.h".](/blog/images/2018-08-11-ad-hoc-scope-guards.jpg)
+
+See also:
+
+* ["Feature requests for the `Auto` macro"](/blog/2024/02/14/auto-macro-feature-requests/) (2024-02-14)
