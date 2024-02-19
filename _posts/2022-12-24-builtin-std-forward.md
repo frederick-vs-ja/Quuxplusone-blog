@@ -16,7 +16,7 @@ excerpt: |
   ["The sad state of debug performance in C++"](https://vittorioromeo.info/index/blog/debug_performance_cpp.html);
   and in December the MSVC team landed [`[[msvc::intrinsic]]`](https://devblogs.microsoft.com/cppblog/improving-the-state-of-debug-performance-in-c/).
 
-  Recall that `std::forward<Arg>(arg)` should be used [only on forwarding references](/blog/2022/02/02/look-what-they-need/),
+  Recall that `std::forward<Arg>(arg)` should be used [only on forwarding references](/blog/2023/05/27/dont-forward-non-forwarding-references/),
   and that when you do, it's exactly equivalent to `static_cast<Arg&&>(arg)`, or equivalently `decltype(arg)(arg)`.
   But historically `std::forward` has been vastly more expensive to compile, because as far as the compiler is concerned,
   it's just a function template that needs to be instantiated, codegenned, inlined, and so on.
@@ -48,7 +48,7 @@ in Clang; in September Vittorio Romeo lamented
 ["The sad state of debug performance in C++"](https://vittorioromeo.info/index/blog/debug_performance_cpp.html);
 and in December the MSVC team landed [`[[msvc::intrinsic]]`](https://devblogs.microsoft.com/cppblog/improving-the-state-of-debug-performance-in-c/).
 
-Recall that `std::forward<Arg>(arg)` should be used [only on forwarding references](/blog/2022/02/02/look-what-they-need/),
+Recall that `std::forward<Arg>(arg)` should be used [only on forwarding references](/blog/2023/05/27/dont-forward-non-forwarding-references/),
 and that when you do, it's exactly equivalent to `static_cast<Arg&&>(arg)`, or equivalently `decltype(arg)(arg)`.
 But historically `std::forward` has been vastly more expensive to compile, because as far as the compiler is concerned,
 it's just a function template that needs to be instantiated, codegenned, inlined, and so on.
