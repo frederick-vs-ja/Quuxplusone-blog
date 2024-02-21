@@ -71,6 +71,11 @@ algorithm!
 But the name of `GetNthElement` hints that we can replace `std::ranges::sort(arr)` with `std::ranges::nth_element(arr, arr+i)`.
 This makes the whole sorting operation $$O(n^2)$$, just like the open-coded selection sort above.
 
+> The good way I was missing has been pointed out by alert reader "Chlorie."
+> Basically it's to return an array, capture it in a `constexpr` variable,
+> and then use `Vector<arr[Indices]...>`.
+> See ["Sorting at compile time, part 2"](/blog/2024/02/20/compile-time-sort-part-2/) (2024-02-20).
+
 ## Compile-time benchmark
 
 Which compile-time sort is faster? Naïvely, I expect the constexpr version to be faster, because it
@@ -161,3 +166,9 @@ they could easily fix that, by adding the same special case we see in libc++. Fo
 if your code uses STL algorithms at constexpr time, all else being equal, you should prefer
 `std` over `std::ranges`. In fact I'd give this advice to ordinary runtime code, too.
 In non-generic code that doesn't need Ranges' arcane features, why pay their cost?
+
+----
+
+See the followup for a better faster solution:
+
+* ["Sorting at compile time, part 2"](/blog/2024/02/20/compile-time-sort-part-2/) (2024-02-20)
