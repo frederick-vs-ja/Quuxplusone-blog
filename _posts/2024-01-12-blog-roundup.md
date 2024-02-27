@@ -36,6 +36,10 @@ gotten through Ivory Coast and Guinea so far.
 - ["Notes on Benin"](https://mattlakeman.org/2023/06/08/notes-on-benin/) (June 2023)
 - ["Notes on Nigeria"](https://mattlakeman.org/2023/05/09/notes-on-nigeria/) (May 2023)
 
+[UPDATE: And, after this post was written...]
+
+- ["Other Notes on West Africa"](https://mattlakeman.org/2024/01/27/other-notes-on-west-africa/) (January 2024)
+
 Unfathomably, in the Ivory Coast piece Lakeman tries to alienate typography wonks (perhaps a sizeable
 fraction of his target audience) right at the start with meta-comments like "Felix Houphouët-Boigny
 [...] has an accent that I can't figure out how to type on my computer.

@@ -7,6 +7,7 @@ tags:
   concepts
   library-design
   pitfalls
+  rant
 excerpt: |
   Quick, what does this C++17 code print?
 
@@ -85,7 +86,7 @@ above. The best I can do is stuff like
 
 - `Same<T, int>` *does* subsume `Same<int, T>`(!), and vice versa
 
-- `DerivedFrom<T, Base>` does not subsume `Same<T, Base>`
+- `Same<T, Base>` does not subsume `DerivedFrom<T, Base>`
 
 - `SwappableWith<T, T>` does not subsume `Swappable<T>`, nor vice versa
 
