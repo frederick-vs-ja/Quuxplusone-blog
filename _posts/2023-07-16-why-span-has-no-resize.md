@@ -7,9 +7,9 @@ tags:
   parameter-only-types
 ---
 
-{% raw %}
 _With apologies to Plato; but not to Socrates, who's already got one._
 
+{% raw %}
 A month ago, I was passing through [the marketplace](https://cppalliance.org/slack/)
 when I happened to meet with Eryximachus. He had an idea about `std::erase_if`
 he wanted to share, and as I had [written on the subject](/blog/2020/07/08/erase-if/)

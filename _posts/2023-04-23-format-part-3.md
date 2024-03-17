@@ -8,13 +8,13 @@ tags:
   std-format
 ---
 
-{% raw %}
 This is a continuation of yesterday's post, ["`std::format` from scratch, part 2."](/blog/2023/04/22/format-part-2/)
 We've already seen how to specialize `std::formatter<Widget>` so that we can
 `std::format("{}", w)`, and how to implement format specifiers so that we can
 `std::format("{:a}", w)`. Today we're going to implement an `"{:La}"` format
 specifier that does locale-sensitive sorting.
 
+{% raw %}
 First of all: [Locales are terrible.](/blog/2018/04/30/contra-locales/)
 Nothing about this has changed in C++20. You shouldn't make _any_ of your program's
 behavior locale-dependent, if you can possibly help it.

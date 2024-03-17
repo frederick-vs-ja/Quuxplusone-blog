@@ -8,12 +8,12 @@ tags:
   std-format
 ---
 
-{% raw %}
 This is a continuation of yesterday's post, ["`std::format` from scratch, part 1."](/blog/2023/04/21/format-part-1/)
 We've already seen how to specialize `std::formatter<Widget>` so that
 `std::format("{}", w)` works. Today we're going to add a format specifier, so that
 `std::format("{:a}", w)` gives us different behavior.
 
+{% raw %}
 Recall that a `Widget` looks like this:
 
     class Widget {

@@ -11,7 +11,6 @@ tags:
   standard-library-trivia
 ---
 
-{% raw %}
 This week I implemented [P0843R9 "`inplace_vector`"](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/p0843r9.html)
 in the SG14 algorithms-and-data-structures repository
 [`Quuxplusone/SG14`](https://github.com/Quuxplusone/SG14/#in-place-vector-future--c17).
@@ -21,6 +20,7 @@ Personally, I prefer the name `fixed_capacity_vector` — see
 ["`inplace_foo` versus `fixed_capacity_foo`"](/blog/2018/06/18/inplace-vs-fixed-capacity/) (2018-06-18) —
 but I think WG21 has litigated that name to death already, so `inplace_vector` it is!
 
+{% raw %}
 `sg14::inplace_vector` supports trivial relocatability out of the box
 (as long as you use [my fork of Clang](https://p1144.godbolt.org/z/8G7s97x4h) or another
 compiler supporting P1144 trivial relocation). For example,

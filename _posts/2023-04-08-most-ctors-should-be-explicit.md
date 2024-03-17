@@ -8,6 +8,9 @@ tags:
   initialization
   initializer-list
   library-design
+excerpt: |
+  All your constructors should be `explicit` by default.
+  Non-`explicit` constructors are for special cases.
 ---
 
 {% raw %}
