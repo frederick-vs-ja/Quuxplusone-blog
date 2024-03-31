@@ -105,23 +105,29 @@ and `tz-t-r` as variable names). I took the liberty of [forking his GitHub repo]
 implementing the former fix, and renaming some variables to avoid the latter problem, so that all the recoded programs
 now work as intended. The Hebrew-script version of the program above is:
 
-                                    אכטב יטא
-                             יכטב לאטר לוטאר
-    ילטר סאכף וסאכאף אכלט ק יכלט אסוכף אסיכף
-                                      יליטאר
-                                       כאטאב
-                          אסמח א יסמח אכוטאב
-                                       וסיכף
-    עב קא קח קח קיא לב קיט קיא קיד קח ק לג י
+```
+אכטב יטא
+יכטב לאטר לוטאר
+ילטר סאכף וסאכאף אכלט ק יכלט אסוכף אסיכף
+יליטאר
+כאטאב
+אסמח א יסמח אכוטאב
+וסיכף
+עב קא קח קח קיא לב קיט קיא קיד קח ק לג י
+```
+{:.rtl-code}
 
 and the Arabic-script version is:
 
-                                   اكطب يطـا
-                             يكطب لاطر لوطار
-    يلطر ساكض وساكاض اكلط ق يكلط اسوكض اسيكض
-                                      يليطار
-                                      كـاطاب
-                          اسمح ا يسمح اكوطاب
-                                       وسيكض
-    عب قا قح قح قيا لب قيط قيا قيد قح ق لج ي
+```
+اكطب يطـا
+يكطب لاطر لوطار
+يلطر ساكض وساكاض اكلط ق يكلط اسوكض اسيكض
+يليطار
+كـاطاب
+اسمح ا يسمح اكوطاب
+وسيكض
+عب قا قح قح قيا لب قيط قيا قيد قح ق لج ي
+```
+{:.rtl-code}
 
