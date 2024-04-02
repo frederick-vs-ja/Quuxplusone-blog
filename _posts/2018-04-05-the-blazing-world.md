@@ -1,6 +1,6 @@
 ---
 layout: post
-title: '_The Description of a New World, Called The Blazing-World_'
+title: '_The Description of a New World, Called The Blazing-World_ (1666)'
 date: 2018-04-05 00:01:00 +0000
 tags:
   litclub
