@@ -95,6 +95,14 @@ Linus five years earlier, [2001-07-23](https://yarchive.net/comp/volatile.html):
 > where the volatile is in the place where we care, and the volatile is
 > commented on <em>why</em> it actually is the correct thing to do.
 
+UPDATE: And here's Linus twenty years later, [2024-03-25](https://lwn.net/ml/linux-kernel/CAHk-=wjP1i014DGPKTsAC6TpByC3xeNHDjVA4E4gsnzUgJBYBQ@mail.gmail.com/),
+as quoted in ["A memory model for Rust code in the kernel"](https://lwn.net/SubscriberLink/967049/0ffb9b9ed8940013/) (April 2024):
+
+> A variable may be entirely stable in some cases (i.e. locks held), but not in others.
+>
+> So it's not the <em>variable</em> (aka "object") that is 'volatile', it's the
+> <em>context</em> that makes a particular access volatile.
+
 ----
 
 This tension between "guarding the noun" and "guarding the verb" is also relevant
