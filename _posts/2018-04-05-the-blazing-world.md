@@ -81,3 +81,9 @@ _Gulliver's Travels_ (1726).
 > than another, but all would either be alike knowing and wise, or all would be fools;
 > wherefore we most humbly beseech your Imperial Majesty to spare our Glasses, which
 > are our onely delight, and as dear to us as our lives.
+
+---
+
+See also:
+
+* ["_The Mummy!_ (1827)"](/blog/2024/04/08/the-mummy/) (2024-04-08)
