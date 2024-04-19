@@ -154,6 +154,27 @@ But if you make 17 by either of these routes, you'll never reach 31 in the optim
 
 ----
 
+UPDATE, April 2024: A third algebraic structure with this shape is
+[this one from StackOverflow](https://stackoverflow.com/questions/78228861/choosing-a-sequence-of-bitwise-operations/78229017).
+We have one primitive element `A` representing a fair coin flip that lands heads with probability
+$$0.5_{10} = 0.1_2$$.
+We can construct new elements using either of two binary operations: `&` (representing a coin that
+lands heads iff _both_ inputs were heads) and `|` (representing a coin that lands tails
+iff _both_ inputs were tails). We're trying to reach a target state representing a coin that
+comes up heads with probability $$p$$ (for some $$p = a/2^b$$ between 0 and 1).
+
+For example, we can make a coin that lands heads with probability $$0.5675_{10} = 0.1001_2$$
+in either of these ways:
+
+    B = A & A = 0.01          B = A | A = 0.11
+    C = B & A = 0.001         R = B & B = 0.1001
+    R = C | A = 0.1001
+
+I have not thought much about this particular structure, but it feels just as non-trivial as
+addition chains.
+
+----
+
 Still, knowing that _Infinite Craft_ and addition chains are two examples of the same hypergraph
 structure doesn't tell me whether there's an accepted name _for_ this particular hypergraph structure.
 If you have any leads, please pop over to [MathOverflow](https://mathoverflow.net/questions/466176/what-is-the-proper-name-for-this-tersest-path-problem-in-infinite-craft)
