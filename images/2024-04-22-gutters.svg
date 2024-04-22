@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+    width="100%" viewBox="-30 0 200 200"
+    style="background-color: white">
+
+  <polyline points="-5,7 5,7 5,10 11,10 0,15 -11,10 -5,10" fill="#888" stroke="none" transform="translate(69 30)"/>
+  <polyline points="-5,7 5,7 5,10 11,10 0,15 -11,10 -5,10" fill="#888" stroke="none" transform="translate(69 70)"/>
+  <polyline points="-5,7 5,7 5,10 11,10 0,15 -11,10 -5,10" fill="#888" stroke="none" transform="translate(69 110)"/>
+  <polyline points="-5,7 5,7 5,10 11,10 0,15 -11,10 -5,10" fill="#888" stroke="none" transform="translate(69 150)"/>
+
+  <g fill="none" stroke-width="1" stroke="#000">
+    <rect x="8" y="8" width="124" height="26" stroke="#888"/>
+    <rect x="10" y="10" width="60" height="10" fill="#2a2"/>
+    <rect x="70" y="10" width="10" height="10" fill="#3b3"/>
+    <rect x="80" y="10" width="30" height="10" fill="#4c4"/>
+    <rect x="110" y="10" width="20" height="10" fill="#5d5"/>
+    <rect x="10" y="22" width="40" height="10" fill="#d55"/>
+    <rect x="50" y="22" width="50" height="10" fill="#d55"/>
+  </g>
+  <g font-size="8" font-family="sans-serif" font-weight="bold" dominant-baseline="hanging" text-anchor="middle">
+    <text x="40" y="12">6</text>
+    <text x="75" y="12">1</text>
+    <text x="95" y="12">3</text>
+    <text x="120" y="12">2</text>
+    <text x="30" y="24">4</text>
+    <text x="75" y="24">5</text>
+    <text x="6" y="12" font-weight="normal" text-anchor="end">Solving</text>
+    <text x="6" y="24" font-weight="normal" text-anchor="end">Unused</text>
+  </g>
+
+  <g fill="none" stroke-width="1" stroke="#000" transform="translate(0 40)">
+    <rect x="8" y="8" width="124" height="26" stroke="#888"/>
+    <rect x="10" y="10" width="60" height="10" fill="#2a2"/>
+    <rect x="70" y="10" width="10" height="10" fill="#3b3"/>
+    <rect x="80" y="10" width="50" height="10" fill="#d55"/>
+    <rect x="10" y="22" width="40" height="10" fill="#d55"/>
+    <rect x="50" y="22" width="30" height="10" fill="#4c4"/>
+    <rect x="80" y="22" width="20" height="10" fill="#5d5"/>
+  </g>
+  <g font-size="8" font-family="sans-serif" font-weight="bold" dominant-baseline="hanging" text-anchor="middle" transform="translate(0 40)">
+    <text x="40" y="12">6</text>
+    <text x="75" y="12">1</text>
+    <text x="105" y="12">5</text>
+    <text x="30" y="24">4</text>
+    <text x="65" y="24">3</text>
+    <text x="90" y="24">2</text>
+  </g>
+
+  <g fill="none" stroke-width="1" stroke="#000" transform="translate(0 80)">
+    <rect x="8" y="8" width="124" height="26" stroke="#888"/>
+    <rect x="10" y="10" width="20" height="10" fill="#5d5"/>
+    <rect x="30" y="10" width="40" height="10" fill="#d55"/>
+    <rect x="70" y="10" width="10" height="10" fill="#3b3"/>
+    <rect x="80" y="10" width="50" height="10" fill="#d55"/>
+    <rect x="10" y="22" width="60" height="10" fill="#2a2"/>
+    <rect x="70" y="22" width="30" height="10" fill="#4c4"/>
+  </g>
+  <g font-size="8" font-family="sans-serif" font-weight="bold" dominant-baseline="hanging" text-anchor="middle" transform="translate(0 80)">
+    <text x="20" y="12">2</text>
+    <text x="50" y="12">4</text>
+    <text x="75" y="12">1</text>
+    <text x="105" y="12">5</text>
+    <text x="40" y="24">6</text>
+    <text x="85" y="24">3</text>
+  </g>
+
+  <g fill="none" stroke-width="1" stroke="#000" transform="translate(0 120)">
+    <rect x="8" y="8" width="124" height="26" stroke="#888"/>
+    <rect x="10" y="10" width="20" height="10" fill="#5d5"/>
+    <rect x="30" y="10" width="40" height="10" fill="#d55"/>
+    <rect x="70" y="10" width="60" height="10" fill="#2a2"/>
+    <rect x="10" y="22" width="10" height="10" fill="#3b3"/>
+    <rect x="20" y="22" width="50" height="10" fill="#d55"/>
+    <rect x="70" y="22" width="30" height="10" fill="#4c4"/>
+  </g>
+  <g font-size="8" font-family="sans-serif" font-weight="bold" dominant-baseline="hanging" text-anchor="middle" transform="translate(0 120)">
+    <text x="20" y="12">2</text>
+    <text x="50" y="12">4</text>
+    <text x="100" y="12">6</text>
+    <text x="15" y="24">1</text>
+    <text x="45" y="24">5</text>
+    <text x="85" y="24">3</text>
+  </g>
+
+  <g fill="none" stroke-width="1" stroke="#000" transform="translate(0 160)">
+    <rect x="8" y="8" width="124" height="26" stroke="#888"/>
+    <rect x="10" y="10" width="20" height="10" fill="#5d5"/>
+    <rect x="30" y="10" width="30" height="10" fill="#4c4"/>
+    <rect x="60" y="10" width="10" height="10" fill="#3b3"/>
+    <rect x="70" y="10" width="60" height="10" fill="#2a2"/>
+    <rect x="10" y="22" width="40" height="10" fill="#d55"/>
+    <rect x="50" y="22" width="50" height="10" fill="#d55"/>
+  </g>
+  <g font-size="8" font-family="sans-serif" font-weight="bold" dominant-baseline="hanging" text-anchor="middle" transform="translate(0 160)">
+    <text x="20" y="12">2</text>
+    <text x="45" y="12">3</text>
+    <text x="65" y="12">1</text>
+    <text x="100" y="12">6</text>
+    <text x="30" y="24">4</text>
+    <text x="75" y="24">5</text>
+  </g>
+</svg>
