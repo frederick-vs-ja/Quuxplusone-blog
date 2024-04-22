@@ -17,20 +17,19 @@ excerpt: |
   * My P1144 implementation, as seen in ["Announcing Trivially Relocatable"](/blog/2018/07/18/announcing-trivially-relocatable/) (2018-07-18)
       and [on godbolt.org](https://godbolt.org/z/18hvvxjE4)
 
-  * Corentin Jabot's P2786 implementation, as seen [TODO fill this in: [godbolt.org/z/KEY3n4P3W](https://godbolt.org/z/KEY3n4P3W)
-      was shown before, but doesn't work at the moment]
+  * Corentin Jabot's P2786 implementation, as seen in [godbolt.org/z/KEY3n4P3W](https://godbolt.org/z/KEY3n4P3W)
 
   So I suggested that anyone interested in relocation could <b>really help us out</b>
   by downloading both compiler implementations and trying them out on their own
   codebases! Of course, that means you need to know how to compile them from scratch.
-  Here's the answer for my P1144 implementation. I'll post the P2786 answer once
-  it's relayed to me.
+  Here's the answer for my P1144 implementation [UPDATE, 2024-04-22:] and for Corentin's P2786 implementation,
+  as far as I know.
 
-  > I would love to turn these instructions into a Dockerfile so that you
-  > could just build a Docker container with Clang in it, and somehow build
-  > your codebase with that Dockerized Clang. I've heard that VS Code actually
-  > makes that "easy." So if you do it, I'd love to hear about it.
-  > I'll upload the Dockerfile here and credit you.
+  > I would love to turn these instructions into Dockerfiles so that you
+  > could just build Docker containers containing each Clang, and somehow build
+  > your codebase with those Dockerized Clangs. I've heard that VS Code actually
+  > makes that "easy." If you do it, I'd love to hear about it.
+  > I'll upload the Dockerfiles here and credit you.
 ---
 
 At today's WG21 SG14 (Low Latency) meeting, there was a discussion of
@@ -41,20 +40,19 @@ It was remarked that each proposal has a corresponding Clang fork.
 * My P1144 implementation, as seen in ["Announcing Trivially Relocatable"](/blog/2018/07/18/announcing-trivially-relocatable/) (2018-07-18)
     and [on godbolt.org](https://godbolt.org/z/18hvvxjE4)
 
-* Corentin Jabot's P2786 implementation, as seen [TODO fill this in: [godbolt.org/z/KEY3n4P3W](https://godbolt.org/z/KEY3n4P3W)
-    was shown before, but doesn't work at the moment]
+* Corentin Jabot's P2786 implementation, as seen in [godbolt.org/z/KEY3n4P3W](https://godbolt.org/z/KEY3n4P3W)
 
 So I suggested that anyone interested in relocation could <b>really help us out</b>
 by downloading both compiler implementations and trying them out on their own
 codebases! Of course, that means you need to know how to compile them from scratch.
-Here's the answer for my P1144 implementation. I'll post the P2786 answer once
-it's relayed to me.
+Here's the answer for my P1144 implementation [UPDATE, 2024-04-22:] and for Corentin's P2786 implementation,
+as far as I know.
 
-> I would love to turn these instructions into a Dockerfile so that you
-> could just build a Docker container with Clang in it, and somehow build
-> your codebase with that Dockerized Clang. I've heard that VS Code actually
-> makes that "easy." So if you do it, I'd love to hear about it.
-> I'll upload the Dockerfile here and credit you.
+> I would love to turn these instructions into Dockerfiles so that you
+> could just build Docker containers containing each Clang, and somehow build
+> your codebase with those Dockerized Clangs. I've heard that VS Code actually
+> makes that "easy." If you do it, I'd love to hear about it.
+> I'll upload the Dockerfiles here and credit you.
 
 
 # Get the code and build it
@@ -77,6 +75,19 @@ ninja clang
 ninja cxx
 ```
 
+For Corentin's P2786 branch, I believe the same approach should work; simply substitute these
+lines above:
+
+```
+git clone --depth=20 --single-branch --branch=corentin/trivially_relocatable \
+    https://github.com/cor3ntin/llvm-project p2786-llvm-project
+cd p2786-llvm-project
+git checkout origin/corentin/trivially_relocatable
+mkdir build
+[etc]
+```
+
+
 # Optionally, run tests
 
 ```
@@ -85,6 +96,8 @@ ninja check-cxx
 ```
 
 # Do the new features compile and link?
+
+## For P1144
 
 ```
 cat >hello.cpp <<EOF
@@ -121,6 +134,59 @@ The above should compile fine, and print "Success!"
 ```
 
 The above should find two memmoves: one in `open_window` and one in `close_window`.
+
+## For P2786
+
+```
+cat >hello.cpp <<EOF
+ #include <memory>
+ #include <type_traits>
+ struct Wrap0 trivially_relocatable {
+   static_assert(not std::is_trivially_relocatable<std::unique_ptr<int>>::value, "");
+   std::unique_ptr<int> t_;
+ };
+EOF
+~/p2786-llvm-project/build/bin/clang++ -std=c++20 hello.cpp -o ./a.out
+```
+
+The above should error out with this diagnostic:
+
+```
+hello.cpp:3:15: error: invalid 'trivially_relocatable' specifier on non trivially-relocatable class 'Wrap0'
+    3 |  struct Wrap0 trivially_relocatable {
+      |               ^
+hello.cpp:5:4: note: because it has a non trivially-relocatable member 't_'
+    5 |    std::unique_ptr<int> t_;
+      |    ^~~~~~~~~~~~~~~~~~~~~~~
+```
+
+Now try:
+
+```
+cat >hello.cpp <<EOF
+ #include <stdio.h>
+ #include <memory>
+ #include <tuple>
+ #include <type_traits>
+ static_assert(std::is_trivially_relocatable<std::tuple<int&>>::value, "");
+ struct RuleOfZero { std::tuple<int&> p_; };
+ static_assert(std::is_trivially_relocatable<RuleOfZero>::value, "");
+ struct Poly {
+    virtual int f() = 0;
+    virtual ~Poly() = default;
+ };
+ template<class T> void open_window(T *s, int n, int k) {
+   std::trivially_relocate(s, s+n, s+n+k);
+ }
+ template void open_window(Poly*, int, int);
+ template void open_window(RuleOfZero*, int, int);
+ int main() { puts("Success!"); }
+EOF
+~/p2786-llvm-project/build/bin/clang++ -std=c++20 hello.cpp -o ./a.out
+./a.out
+```
+
+The above should compile fine, and print "Success!"
 
 # Plug it into your own code!
 
