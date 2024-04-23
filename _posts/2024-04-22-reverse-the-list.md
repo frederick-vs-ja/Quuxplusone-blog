@@ -78,7 +78,7 @@ the worst-case number of moves to solve any solvable list with high value $$n$$ 
     n=7:  0 4 12 24 26 -  -
     n=8:  0 4 14 32 64 74 -   -
     n=9:  0 4 8  18 66 76 86  -    -
-    n=10: 0 4 8  14 20 88 124 126  -  -
+    n=10: 0 4 8  14 20 88 124 126 36  -
     n=11: 0 4 8  12 16 26 ?   ?    ?  -  -
     n=12: 0 4 8  12 16 ?  ?   ?    ?  ?  -  -
     n=13: 0 4 8  10 14 ?  ?   ?    ?  ?  ?  -  -
@@ -101,7 +101,7 @@ Meanwhile the count $$C(n,k)$$ of solvable lists with high value $$n$$ and lengt
     n=7:  1 12   82   294   244      0      0
     n=8:  1 14  126   760  2316   1846      0      0
     n=9:  1 16  168  1344  8238  31678  47164      0      0
-    n=10: 1 18  216  2016 15098  89078 336154 480598      0  0
+    n=10: 1 18  216  2016 15098  89078 336154 480598   2640  0
     n=11: 1 20  270  2880 25200 181308      ?      ?      ?  0  0
     n=12: 1 22  330  3960 39600      ?      ?      ?      ?  ?  0  0
     n=13: 1 24  396  5280 59400      ?      ?      ?      ?  ?  ?  ?  0
@@ -121,18 +121,16 @@ Notice that:
 
 - For $$n\geq 2$$ we have $$C(n,n)=0$$, since if the starting list already contains all $$n$$ possible numbers, there are no legal moves.
 
-- For $$n\geq 3$$ we seem to have $$C(n,n-1)=0$$. When only one number $$a$$ is missing from the starting list,
-    the only possible move is to combine two adjacent numbers into $$a$$. Now those two numbers are missing, and we have
-    a bit more freedom; but notice that no matter what we do, the sum of the missing numbers remains $$a < n$$.
-    So we'll never be able to split the high value $$n$$ itself; we can only manipulate the elements to the left of $$n$$
+- Consider a list of length $$k=n-1$$. Only one number $$a < n$$ is missing from the initial list; this means we'll never
+    be able to split the high value $$n$$ itself; we can only manipulate the elements to the left of $$n$$
     and the elements to the right of $$n$$. So, for this list to be solvable, the sum of the elements to the left of $$n$$
     must equal the sum of the elements to the right of $$n$$. So the missing element must have the same parity as $$n(n+1)/2$$.
     Now, if $$n-1$$ is on the left side initially, we'll certainly need to split it and reconstitute it on the right side,
     which means the sum of the missing numbers must be at least $$n-1$$; but that's impossible, because only $$a$$ is missing.
     So the missing element $$a$$ must be $$n-1$$, and it must have the same parity as $$n(n+1)/2$$ so that we can divide the
     remainder evenly between the left and right sides.
-    According to this logic, $$C(n,n-1)$$ might perhaps be nonzero for $$n\in\lbrace 9,10,13,14,17,18,\ldots\rbrace$$ but is certainly
-    zero for $$n\in\lbrace11,12,15,16,19,20,\ldots\rbrace$$.
+    According to this logic, $$C(n,n-1)$$ is certainly zero for $$n\in\lbrace11,12,15,16,19,20,\ldots\rbrace$$.
+    On the other hand, it _can_ be nonzero; for example $$C(10,9)=2640$$.
 
 - It seems intuitively plausible that $$\forall k\exists m\forall n > m: C(n,k)=\mathrm{Total}(n,k)$$.
 
@@ -160,11 +158,11 @@ The sufficient intermediate list length $$L(n,k)$$ for solvable lists with high 
     n=3:  1 - -
     n=4:  1 - - -
     n=5:  1 - - - -
-    n=6:  1 4 4 5 - -
-    n=7:  1 4 5 5 6 - -
+    n=6:  1 4 4 4 - -
+    n=7:  1 4 5 5 5 - -
     n=8:  1 4 5 6 7 7 - -
     n=9:  1 4 5 7 7 8 8 - -
-    n=10: 1 4 5 7 8 9 9 ? - -
+    n=10: 1 4 5 7 8 9 9 9 9 -
     n=11: 1 4 5 7 8 9 ? ? ? - -
     n=12: 1 4 5 6 8 ? ? ? ? ? - -
     n=13: 1 4 5 7 8 ? ? ? ? ? ? ? -
@@ -176,4 +174,4 @@ The sufficient intermediate list length $$L(n,k)$$ for solvable lists with high 
     n=19: 1 4 5 7 ? ? ? ? ? ? ? ? ? ? ? ? ? - -
     n=20: 1 4 5 ? ? ? ? ? ? ? ? ? ? ? ? ? ? ? - -
 
-The C++14 code that produced these tables is [here](/blog/code/2024-04-22-solver.cpp).
+The C++17 code that produced these tables is [here](/blog/code/2024-04-22-solver.cpp).

@@ -1,4 +1,4 @@
-// Compile with e.g. `g++ -std=c++14 -DN=10 -DK=5 solver.cpp`
+// Compile with e.g. `g++ -std=c++17 -DN=10 -DK=5 solver.cpp`
 
 #include <algorithm>
 #include <cassert>
@@ -86,18 +86,18 @@ bool for_each_neighbor_position(int constrain_length, const Position& p, const F
   return false;
 }
 
-int moves_to_reverse(Position originalp, int constrain_length, bool printit) {
+int moves_to_reverse(const Position& originalp, int constrain_length, bool printit) {
   if (originalp.size_ == 1) return 0;
   std::map<Position, Position, Position::Less> interior;
   std::map<Position, Position, Position::Less> frontier = { {originalp, originalp} };
   int moves = 1;
   while (true) {
-    interior.insert(frontier.begin(), frontier.end());
     std::map<Position, Position, Position::Less> oldfrontier = std::move(frontier);
     for (const auto& kv : oldfrontier) {
       const Position& p = kv.first;
       bool success = for_each_neighbor_position(constrain_length, p, [&](const Position& n) {
-        if (n.is_reversed_of(originalp)) {
+        // Each move changes the parity of the list, so n will never be in oldfrontier.
+        if ((moves & 1) == 0 && n.is_reversed_of(originalp)) {
           if (printit) {
             // Print the path that got us here.
             std::vector<Position> moves;
@@ -129,6 +129,7 @@ int moves_to_reverse(Position originalp, int constrain_length, bool printit) {
       return -1;
     }
     moves += 1;
+    interior.merge(std::move(oldfrontier));
   }
 }
 
@@ -147,14 +148,17 @@ void for_each_list(int k, const Function& f) {
       int totalsum = N*(N+1)/2 - (N-1);
       int halfsum = (totalsum - N) / 2;
       for_each_permutation(nums, nums + N - 2, nums + N - 2, [&](auto first, auto last) {
+        // We only need to check half of all the positions, since the other half are just the first half reversed.
+        if (*first > last[-1]) return false;
+        // Find the one place it's legal to insert N into this list.
         int leftsum = 0;
         for (int i=0; first+i != last; ++i) {
           leftsum += first[i];
           if (leftsum == halfsum) {
             Position p;
-            std::copy(first, first+i, p.data_);
-            p.data_[i] = N;
-            std::copy(first+i, last, p.data_+i+1);
+            std::copy(first, first+i+1, p.data_);
+            p.data_[i+1] = N;
+            std::copy(first+i+1, last, p.data_+i+2);
             p.size_ = N-1;
             f(p);
             break;
@@ -185,8 +189,8 @@ void for_each_list(int k, const Function& f) {
 }
 
 int main() {
-  int count = 0;
-  int max = 0;
+  int C = 0;
+  int M = 0;
   int start = time(NULL);
   std::vector<Position> solvable;
   for_each_list(K, [&](Position p) {
@@ -194,28 +198,29 @@ int main() {
     if (moves == -1) return;
     // The list is solvable.
     solvable.push_back(p);
-    count += 2;
-    if (moves > max) {
-      max = moves;
+    C += 2;
+    if (moves > M) {
+      M = moves;
     }
   });
-  // Now max and solvable are accurate.
-  int L = K+1;
-  for (Position p : solvable) {
+  // Now C, M, and solvable are accurate.
+  int L = K;
+  for (const Position& p : solvable) {
     // Can we solve this list with a smaller L?
     while (true) {
       int m2 = moves_to_reverse(p, L, false);
-      if (m2 == -1 || m2 > max) {
+      if (m2 == -1 || m2 > M) {
         ++L;
       } else {
         break;
       }
     }
   }
-  // Double-check.
-  for (Position p : solvable) {
+  // Now L is accurate.
+  // Finally, double-check everything.
+  for (const Position& p : solvable) {
     int m2 = moves_to_reverse(p, L, false);
-    assert(m2 != -1 && m2 <= max);
+    assert(m2 != -1 && m2 <= M);
   }
-  printf("N=%d, K=%d: length %d, count %d, max %d, in %d seconds\n", N, K, L, count, max, int(time(NULL) - start));
+  printf("N=%d, K=%d: length %d, count %d, max %d, in %d seconds\n", N, K, L, C, M, int(time(NULL) - start));
 }
