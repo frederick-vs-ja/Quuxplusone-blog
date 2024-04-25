@@ -5,8 +5,8 @@
 #include <cstdio>
 #include <ctime>
 #include <iterator>
-#include <map>
 #include <numeric>
+#include <set>
 #include <vector>
 #include "combinations.h" // https://github.com/HowardHinnant/combinations
 
@@ -30,11 +30,10 @@ struct Position {
   bool contains(Int k) const {
     return std::find(data_, data_ + size_, k) != data_ + size_;
   }
-  bool is_reversed_of(const Position& p) const {
-    return size_ == p.size_ && std::equal(
-      std::make_reverse_iterator(data_ + size_), std::make_reverse_iterator(data_),
-      p.data_, p.data_ + size_
-    );
+  Position reversed() const {
+    auto copy = *this;
+    std::reverse(copy.data_, copy.data_ + copy.size_);
+    return copy;
   }
   void print() const {
     for (int i=0; i < size_; ++i) {
@@ -86,50 +85,46 @@ bool for_each_neighbor_position(int constrain_length, const Position& p, const F
   return false;
 }
 
-int moves_to_reverse(const Position& originalp, int constrain_length, bool printit) {
+int moves_to_reverse(const Position& originalp, int constrain_length) {
   if (originalp.size_ == 1) return 0;
-  std::map<Position, Position, Position::Less> interior;
-  std::map<Position, Position, Position::Less> frontier = { {originalp, originalp} };
+  Position reversed_originalp = originalp.reversed();
+  std::set<Position, Position::Less> wrong_interior;
+  std::set<Position, Position::Less> right_interior;
+  std::set<Position, Position::Less> frontier = { {originalp} };
   int moves = 1;
   while (true) {
-    std::map<Position, Position, Position::Less> oldfrontier = std::move(frontier);
-    for (const auto& kv : oldfrontier) {
-      const Position& p = kv.first;
-      bool success = for_each_neighbor_position(constrain_length, p, [&](const Position& n) {
-        // Each move changes the parity of the list, so n will never be in oldfrontier.
-        if ((moves & 1) == 0 && n.is_reversed_of(originalp)) {
-          if (printit) {
-            // Print the path that got us here.
-            std::vector<Position> moves;
-            moves.push_back(n);
-            moves.push_back(p);
-            Position prev = p;
-            while (true) {
-              Position prev2 = interior.at(prev);
-              if (prev2 == prev) break;
-              moves.push_back(prev2);
-              prev = prev2;
-            }
-            assert(prev == originalp);
-            while (!moves.empty()) {
-              moves.back().print(); printf("\n");
-              moves.pop_back();
-            }
+    if (true) {
+      auto oldfrontier = std::move(frontier);
+      for (const Position& p : oldfrontier) {
+        (void)for_each_neighbor_position(constrain_length, p, [&](const Position& n) {
+          // n has "wrong" parity.
+          if (wrong_interior.find(n) == wrong_interior.end()) {
+            frontier.insert(n);
           }
-          return true;
-        }
-        if (interior.find(n) == interior.end()) {
-          frontier.emplace(n, p);
-        }
-        return false;
-      });
-      if (success) return moves;
-    }
-    if (frontier.empty()) {
-      return -1;
+          return false;
+        });
+      }
+      if (frontier.empty()) return -1;
+      right_interior.merge(std::move(oldfrontier));
     }
     moves += 1;
-    interior.merge(std::move(oldfrontier));
+    if (true) {
+      auto oldfrontier = std::move(frontier);
+      for (const Position& p : oldfrontier) {
+        bool success = for_each_neighbor_position(constrain_length, p, [&](const Position& n) {
+          // n has "right" parity.
+          if (right_interior.find(n) == right_interior.end()) {
+            if (n == reversed_originalp) return true;
+            frontier.insert(n);
+          }
+          return false;
+        });
+        if (success) return moves;
+      }
+      if (frontier.empty()) return -1;
+      wrong_interior.merge(std::move(oldfrontier));
+    }
+    moves += 1;
   }
 }
 
@@ -194,7 +189,7 @@ int main() {
   int start = time(NULL);
   std::vector<Position> solvable;
   for_each_list(K, [&](Position p) {
-    int moves = moves_to_reverse(p, N-1, false);
+    int moves = moves_to_reverse(p, N-1);
     if (moves == -1) return;
     // The list is solvable.
     solvable.push_back(p);
@@ -208,7 +203,7 @@ int main() {
   for (const Position& p : solvable) {
     // Can we solve this list with a smaller L?
     while (true) {
-      int m2 = moves_to_reverse(p, L, false);
+      int m2 = moves_to_reverse(p, L);
       if (m2 == -1 || m2 > M) {
         ++L;
       } else {
@@ -219,8 +214,12 @@ int main() {
   // Now L is accurate.
   // Finally, double-check everything.
   for (const Position& p : solvable) {
-    int m2 = moves_to_reverse(p, L, false);
+    int m2 = moves_to_reverse(p, L);
     assert(m2 != -1 && m2 <= M);
   }
-  printf("N=%d, K=%d: length %d, count %d, max %d, in %d seconds\n", N, K, L, C, M, int(time(NULL) - start));
+  if (C == 0) {
+    printf("N=%d, K=%d: count 0 -- in %d seconds\n", N, K, int(time(NULL) - start));
+  } else {
+    printf("N=%d, K=%d: count %d, max %d, length %d -- in %d seconds\n", N, K, C, M, L, int(time(NULL) - start));
+  }
 }
