@@ -35,6 +35,13 @@ This is based on AssertJ version 3.11.1.
     assertThat(n).isNull()
     assertThat(i).isNotNull()
 
+## Optionals
+
+    val n : OptionalInt = OptionalInt.of(42)
+    assertThat(n).isEmpty()
+    assertThat(n).isNotEmpty()
+    assertThat(n).hasValue(42)
+
 ## Strings
 
 Docs are [here](https://www.javadoc.io/static/org.assertj/assertj-core/3.24.2/org/assertj/core/api/AbstractCharSequenceAssert.html#method-summary).
