@@ -475,6 +475,8 @@ hunt with a Tolkienesque wizard/ring endgame. Of course
 maybe all my questions would have been answered had we ever
 received _The Search for Almazar, Part II_!
 
+A full walkthrough is [here](/blog/code/2022-08-13-almazar-walkthrough.txt).
+
 ----
 
 Previously on this blog:
