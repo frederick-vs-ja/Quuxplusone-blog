@@ -119,3 +119,19 @@ to manually hoist loop invariants out of the inner loops:
 With the vanilla and callback-based versions, the compiler does this optimization for you automatically.
 With the coroutines version, my impression is that the compiler *should* be able to do this optimization,
 even though Clang currently does not.
+
+----
+
+UPDATE, 2024-05-10: Both Ranges and Coroutines are well enough supported these days that
+I should update these programs to use Standard C++. In fact, C++23 has `std::generator`!
+So here's some updated programs, and a table for comparison:
+
+|----------------------|-------------------|------------------|
+| Version              | 2019              | 2024             |
+|----------------------|-------------------|------------------|
+| C++2a range-v3       | [10 sec, 677 lines](https://godbolt.org/z/-QK7f3) | [7 sec, 472 lines](https://godbolt.org/z/-QK7f3) |
+| C++20 Ranges         |                   | [3 sec, 345 lines](https://godbolt.org/z/7nWcYbofT) |
+| C++2a coroutines     | [0.8 sec, 394 lines](https://godbolt.org/z/icY6RZ) | [3 sec, 426 lines](https://godbolt.org/z/hMb17Pzc1) |
+| C++23 coro generator |                   | [2 sec, 272 lines](https://godbolt.org/z/WhYr64obr) |
+| C++17 callbacks      | [1.1 sec, 58 lines](https://godbolt.org/z/DceWlI) | [0.3 sec, 61 lines](https://godbolt.org/z/DceWlI) |
+| C++17 vanilla        | [0.2 sec, 59 lines](https://godbolt.org/z/IH14zJ) | [0.3 sec, 59 lines](https://godbolt.org/z/IH14zJ) |
