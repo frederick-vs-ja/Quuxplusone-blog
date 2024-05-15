@@ -8,6 +8,7 @@ tags:
   naming
   operator-spaceship
   templates
+  triviality
   value-semantics
   wg21
 ---

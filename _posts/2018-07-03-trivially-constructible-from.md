@@ -6,6 +6,7 @@ tags:
   rant
   relocatability
   standard-library-trivia
+  triviality
 ---
 
 [Today I learned:](https://godbolt.org/g/ZWGL9e)

@@ -6,6 +6,7 @@ tags:
   move-semantics
   proposal
   relocatability
+  triviality
   value-semantics
 ---
 

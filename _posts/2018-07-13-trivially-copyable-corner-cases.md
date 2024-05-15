@@ -6,6 +6,7 @@ tags:
   pitfalls
   proposal
   relocatability
+  triviality
   wg21
 ---
 

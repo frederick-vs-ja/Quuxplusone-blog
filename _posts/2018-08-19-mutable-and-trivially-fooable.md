@@ -4,6 +4,7 @@ title: '`mutable` and "trivially fooable"'
 date: 2018-08-19 00:01:00 +0000
 tags:
   relocatability
+  triviality
   wg21
 excerpt: |
   Pop quiz, hotshot.
