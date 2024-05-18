@@ -11,7 +11,7 @@ tags:
   type-traits
 ---
 
-I've drafted a paper for the latest WG21 mailing containing the following interesting examples,
+I've [drafted a paper](https://isocpp.org/files/papers/P3279R0.html) for the latest WG21 mailing containing the following interesting examples,
 and proposing (as yet, vaguely) that we should do something about it.
 
 
