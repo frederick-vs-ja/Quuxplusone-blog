@@ -420,6 +420,62 @@ the same rule that permits things like
 If it weren't for iomanipulators like `endl` and `flush`, maybe we wouldn't need that rule in the core language?
 
 
+## Prefer `std::thread(lambda)` over `std::thread(f, args...)`
+
+This is a slight variation on ["Prefer lambdas over `std::bind`."](#prefer-lambdas-over-stdbind)
+
+C++11 `std::thread` supports a variadic number of arguments;
+but you should never pass any arguments. Just bundle them into a plain old core-language lambda, so that the compiler
+can see what you're doing; this will be cheaper _and_ (more to the point) permit much better error messages.
+
+    void worker(int, int&);
+
+    auto t = std::thread(
+        worker, x, std::ref(y)      // worse
+    );
+
+    auto t = std::thread([&, x]() {
+        worker(x, y);               // better
+    });
+
+The lambda version avoids using (and instantiating) `std::ref` for arguments you intended to capture by reference.
+But the main reason you should always use the lambda version is that if you ever get the argument types wrong,
+you trade a library error spew like this ([Godbolt](https://godbolt.org/z/PzdvYvcv9)):
+
+    In file included from /usr/include/c++/15.0.0/thread:49:
+    /usr/include/c++/15.0.0/bits/std_thread.h:156:17: error: static assertion failed
+    due to requirement '__is_invocable<void (*)(int, int &), int, std::reference_wrapper<float>>::value':
+    std::thread arguments must be invocable after conversion to rvalues
+      156 |         static_assert( __is_invocable<typename decay<_Callable>::type,
+          |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      157 |                                       typename decay<_Args>::type...>::value,
+          |                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    note: in instantiation of function template specialization 'std::thread::thread<void (&)(int, int &),
+    int &, std::reference_wrapper<float>, void>' requested here
+       11 |     auto t = std::thread(worker, x, std::ref(y));
+          |              ^
+    In file included from /usr/include/c++/15.0.0/thread:49:
+    /usr/include/c++/15.0.0/bits/std_thread.h:290:31: error: no type named 'type'
+    in 'std::thread::_Invoker<std::tuple<void (*)(int, int &), int, std::reference_wrapper<float>>>::__result<std::tuple<void (*)(int, int &), int, std::reference_wrapper<float>>>'
+      290 |           typename __result<_Tuple>::type
+          |           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+    /usr/include/c++/15.0.0/bits/std_thread.h:236:13: note: in instantiation of template class
+    'std::thread::_Invoker<std::tuple<void (*)(int, int &), int, std::reference_wrapper<float>>>' requested here
+      236 |         _Callable               _M_func;
+          |                                 ^
+    [...24 more lines...]
+
+for a nice simple compiler error:
+
+    In lambda function:
+    error: cannot bind non-const lvalue reference of type 'int&' to a value of type 'float'
+       12 |         worker(x, y);
+          |                   ^
+    note:   initializing argument 2 of 'void worker(int, int&)'
+        4 | void worker(int x, int& y) {
+          |                    ~~~~~^
+
+
 ## Finally, some near misses
 
 Regular readers of this blog will know that I advise strongly against [CTAD](/blog/tags/#class-template-argument-deduction),
