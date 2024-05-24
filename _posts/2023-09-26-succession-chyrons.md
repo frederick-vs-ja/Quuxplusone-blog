@@ -5,6 +5,7 @@ date: 2023-09-26 00:01:00 +0000
 tags:
   jokes
   television
+  transcription
   us-politics
 ---
 

@@ -5,6 +5,7 @@ date: 2018-04-03 00:01:00 +0000
 tags:
   movies
   old-shit
+  transcription
   us-politics
 ---
 

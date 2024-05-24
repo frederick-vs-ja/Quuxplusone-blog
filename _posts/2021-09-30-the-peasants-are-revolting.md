@@ -103,6 +103,6 @@ But I have a new favorite, from the ads-l thread:
 > A South American is describing his country to an American woman:
 > "...and our most popular sport is bull-fighting."
 >
-> "Oh! Isn't that revolting?" she asks.
+> "Oh!" she exclaims. "Isn't that revolting?"
 >
 > "No," smiles the South American. "That's our second-most."
