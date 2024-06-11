@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="-3 -3 6 6" style="background-color: white">
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="0" cy="0" r="1"/>
+  <text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="0.333333">476991963</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="1.92593" cy="-0" r="0.925926"/>
+  <text x="1.92593" y="-0" text-anchor="middle" dominant-baseline="central" font-size="0.308642">441659225</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="1.0301" cy="-1.45485" r="0.782609"/>
+  <text x="1.0301" y="-1.45485" text-anchor="middle" dominant-baseline="central" font-size="0.260870">373298058</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="-0.410256" cy="-1.61538" r="0.666667"/>
+  <text x="-0.410256" y="-1.61538" text-anchor="middle" dominant-baseline="central" font-size="0.222222">317994642</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="-1.44319" cy="-0.799297" r="0.649746"/>
+  <text x="-1.44319" y="-0.799297" text-anchor="middle" dominant-baseline="central" font-size="0.216582">309923712</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="-1.55086" cy="0.46492" r="0.619048"/>
+  <text x="-1.55086" y="0.46492" text-anchor="middle" dominant-baseline="central" font-size="0.206349">295280739</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="-0.781108" cy="1.30051" r="0.517056"/>
+  <text x="-0.781108" y="1.30051" text-anchor="middle" dominant-baseline="central" font-size="0.172352">246631392</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="0.203375" cy="1.46746" r="0.481481"/>
+  <text x="0.203375" y="1.46746" text-anchor="middle" dominant-baseline="central" font-size="0.160494">229662797</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="1.01709" cy="1.02564" r="0.444444"/>
+  <text x="1.01709" y="1.02564" text-anchor="middle" dominant-baseline="central" font-size="0.148148">211996428</text>
+</svg>

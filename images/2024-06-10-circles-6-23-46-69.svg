@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="-20 -20 50 40" style="background-color: white">
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="0" cy="0" r="1"/>
+  <text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="0.750000">6</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="12.5" cy="-0" r="11.5"/>
+  <text x="12.5" y="-0" text-anchor="middle" dominant-baseline="central" font-size="8.625000">69</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="-2.22" cy="-4.29333" r="3.83333"/>
+  <text x="-2.22" y="-4.29333" text-anchor="middle" dominant-baseline="central" font-size="2.875000">23</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="-5.44" cy="6.74667" r="7.66667"/>
+  <text x="-5.44" y="6.74667" text-anchor="middle" dominant-baseline="central" font-size="5.750000">46</text>
+</svg>
