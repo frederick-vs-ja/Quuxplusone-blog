@@ -1,0 +1,360 @@
+---
+layout: post
+title: "Who uses P2786 and P1144 for trivial relocation?"
+date: 2024-06-15 00:01:00 +0000
+tags:
+  proposal
+  relocatability
+  st-louis-2024
+  triviality
+---
+
+On Friday, June 28th, there will be a discussion at the C++ Committee meeting
+about the state of "trivial relocation" in C++.
+(The meeting is physically in St Louis, but also streamed remotely via Zoom and open to
+<i>visiting experts</i> per WG21's [Meetings and Participation Policy](https://isocpp.org/std/meetings-and-participation/).)
+If you're an expert (read: a library maintainer or developer) with opinions or experience
+on "trivial relocation" — especially if you have implemented it in your own codebase — I
+encourage you to read the participation policy and try (virtually) to show up for the discussion!
+
+There are two active proposals for trivial relocation in C++: my own P1144
+(based on pre-existing practice in Folly, BSL, and Qt)
+and Bloomberg's P2786 (a reaction to P1144). The latter — unfortunately in my view —
+has raced past P1144 in the committee and shows a real danger of being included in C++26.
+
+> Why "danger"? Because P2786 is not fit for any present-day library's needs.
+> See [section 2](#what-present-day-libraries-use-p2786-andor-p1144).
+>
+> And how "raced"? See [section 3](#history-of-p1144-and-p2786-in-wg21).
+
+For a good (non-Arthur-written) summary of "what is trivial relocation anyway," see Giuseppe D'Angelo's
+ongoing series of blog posts for KDAB, collectively titled "Qt and Trivial Relocation":
+
+* [Part 1: "What is relocation?"](https://www.kdab.com/qt-and-trivial-relocation-part-1/)
+* [Part 2: "Relocation and erasure"](https://www.kdab.com/qt-and-trivial-relocation-part-2/)
+* [Part 3: "Trivial relocability for vector erasure, and types with write-through reference semantics"](https://www.kdab.com/qt-and-trivial-relocation-part-3/)
+* [Part 4: "On trivial relocation and move assignments"](https://www.kdab.com/qt-and-trivial-relocation-part-4/)
+
+
+## What present-day libraries use P2786 and/or P1144
+
+There are several aspects to "trivial relocation" as a proposed C++ feature:
+
+* The simple user-facing type-trait `is_trivially_relocatable_v<T>`. P2786 and P1144 both propose this,
+    but with significantly different meanings. P2786 treats "relocatable" as a verb analogous to "move-constructible,"
+    whereas P1144 treats "trivially relocatable" as a holistic property analogous to "trivially copyable."
+    A P2786-friendly codebase would say that `tuple<int&>` is trivially relocatable (because it's trivially
+    move-constructible and trivially destructible), whereas a P1144-friendly codebase would say that `tuple<int&>` is
+    not trivially relocatable (because it permits a sequence of value-semantic operations preserving
+    the number of live objects of the type, which cannot be emulated by operating solely on the participating
+    objects' bit-patterns).
+
+* New library algorithms. P1144 proposes the gamut you'd expect by treating the verb `relocate` analogously to `construct`:
+    `uninitialized_relocate`, `uninitialized_relocate_n`, `uninitialized_relocate_backward`, `relocate_at`,
+    and a prvalue-producing [`relocate`](https://quuxplusone.github.io/blog/2022/05/18/std-relocate/).
+    P2786 proposes only `std::trivially_relocate`. These, again, are significantly different approaches.
+
+* Invisible-to-the-user library optimizations that are compatible with either P1144 or P2786; e.g. vector reallocation,
+    type-erased `function` move-construction and move-assignment, `inplace_vector` move-construction.
+
+* Invisible-to-the-user library optimizations that are compatible *only* with P1144; e.g. vector insert and erase,
+    swap, rotate, `inplace_vector` move-assignment.
+
+* "Warrant" syntax. P1144 proposes a `[[trivially_relocatable]]` attribute; P2786 proposes a contextual keyword
+    `trivially_relocatable`. Most libraries can be expected not to use these, because their effect would be
+    limited to compilers that support the attribute (in the former case) or to compilers speculatively supporting
+    a merely proposed C++26 keyword (in the latter case).
+
+For any codebase that concerns itself at all with "trivial relocation," we can look at how it deals with
+each of these four dimensions: Does it define a type-trait matching P1144's holistic semantics or P2786's single-operation semantics (or neither)?
+Does it provide some or all of P1144's proposed library algorithms, or P2786's single algorithm (or neither)?
+Does it implement optimizations compatible only with P1144, optimizations compatible with both proposals, or
+no optimizations at all?
+
+Further, it's only fair to look at three more relevant properties of a library:
+
+* Has it ever taken relevant input from Arthur O'Dwyer; from Mungo and Alisdair; both; or neither?
+    (And if so: Was the input in the form of code-review feedback, or actual code?)
+
+* Does the library rely on P1144's proposed feature-test macros `__cpp_impl_trivially_relocatable` and/or `__cpp_lib_trivially_relocatable`,
+    i.e., can you compile it with Arthur's fork of Clang/libc++ and get the optimizations today?
+    Alternatively, does it rely on P2786's proposed feature-test macro `__cpp_trivial_relocatability`?
+
+* Did any of the library's maintainers sign [P3236R1 "Please reject P2786 and adopt P1144"](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2024/p3236r1.html)
+    (May 2024)?
+
+I'll try to update this list of libraries as I find out about new ones.
+
+
+### [Abseil](https://github.com/abseil/abseil-cpp/)
+
+Google Abseil implements [`absl::is_trivially_relocatable`](https://github.com/abseil/abseil-cpp/blob/f04e489056d9be93072bb633d9818b1e2add6316/absl/meta/type_traits.h#L461-L525)
+with P1144 semantics: "its object representation doesn't depend on its address,
+and also none of its special member functions do anything strange."
+Abseil goes out of its way to avoid using Clang's `__is_trivially_relocatable` builtin,
+because of [Clang #69394](https://github.com/llvm/llvm-project/issues/69394), but also because:
+
+    // Clang on all platforms fails to detect that a type with a user-provided
+    // move-assignment operator is not trivially relocatable. So in fact we
+    // opt out of Clang altogether, for now.
+    //
+    // TODO(b/325479096): Remove the opt-out once Clang's behavior is fixed.
+
+Abseil does use the builtin if P1144's feature-test macro `__cpp_impl_trivially_relocatable` is defined.
+This means that we can use Godbolt to see Abseil getting better codegen on a compiler that supports P1144:
+[this Godbolt](https://godbolt.org/z/4orv6ETM3) shows `inlined_vector::erase` generating a loop over the
+assignment operator with Clang trunk, but a straight-line `memmmove` with P1144 Clang.
+
+Abseil's Swiss tables (e.g. `absl::flat_hash_set`) optimize rehashing (compatible with both P2786 and P1144);
+[this Godbolt](https://godbolt.org/z/6Wc57EY86) shows the benefit.
+`absl::InlinedVector` optimizes `erase` and `swap` (compatible only with P1144), but not `insert` or `reserve`.
+The `erase` and `swap` optimizations were implemented by Arthur O'Dwyer ([#1625](https://github.com/abseil/abseil-cpp/pull/1625),
+[#1618](https://github.com/abseil/abseil-cpp/pull/1618), [#1632](https://github.com/abseil/abseil-cpp/pull/1632)).
+
+
+### [AMC](https://github.com/AmadeusITGroup/amc/)
+
+Amadeus AMC implements `amc::is_trivially_relocatable` with P1144 semantics.
+It implements the P1144 library algorithms `uninitialized_relocate_n` and `relocate_at` (but not the other three,
+and not P2786's `trivially_relocate`).
+
+`amc::SmallVector` and `amc::Vector` both optimize `reserve` (compatible with both P2786 and P1144),
+as well as `swap` (delegating some of the work to `std::swap_ranges` so as to remain compatible with both P2786 and P1144).
+They both optimize `insert` and `erase` (compatible only with P1144).
+
+AMC's sole contributor, Stéphane Janel, signed P3236R1.
+
+
+### [Blender](https://projects.blender.org/blender/)
+
+Blender implements P1144's [`uninitialized_relocate_n`](https://projects.blender.org/blender/blender/src/commit/6c9a0e8c15aa7f2b0c8a96a9c8adab1bb87666b3/source/blender/blenlib/BLI_memory_utils.hh#L82-L86),
+but without any optimization for, or attempt to identify, trivially relocatable types.
+
+Blender has never taken commits or code review from Arthur, Mungo, or Alisdair.
+
+Two Blender maintainers signed P3236R1.
+
+
+### [BSL](https://github.com/bloomberg/bde)
+
+Bloomberg BSL's implementation is very old — older than any standards proposal in this area.
+
+BSL implements `bslmf::IsBitwiseMoveable` with P1144 semantics, i.e. as a synonym for the holistic property
+[`is_trivially_copyable`](https://github.com/bloomberg/bde/blob/0098f67d4bf58197b82dff79be636fcb3780791a/groups/bsl/bslmf/bslmf_isbitwisemoveable.h#L617-L665),
+albeit with a (non-P1144-compatible, non-P2786-compatible) special case that assumes all one-byte types must be
+empty and therefore trivial. Notably, BSL does *not* set `IsBitwiseMoveable` for trivially move-constructible, trivially destructible
+types (such as `tuple<int&>`).
+
+BSL provides the generic algorithms `bslma::ConstructionUtil::destructiveMove(destp, alloc, srcp)` (analogous but certainly
+not identical to P1144's generic `relocate_at(srcp, destp)`) and `ArrayPrimitives::destructiveMove(d_first, first, last, alloc)`
+(ditto, P1144's generic `uninitialized_relocate(first, last, d_first)`).
+
+`bsl::vector` optimizes [`reserve`](https://github.com/bloomberg/bde/blob/0098f67d4bf58197b82dff79be636fcb3780791a/groups/bsl/bslstl/bslstl_vector.h#L3607-L3631)
+(compatible with both P2786 and P1144) by delegating to the generic `ArrayPrimitives::destructiveMove`.
+It optimizes [`insert`](https://github.com/bloomberg/bde/blob/0098f67d4bf58197b82dff79be636fcb3780791a/groups/bsl/bslalg/bslalg_arrayprimitives.h#L3965-L4053)
+and `erase` (compatible only with P1144) likewise.
+
+`bsl::deque` optimizes `insert` and `erase` (compatible only with P1144).
+
+`bsl::vector::insert(pos, first, last)`, when `first` is an input iterator (so that `last - first` cannot be computed), will
+append elements to the end of the vector and then delegate to the generic `ArrayPrimitives::rotate`, which optimizes
+(compatible only with P1144). BSL does not provide its own implementations of `bsl::rotate`, `bsl::swap_ranges`, etc.; those
+algorithms are just `using`'ed from namespace `std`.
+
+BSL has of course taken commits from Alisdair Meredith and Mungo Gill, but if any of them were in this particular area,
+it's not immediately obvious. It's never taken commits from Arthur O'Dwyer.
+
+
+### [Folly](https://github.com/facebook/folly)
+
+Facebook Folly's implementation is very old — older than any standards proposal in this area.
+
+Folly implements `folly::IsRelocatable` with P1144 semantics.
+It does not implement either proposal's library algorithms.
+
+`folly::fbvector` optimizes `reserve` (compatible with both P2786 and P1144) and also `insert` and `erase` (compatible only with P1144).
+
+`folly::small_vector` optimizes move-construction (compatible with both P2786 and P1144) and move-assignment (compatible only with P1144),
+but not `insert` or `erase`. Arthur contributed the former optimization ([#1934](https://github.com/facebook/folly/pull/1934)); the
+latter [was done](https://github.com/facebook/folly/commit/2459e172518a7b5d55292b0d8b741ff14def87ba) independently by Giuseppe Ottaviano,
+who later signed P3236R1.
+
+
+### [HPX](https://github.com/STEllAR-GROUP/hpx)
+
+Stellar HPX [asked](https://github.com/STEllAR-GROUP/hpx/wiki/Google-Summer-of-Code-(GSoC)-2023#implement-the-relocate-algorithms)
+for an implementation of P1144 and/or P2786 as part of Google Summer of Code 2023. P1144 was implemented; Arthur was asked to code-review,
+and did so. The feature was shipped in [HPX 1.10](https://hpx-docs.stellar-group.org/latest/html/releases/whats_new_1_10_0.html) (May 2024).
+IIUC, it's all in the namespace `hpx::experimental` — although a lot of the documentation currently implies it's in namespace `hpx`?
+
+HPX 1.10 implements `is_trivially_relocatable_v` with P1144 semantics.
+It implements the P1144 library algorithms `uninitialized_relocate{,_n,_backward}` and `relocate_at`; it
+[comments on, but doesn't implement](https://github.com/STEllAR-GROUP/hpx/blob/d08354defb0a5c37bf5ad5da77191f10db9c3067/libs/core/type_support/include/hpx/type_support/relocate_at.hpp#L96-L121)
+P1144 `relocate`; and it doesn't implement P2786 `trivially_relocate`.
+
+It does not implement any library optimizations.
+
+It does not use anyone's feature-test macros; it uses a config macro `HPX_HAVE_P1144_RELOCATE_AT` instead. If that macro
+is set, it will fall back to P1144's `std::is_trivially_relocatable`, `std::uninitialized_relocate`, etc.
+
+Three HPX contributors signed P3236R1.
+
+
+### [ParlayLib](https://github.com/cmuparlay/parlaylib)
+
+Carnegie Mellon ParlayLib has supported relocation with P1144 semantics since [October 2020](https://github.com/cmuparlay/parlaylib/commit/b8d5f3aedac79cf7203defe986c457518cd6cb78);
+originally the code was based on a draft of P1144R0. In November 2023 the project's primary maintainer, Daniel Liam Anderson,
+rewrote the code to match P1144R10;
+this update was code-reviewed by Arthur O'Dwyer ([#67](https://github.com/cmuparlay/parlaylib/pull/67), [#1](https://github.com/Quuxplusone/parlaylib/pull/1))
+and merged in February 2024.
+
+ParlayLib implements [`parlay::is_trivially_relocatable`](https://github.com/cmuparlay/parlaylib/blob/36459f4/include/parlay/type_traits.h#L250-L304)
+per P1144. If the P1144 feature-test macro `__cpp_lib_trivially_relocatable` is defined, then it will fall back to
+`std::is_trivially_relocatable`. Unusually for this survey, ParlayLib will use Clang's builtin `__is_trivially_relocatable`
+even in the absence of any feature-test macro.
+
+ParlayLib supports the P1144 library algorithms `uninitialized_relocate{,_n}` and `relocate_at`.
+It doesn't implement P2786 `trivially_relocate`.
+
+ParlayLib [uses](https://github.com/cmuparlay/parlaylib/blob/36459f4/include/parlay/type_traits.h#L309-L313)
+the `[[trivially_relocatable]]` attribute if the feature-test macro `__cpp_impl_trivially_relocatable` is set.
+This allows it [to warrant to the compiler](https://github.com/cmuparlay/parlaylib/blob/36459f42a84207330eae706c47e6fab712e6a149/include/parlay/sequence.h#L69-L70)
+that `parlay::sequence<T>` (a kind of multithreading-aware `vector`) is trivially relocatable.
+
+ParlayLib supports several parallel `sort_copy`-style algorithms, each of which takes a template policy parameter controlling
+the way in which data is copied from the input range to the output range. One such policy is `uninitialized_relocate_tag`,
+which *relocates* elements from the input range to the output range. This is used to implement an
+[in-place `sort`](https://github.com/cmuparlay/parlaylib/blob/36459f42a84207330eae706c47e6fab712e6a149/include/parlay/internal/counting_sort.h#L318-L325) as:
+
+    auto Tmp = uninitialized_sequence<value_type>(In.size());
+    auto a = count_sort<uninitialized_relocate_tag>(In, make_slice(Tmp), make_slice(Keys), num_buckets);
+    parlay::uninitialized_relocate(Tmp.begin(), Tmp.end(), In.begin());
+
+ParlayLib's primary maintainer signed P3236R1.
+
+
+## [PocketPy](https://github.com/pocketpy/pocketpy)
+
+PocketPy in [#208](https://github.com/pocketpy/pocketpy/pull/208) (2024) implemented a `small_vector` that uses relocation in
+its move-constructor.
+
+PocketPy implements [`pkpy::is_trivially_relocatable_v`](https://github.com/pocketpy/pocketpy/blob/0406dfab787b86cbd63f486209902965c78d78ef/include/pocketpy/vector.h#L182-L201)
+with P1144 semantics, essentially as an implementation detail of `pkpy::small_vector`. This was introduced in
+[#208](https://github.com/pocketpy/pocketpy/pull/208) (February 2024).
+
+`pkpy::small_vector::reserve` [uses `realloc`](https://github.com/pocketpy/pocketpy/blob/0406dfab787b86cbd63f486209902965c78d78ef/include/pocketpy/vector.h#L353-L363)
+for trivially relocatable value types (compatible with both P2786 and P1144). `pkpy::small_vector` doesn't
+support `insert`, `erase`, or `swap` at all.
+
+PocketPy has never taken commits or code review from Arthur, Mungo, or Alisdair.
+
+
+### [Qt](https://github.com/qt/qtbase)
+
+Qt's implementation is very old — older than any standards proposal in this area.
+
+It implements `Q_IS_RELOCATABLE` (née `Q_IS_MOVABLE`) according to the P1144 definition,
+and has implemented the P1144-alike library algorithm `q_uninitialized_relocate` since [June 2020](https://github.com/qt/qtbase/commit/ffb73175e6c5b35e6367c88479cc0bf160482016).
+
+Like BSL, Qt lacks a public `rotate` algorithm, but internally it uses a
+[`q_rotate`](https://github.com/qt/qtbase/blob/ad922bbac1d65ff044c63160c73324fa27f44793/src/corelib/tools/qcontainertools_impl.h#L91-L109)
+optimized for trivially relocatable types (compatible only with P1144).
+
+`QVector` and `QList` optimize `insert` and [`erase`](https://github.com/qt/qtbase/blob/ad922bbac1d65ff044c63160c73324fa27f44793/src/corelib/tools/qarraydataops.h#L183-L202)
+(both compatible only with P1144, not P2786). Qt's incompatibility with P2786 is one of the main takeaways of the blog series
+"Qt and Trivial Relocatability" linked [above](#for-a-good-non-arthur-written-su).
+
+Qt has never taken commits or code-review from Arthur, Mungo, or Alisdair.
+
+Qt contributor Giuseppe D'Angelo authored [P3233R0 "Issues with P2786"](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2024/p3233r0.html)
+in April 2024.
+
+Two Qt maintainers signed P3236R1.
+
+
+### [`stdx::error`](https://github.com/charles-salvia/std_error)
+
+Charles Salvia's `stdx::error` library defines
+[`stdx::is_trivially_relocatable`](https://github.com/charles-salvia/std_error/blob/25a2263152d4fe1b923c8daa568c9f61157f3939/all_in_one.hpp#L180-L196)
+with P1144 semantics; if the P1144 feature-test macro `__cpp_lib_trivially_relocatable` is defined,
+it will fall back to `std::is_trivially_relocatable`. Unusually for this survey, `stdx::error` will use Clang's builtin `__is_trivially_relocatable`
+even in the absence of any feature-test macro.
+
+`stdx::error` uses P1144's `[[trivially_relocatable]]` attribute to mark `error` as trivially relocatable,
+if the feature-test macro `__cpp_impl_trivially_relocatable` is defined.
+
+Its use of trivial relocation is compatible with both P2786 and P1144.
+
+All of this code was contributed by Arthur O'Dwyer ([#1](https://github.com/charles-salvia/std_error/pull/1),
+[#2](https://github.com/charles-salvia/std_error/pull/2)) during the November 2023 Kona meeting.
+`stdx::error` has never taken commits or code review from Mungo or Alisdair.
+
+
+### [Thrust](https://github.com/nvidia/cccl)
+
+NVIDIA Thrust implements
+[`thrust::is_trivially_relocatable`](https://github.com/NVIDIA/cccl/blob/701b50d4a299e24daf5d945cde28e8df079c6937/thrust/thrust/type_traits/is_trivially_relocatable.h#L215-L223)
+with P1144 semantics and documentation that refers to P1144R0.
+
+It uses the trait in `async_copy_n` to relocate data from one place to another (compatible with both P1144 and P2786);
+however, `async_copy_n` itself is then used as a building block of the in-place
+[`async_stable_sort_n`](https://github.com/NVIDIA/cccl/blob/701b50d4a299e24daf5d945cde28e8df079c6937/thrust/thrust/system/cuda/detail/async/sort.h#L93-L120)
+analogous to ParlayLib's code quoted [above](#parlaylib-supports-several-paral).
+Since this uses relocation to permute elements during their lifetime ("swap by relocating"),
+it is compatible with P1144 but not P2786.
+
+Thrust has never taken commits or code-review from Arthur, Mungo, or Alisdair.
+
+
+## History of P1144 and P2786 in WG21
+
+<i>Links in this section tend to go to the committee minutes on the WG21 wiki, which is private and accessible to committee members only.</i>
+
+* [P1144 "`std::is_trivially_relocatable`"](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2024/p1144r10.html) (Arthur O'Dwyer, 2018–present)
+    remains stuck in EWGI. It has been discussed three times in the six years since 2018:
+
+  * At the February 2019 Kona meeting, EWGI saw P1144R3 and gave feedback.
+
+  * At the February 2020 Prague meeting, EWGI [saw](https://wiki.edg.com/bin/view/Wg21prague/P1144R4SG17) P1144R4 (in my absence)
+        and voted to forward to EWG (1–3–4–1–0, votes ordered "Strongly in Favor" to "Strongly Against").
+        No changes were requested (since everyone seems to have assumed it was being forwarded).
+        P1144R5 was published in March 2020, but was never scheduled again in WG21 for the next three years.
+
+  * At the February 2023 Issaquah meeting, EWGI saw both P2786R0 and P1144R6. An author of P2786 asked that P2786 and P1144 be forwarded together to EWG,
+        or not at all, so that EWG could have a design discussion seeing both designs at once. However, two separate forwarding polls were taken.
+        P1144R6 (with one author present remotely) [polled](https://wiki.edg.com/bin/view/Wg21issaquah2023/EWGIP1144R6) 0–7–4–3–1;
+        P2786R0 (with two) polled 1–8–3–3–1. The former was judged "not consensus" and the latter was judged "consensus."
+
+  * At the November 2023 Kona meeting, trivial relocatability was discussed in a Friday informational-only session of EWG.
+        No quorum was present and no minutes were taken.
+
+* [P2786 "Trivial Relocatability for C++26"](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2024/p2786r6.pdf) (Mungo Gill and Alisdair Meredith, 2023–present)
+    has passed once through EWG and CWG, although it enters St Louis on LEWG's plate and also (luckily, although I don't quite understand
+    how we got here procedurally) back on EWG's plate for further discussion.
+
+  * P2786R0 was first published in February 2023, [seen](https://wiki.edg.com/bin/view/Wg21issaquah2023/EWGIP1144R6) by EWGI (as above),
+      forwarded 1–8–3–3–1.
+
+  * At the November 2023 Kona meeting, trivial relocatability was discussed in a Friday informational-only session of EWG.
+        No quorum was present and no minutes were taken.
+
+  * At the February 2024 Tokyo meeting, EWG [saw](https://wiki.edg.com/bin/view/Wg21tokyo2024/NotesEWGP2786) 
+        P2786 alone (despite the author's request to discuss it alongside P1144).
+        It was forwarded to CWG (7–9–6–0–2), seen by CWG, and approved. It was then sent to LEWG for consideration
+        by that subgroup.
+
+  * On 2024-04-09, LEWG [saw](https://wiki.edg.com/bin/view/Wg21telecons2024/P2786#Library_Evolution_Telecon_2024-04-09) P2786R4 in a Zoom telecon.
+        It was pointed out by several participants that P2786 didn't match the semantics of any present-day library;
+        even Bloomberg's own BSL uses the P1144 model.
+
+* The past year (especially the months since the February 2024 Tokyo meeting) has seen several new papers in the space:
+
+  * [P2967R1 "Relocation has a library interface"](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2024/p2967r1.pdf) (Alisdair Meredith and Mungo Gill, October 2023–present)
+
+  * [P3233R0 "Issues with P2786"](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2024/p3233r0.html) (Giuseppe D'Angelo, April 2024)
+
+  * [P3236R1 "Please reject P2786 and adopt P1144"](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2024/p3236r1.html) (several authors, April 2024–present)
+
+  * [P3239R0 "A relocating `swap`"](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2024/p3239r0.pdf) (Alisdair Meredith, May 2024)
+
+  * [P3278R0 "Analysis of interaction between relocation, assignment, and swap"](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2024/p3278r0.pdf) (Nina Ranns and Corentin Jabot, May 2024)
