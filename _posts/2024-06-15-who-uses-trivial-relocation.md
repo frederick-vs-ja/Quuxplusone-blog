@@ -71,7 +71,7 @@ Does it provide some or all of P1144's proposed library algorithms, or P2786's s
 Does it implement optimizations compatible only with P1144, optimizations compatible with both proposals, or
 no optimizations at all?
 
-Further, it's only fair to look at three more relevant properties of a library:
+Further, it's only fair to look at three other relevant properties of a library:
 
 * Has it ever taken relevant input from Arthur O'Dwyer; from Mungo and Alisdair; both; or neither?
     (And if so: Was the input in the form of code-review feedback, or actual code?)
@@ -161,7 +161,7 @@ append elements to the end of the vector and then delegate to the generic `Array
 (compatible only with P1144). BSL does not provide its own implementations of `bsl::rotate`, `bsl::swap_ranges`, etc.; those
 algorithms are just `using`'ed from namespace `std`.
 
-BSL has of course taken commits from Alisdair Meredith and Mungo Gill, but if any of them were in this particular area,
+BSL has taken commits from Alisdair Meredith and Mungo Gill, but if any of them were in this particular area,
 it's not immediately obvious. It's never taken commits from Arthur O'Dwyer.
 
 
@@ -288,6 +288,27 @@ Its use of trivial relocation is compatible with both P2786 and P1144.
 All of this code was contributed by Arthur O'Dwyer ([#1](https://github.com/charles-salvia/std_error/pull/1),
 [#2](https://github.com/charles-salvia/std_error/pull/2)) during the November 2023 Kona meeting.
 `stdx::error` has never taken commits or code review from Mungo or Alisdair.
+
+
+### [Subspace](https://github.com/chromium/subspace)
+
+Chromium Subspace defines [`concept sus::mem::TriviallyRelocatable`](https://github.com/chromium/subspace/blob/f9c481a241961a7be827d31fadb01badac6ee86a/sus/mem/relocate.h#L47-L129)
+with P1144 semantics: the internal documentation talks about "non-trivial move *operations* and destructors,"
+and the concept [tests](https://github.com/chromium/subspace/blob/f9c481a241961a7be827d31fadb01badac6ee86a/sus/mem/relocate.h#L58C19-L58C49) `is_trivially_move_assignable`.
+
+Alone in this survey, Subspace [tests](https://github.com/chromium/subspace/blob/f9c481a241961a7be827d31fadb01badac6ee86a/sus/mem/relocate.h#L60C7-L60C45)
+`__has_extension(trivially_relocatable)` when deciding whether to trust Clang's `__is_trivially_relocatable` builtin. This `__has_extension` flag
+is defined in Arthur's P1144 reference implementation but not in Clang trunk, nor in Corentin Jabot's P2786 reference implementation.
+
+`sus::collections::Vec<T>` optimizes `reserve` (compatible with both P2786 and P1144).
+Trivial relocation is also used as a building block in `Vec::drain` (compatible with both P2786 and P1144).
+`Vec` doesn't support arbitrary `insert` or `erase`.
+
+Subspace's almost-sole-contributor Dana Jansens wrote a blog post describing Subspace's use of trivial relocation
+in [`sus::mem::swap(T&, T&)`](https://github.com/chromium/subspace/blob/f9c481a241961a7be827d31fadb01badac6ee86a/sus/mem/swap.h#L38-L56),
+which is compatible only with P1144, not P2786:
+
+* ["Trivially Relocatable Types in C++/Subspace"](https://orodu.net/2023/01/15/trivially-relocatable.html) (Dana Jansens, January 2023)
 
 
 ### [Thrust](https://github.com/nvidia/cccl)
