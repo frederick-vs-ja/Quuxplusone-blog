@@ -200,6 +200,43 @@ is set, it will fall back to P1144's `std::is_trivially_relocatable`, `std::unin
 Three HPX contributors signed P3236R1.
 
 
+### [libc++](https://github.com/llvm/llvm-project/tree/main/libcxx)
+
+libc++ introduced [`std::__libcpp_is_trivially_relocatable<T>`](https://github.com/llvm/llvm-project/blob/d6cc35f7f67575f2d3534ea385c2f36f48f49aea/libcxx/include/__type_traits/is_trivially_relocatable.h#L24-L38)
+in [February 2024](https://github.com/llvm/llvm-project/commit/4e112e5c1c8511056030294af3264da35f95d93c).
+Unusually for this survey, libc++ uses Clang's builtin `__is_trivially_relocatable`
+even in the absence of any feature-test macro. This means that it suffers from [Clang #69394](https://github.com/llvm/llvm-project/issues/69394);
+but it's also evidence that libc++ is satisfied for now to look only at "move construct + destroy" (compatible with P2786).
+For example, `__libcpp_is_trivially_relocatable<tuple<int&>>` is true (compatible only with P2786).
+
+libc++ optimizes `vector` reallocation (compatible with both P2786 and P1144), and nothing else.
+
+libc++ doesn't implement any library API from either P1144 or P2786 (not even for internal use).
+
+libc++ has taken commits and code review from Arthur, but not in this area.
+
+
+### [libstdc++](https://github.com/gcc-mirror/gcc/tree/master/libstdc%2B%2B-v3)
+
+libstdc++ introduced [`std::__is_bitwise_relocatable`](https://github.com/gcc-mirror/gcc/blob/471fb09260179fd59d98de9f3d54b29c17232fb6/libstdc%2B%2B-v3/include/bits/stl_uninitialized.h#L1079-L1083)
+in October 2018; author Marc Glisse originally called it `std::__is_trivially_relocatable` but renamed it in February 2019
+at Arthur's suggestion (thus keeping the name `__is_trivially_relocatable` available for the core-language builtin,
+which was added to Clang by Devin Jeanpierre in [February 2022](https://github.com/llvm/llvm-project/commit/19aa2db023c0128913da223d4fb02c474541ee22).
+
+`std::__is_bitwise_relocatable` is true for trivial types and for `deque<T>` specifically, because libstdc++'s `deque`
+has a throwing move-constructor (therefore before 2018 it was getting the [vector pessimization](/blog/2022/08/26/vector-pessimization/)).
+
+libstdc++ optimizes `vector` reallocation (compatible with both P2786 and P1144), and nothing else.
+
+libstdc++ defines a generic algorithm [`__relocate_a(first, last, d_first, alloc)`](https://github.com/gcc-mirror/gcc/blob/471fb09260179fd59d98de9f3d54b29c17232fb6/libstdc%2B%2B-v3/include/bits/stl_uninitialized.h#L1135-L1148)
+which is roughly analogous to P1144's `uninitialized_relocate(first, last, d_first)`.
+It also defines a helper
+[`__relocate_object_a(dest, src, alloc)`](https://github.com/gcc-mirror/gcc/blob/471fb09260179fd59d98de9f3d54b29c17232fb6/libstdc%2B%2B-v3/include/bits/stl_uninitialized.h#L1064-L1077)
+but only for non-trivially-relocatable types (and notice that this parameter order is the opposite of P1144's `std::relocate_at`).
+
+libstdc++ has never taken commits from Arthur, Mungo, or Alisdair.
+
+
 ### [ParlayLib](https://github.com/cmuparlay/parlaylib)
 
 Carnegie Mellon ParlayLib has supported relocation with P1144 semantics since [October 2020](https://github.com/cmuparlay/parlaylib/commit/b8d5f3aedac79cf7203defe986c457518cd6cb78);
