@@ -71,7 +71,7 @@ Does it provide some or all of P1144's proposed library algorithms, or P2786's s
 Does it implement optimizations compatible only with P1144, optimizations compatible with both proposals, or
 no optimizations at all?
 
-Further, it's only fair to look at three other relevant properties of a library:
+Further, it's only fair to look at four other relevant properties of a library:
 
 * Has it ever taken relevant input from Arthur O'Dwyer; from Mungo and Alisdair; both; or neither?
     (And if so: Was the input in the form of code-review feedback, or actual code?)
@@ -82,6 +82,10 @@ Further, it's only fair to look at three other relevant properties of a library:
 
 * Did any of the library's maintainers sign [P3236R1 "Please reject P2786 and adopt P1144"](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2024/p3236r1.html)
     (May 2024)?
+
+* Did any of the library's maintainers comment (pro or con) on [Clang #84621](https://github.com/llvm/llvm-project/pull/84621),
+    which asks Clang to implement P1144 semantics for `__is_trivially_relocatable(T)`?
+
 
 I'll try to update this list of libraries as I find out about new ones.
 
@@ -111,6 +115,9 @@ Abseil's Swiss tables (e.g. `absl::flat_hash_set`) optimize rehashing (compatibl
 The `erase` and `swap` optimizations were implemented by Arthur O'Dwyer ([#1625](https://github.com/abseil/abseil-cpp/pull/1625),
 [#1618](https://github.com/abseil/abseil-cpp/pull/1618), [#1632](https://github.com/abseil/abseil-cpp/pull/1632)).
 
+One Abseil maintainer [thumbs-upped](https://api.github.com/repos/llvm/llvm-project/issues/84621/reactions) Clang #84621,
+but did not leave a comment.
+
 
 ### [AMC](https://github.com/AmadeusITGroup/amc/)
 
@@ -122,7 +129,8 @@ and not P2786's `trivially_relocate`).
 as well as `swap` (delegating some of the work to `std::swap_ranges` so as to remain compatible with both P2786 and P1144).
 They both optimize `insert` and `erase` (compatible only with P1144).
 
-AMC's sole contributor, Stéphane Janel, signed P3236R1.
+AMC's sole contributor, Stéphane Janel, signed P3236R1. He also commented
+[in favor](https://github.com/llvm/llvm-project/pull/84621#discussion_r1554201161) on Clang #84621.
 
 
 ### [Blender](https://projects.blender.org/blender/)
@@ -165,19 +173,43 @@ BSL has taken commits from Alisdair Meredith and Mungo Gill, but if any of them 
 it's not immediately obvious. It's never taken commits from Arthur O'Dwyer.
 
 
+### [`fast_io`](https://github.com/cppfastio/fast_io)
+
+The `cppfastio/fast_io` library implements
+[`fast_io::freestanding::is_trivially_relocatable`](https://github.com/cppfastio/fast_io/blob/0ef858811e97a41007ae33ca757cf44f7c41ab20/include/fast_io_core_impl/freestanding/relocatable.h#L6-L13)
+with P1144 semantics.
+
+In eleven places, it tests `__has_cpp_attribute(clang::trivially_relocatable)` and uses the attribute to warrant types
+as trivially relocatable if the attribute is supported. This attribute is supported only in Arthur's P1144 reference implementation.
+It appears to me that none of these eleven instances strongly depend on P1144's "sharp-knife" semantics; I think they are equally
+compatible with P2786's "dull-knife" semantics.
+
+`fast_io::containers::vector<T>` optimizes reallocation (compatible with both P2786 and P1144) and
+[`erase`](https://github.com/cppfastio/fast_io/blob/master/include/fast_io_dsal/impl/vector.h#L970-L990) (compatible only with P1144).
+However, as of this writing, `erase` is certainly buggy for most `T`, regardless of the relocation optimization;
+so this library is fundamentally *not an example* of usage experience.
+
+`fast_io` has taken code review from Arthur O'Dwyer.
+
+
 ### [Folly](https://github.com/facebook/folly)
 
 Facebook Folly's implementation is very old — older than any standards proposal in this area.
 
-Folly implements `folly::IsRelocatable` with P1144 semantics.
+Folly implements `folly::IsRelocatable` with P1144 semantics. As of [#2216](https://github.com/facebook/folly/pull/2216) (June 2024),
+Folly will use P1144's `std::is_trivially_relocatable<T>` when the feature-test macro
+`__cpp_lib_trivially_relocatable` is set. (This code was contributed by Arthur O'Dwyer.)
+
 It does not implement either proposal's library algorithms.
 
 `folly::fbvector` optimizes `reserve` (compatible with both P2786 and P1144) and also `insert` and `erase` (compatible only with P1144).
 
-`folly::small_vector` optimizes move-construction (compatible with both P2786 and P1144) and move-assignment (compatible only with P1144),
-but not `insert` or `erase`. Arthur contributed the former optimization ([#1934](https://github.com/facebook/folly/pull/1934)); the
-latter [was done](https://github.com/facebook/folly/commit/2459e172518a7b5d55292b0d8b741ff14def87ba) independently by Giuseppe Ottaviano,
-who later signed P3236R1.
+`folly::small_vector` optimizes move-construction (compatible with both P2786 and P1144; contributed in [#1934](https://github.com/facebook/folly/pull/1934)
+by Arthur O'Dwyer) and move-assignment (compatible only with P1144; contributed
+[separately](https://github.com/facebook/folly/commit/2459e172518a7b5d55292b0d8b741ff14def87ba) by Giuseppe Ottaviano).
+`small_vector` does not yet optimize `insert` or `erase`.
+
+Folly maintainer Giuseppe Ottaviano signed P3236R1.
 
 
 ### [HPX](https://github.com/STEllAR-GROUP/hpx)
@@ -197,7 +229,8 @@ It does not implement any library optimizations.
 It does not use anyone's feature-test macros; it uses a config macro `HPX_HAVE_P1144_RELOCATE_AT` instead. If that macro
 is set, it will fall back to P1144's `std::is_trivially_relocatable`, `std::uninitialized_relocate`, etc.
 
-Three HPX contributors signed P3236R1.
+Three HPX contributors signed P3236R1. One (the primary implementor of HPX's P1144 implementation) commented
+[in favor](https://github.com/llvm/llvm-project/pull/84621#issuecomment-2010442722) on Clang #84621.
 
 
 ### [libc++](https://github.com/llvm/llvm-project/tree/main/libcxx)
@@ -267,7 +300,8 @@ which *relocates* elements from the input range to the output range. This is use
     auto a = count_sort<uninitialized_relocate_tag>(In, make_slice(Tmp), make_slice(Keys), num_buckets);
     parlay::uninitialized_relocate(Tmp.begin(), Tmp.end(), In.begin());
 
-ParlayLib's primary maintainer signed P3236R1.
+ParlayLib's primary maintainer signed P3236R1, and commented [in favor](https://github.com/llvm/llvm-project/pull/84621#issuecomment-2004173918)
+on Clang #84621.
 
 
 ## [PocketPy](https://github.com/pocketpy/pocketpy)
@@ -306,7 +340,8 @@ Qt has never taken commits or code-review from Arthur, Mungo, or Alisdair.
 Qt contributor Giuseppe D'Angelo authored [P3233R0 "Issues with P2786"](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2024/p3233r0.html)
 in April 2024.
 
-Two Qt maintainers signed P3236R1.
+Two Qt maintainers signed P3236R1. They commented [in favor](https://github.com/llvm/llvm-project/pull/84621#discussion_r1527150062)
+and ["weak 'leans-to'"](https://github.com/llvm/llvm-project/pull/84621#discussion_r1522177263), respectively, on Clang #84621.
 
 
 ### [`stdx::error`](https://github.com/charles-salvia/std_error)
@@ -325,6 +360,30 @@ Its use of trivial relocation is compatible with both P2786 and P1144.
 All of this code was contributed by Arthur O'Dwyer ([#1](https://github.com/charles-salvia/std_error/pull/1),
 [#2](https://github.com/charles-salvia/std_error/pull/2)) during the November 2023 Kona meeting.
 `stdx::error` has never taken commits or code review from Mungo or Alisdair.
+
+
+## [`small_vectors`](https://github.com/arturbac/small_vectors/)
+
+Artur Bać's C++23 `small_vectors` library provides
+[`small_vectors::is_relocatable_v`](https://github.com/arturbac/small_vectors/blob/master/include/small_vectors/detail/uninitialized_constexpr.h#L10-L14)
+with P1144 semantics.
+
+It optimizes only reallocation (compatible with both P2786 and P1144).
+
+It implements (as an implementation detail) a P1144-alike `detail::uninitialized_relocate_n(first, n, dest)`,
+with no optimization. Besides that algorithm, it also provides three novel algorithms:
+
+- `uninitialized_relocate_with_copy_n(first, n, dest)` which does copy-and-destroy instead of move-and-destroy
+
+- `uninitialized_relocate_if_noexcept_n(first, n, dest)` which does move-and-destroy if move is nothrow, otherwise copy-and-destroy
+
+- `uninitialized_uneven_range_swap(first1, n1, first2, n2)` which swaps the first `min(n1, n2)` elements and then
+    relocates the rest from the end of the longer range to the end of the shorter range. This is the building
+    block of a small-vector `swap` (compatible only with P1144); although in fact this is dead code — `small_vectors`
+    currently provides no `swap` functionality.
+
+`small_vectors`' almost-sole contributor commented [in favor](https://github.com/llvm/llvm-project/pull/84621#issuecomment-2023964183)
+of Clang #84621.
 
 
 ### [Subspace](https://github.com/chromium/subspace)
@@ -346,6 +405,8 @@ in [`sus::mem::swap(T&, T&)`](https://github.com/chromium/subspace/blob/f9c481a2
 which is compatible only with P1144, not P2786:
 
 * ["Trivially Relocatable Types in C++/Subspace"](https://orodu.net/2023/01/15/trivially-relocatable.html) (Dana Jansens, January 2023)
+
+Dana also commented [in favor](https://github.com/llvm/llvm-project/pull/84621#issuecomment-2015642051) on Clang #84621.
 
 
 ### [Thrust](https://github.com/nvidia/cccl)
