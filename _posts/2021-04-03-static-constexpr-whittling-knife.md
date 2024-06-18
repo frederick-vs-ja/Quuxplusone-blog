@@ -5,6 +5,7 @@ date: 2021-04-03 00:01:00 +0000
 tags:
   c++-learner-track
   c++-style
+  linguistics
 ---
 
 There's [a meme](https://www.bbc.com/culture/article/20160908-the-language-rules-we-know-but-dont-know-we-know)
