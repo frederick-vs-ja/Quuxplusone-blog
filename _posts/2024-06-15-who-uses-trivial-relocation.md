@@ -133,6 +133,14 @@ AMC's sole contributor, Stéphane Janel, signed P3236R1. He also commented
 [in favor](https://github.com/llvm/llvm-project/pull/84621#discussion_r1554201161) on Clang #84621.
 
 
+### [binutils-gdb](https://gnu.googlesource.com/binutils-gdb)
+
+GNU binutils-gdb uses the adjective [`IsRelocatable`](https://gnu.googlesource.com/binutils-gdb/+/refs/heads/master/gdbsupport/poison.h#59),
+but uses it specifically to mean the same thing as `is_trivially_copyable`, and only in order to `=delete`
+memcpy and memmove for non-trivially-copyable types. I don't know why they didn't name their trait `IsTriviallyCopyable`.
+binutils-gdb isn't evidence for any particular semantics.
+
+
 ### [Blender](https://projects.blender.org/blender/)
 
 Blender implements P1144's [`uninitialized_relocate_n`](https://projects.blender.org/blender/blender/src/commit/6c9a0e8c15aa7f2b0c8a96a9c8adab1bb87666b3/source/blender/blenlib/BLI_memory_utils.hh#L82-L86),
@@ -344,24 +352,6 @@ Two Qt maintainers signed P3236R1. They commented [in favor](https://github.com/
 and ["weak 'leans-to'"](https://github.com/llvm/llvm-project/pull/84621#discussion_r1522177263), respectively, on Clang #84621.
 
 
-### [`stdx::error`](https://github.com/charles-salvia/std_error)
-
-Charles Salvia's `stdx::error` library defines
-[`stdx::is_trivially_relocatable`](https://github.com/charles-salvia/std_error/blob/25a2263152d4fe1b923c8daa568c9f61157f3939/all_in_one.hpp#L180-L196)
-with P1144 semantics; if the P1144 feature-test macro `__cpp_lib_trivially_relocatable` is defined,
-it will fall back to `std::is_trivially_relocatable`. Unusually for this survey, `stdx::error` will use Clang's builtin `__is_trivially_relocatable`
-even in the absence of any feature-test macro.
-
-`stdx::error` uses P1144's `[[trivially_relocatable]]` attribute to mark `error` as trivially relocatable,
-if the feature-test macro `__cpp_impl_trivially_relocatable` is defined.
-
-Its use of trivial relocation is compatible with both P2786 and P1144.
-
-All of this code was contributed by Arthur O'Dwyer ([#1](https://github.com/charles-salvia/std_error/pull/1),
-[#2](https://github.com/charles-salvia/std_error/pull/2)) during the November 2023 Kona meeting.
-`stdx::error` has never taken commits or code review from Mungo or Alisdair.
-
-
 ## [`small_vectors`](https://github.com/arturbac/small_vectors/)
 
 Artur Bać's C++23 `small_vectors` library provides
@@ -383,7 +373,25 @@ with no optimization. Besides that algorithm, it also provides three novel algor
     currently provides no `swap` functionality.
 
 `small_vectors`' almost-sole contributor commented [in favor](https://github.com/llvm/llvm-project/pull/84621#issuecomment-2023964183)
-of Clang #84621.
+on Clang #84621.
+
+
+### [`stdx::error`](https://github.com/charles-salvia/std_error)
+
+Charles Salvia's `stdx::error` library defines
+[`stdx::is_trivially_relocatable`](https://github.com/charles-salvia/std_error/blob/25a2263152d4fe1b923c8daa568c9f61157f3939/all_in_one.hpp#L180-L196)
+with P1144 semantics; if the P1144 feature-test macro `__cpp_lib_trivially_relocatable` is defined,
+it will fall back to `std::is_trivially_relocatable`. Unusually for this survey, `stdx::error` will use Clang's builtin `__is_trivially_relocatable`
+even in the absence of any feature-test macro.
+
+`stdx::error` uses P1144's `[[trivially_relocatable]]` attribute to mark `error` as trivially relocatable,
+if the feature-test macro `__cpp_impl_trivially_relocatable` is defined.
+
+Its use of trivial relocation is compatible with both P2786 and P1144.
+
+All of this code was contributed by Arthur O'Dwyer ([#1](https://github.com/charles-salvia/std_error/pull/1),
+[#2](https://github.com/charles-salvia/std_error/pull/2)) during the November 2023 Kona meeting.
+`stdx::error` has never taken commits or code review from Mungo or Alisdair.
 
 
 ### [Subspace](https://github.com/chromium/subspace)
@@ -407,6 +415,27 @@ which is compatible only with P1144, not P2786:
 * ["Trivially Relocatable Types in C++/Subspace"](https://orodu.net/2023/01/15/trivially-relocatable.html) (Dana Jansens, January 2023)
 
 Dana also commented [in favor](https://github.com/llvm/llvm-project/pull/84621#issuecomment-2015642051) on Clang #84621.
+
+
+### [Thermadiag/seq](https://github.com/Thermadiag/seq)
+
+The `seq` library ("a collection of original C++14 STL-like containers and related tools") implements
+[`seq::is_relocatable`](https://github.com/Thermadiag/seq/blob/22c72e0bf02260fc0aa3f8cc68902320f5d91a4f/seq/type_traits.hpp#L179-L196)
+as a synonym for `is_trivially_copyable` (compatible with P1144), but with code comments suggesting that it
+is only used to replace move-construction and destruction (compatible with P2786 but not P1144).
+
+However, [`seq::detail::CircularBuffer`](https://github.com/Thermadiag/seq/blob/22c72e0bf02260fc0aa3f8cc68902320f5d91a4f/seq/tiered_vector.hpp)
+does optimize `insert` and `erase` (compatible only with P1144). It also provides the novel operation
+[`push_back_pop_front_relocatable(v)`](https://github.com/Thermadiag/seq/blob/22c72e0bf02260fc0aa3f8cc68902320f5d91a4f/seq/tiered_vector.hpp#L2002-L2005),
+which is a three-element rotate — `v` goes into the back of the queue while the front of the queue goes into `v` — optimized
+into three memcpys. If we understand this as destroying and reconstructing `v`, it's compatible with both P2786 and P1144;
+if we understand it as an assignment to `v`, it's compatible only with P1144.
+
+`seq::any` has a policy parameter ([with good documentation](https://github.com/Thermadiag/seq/blob/main/docs/any.md#type-information-and-various-optimizations))
+controlling whether it's allowed to hold non-trivially-relocatable types in its SBO buffer. This is compatible
+with both P2786 and P1144.
+
+`seq::radix_map` optimizes reallocation (compatible with both P2786 and P1144).
 
 
 ### [Thrust](https://github.com/nvidia/cccl)
