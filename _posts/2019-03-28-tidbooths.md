@@ -49,8 +49,8 @@ runs as follows:
 > While now it's filet and ragout, and leg of mutton braised,  
 > And macaroni au gratin and [sheep's head Hollandaised](https://books.google.com/books?id=-nr21hjYAn8C&pg=PA427&dq=No..258),
 >
-> Escallops [á là Versailles](https://www.allrecipes.com/recipe/25877/shrimp-versailles/), á là this and á là that,  
-> And [sweetbread á là Dieppoise](https://books.google.com/books?id=1HNAAQAAMAAJ&pg=PA25&dq=sweetbread.a.la.dieppoise) — it's enough to kill a cat!  
+> Escallops [à la Versailles](https://www.allrecipes.com/recipe/25877/shrimp-versailles/), à la this and à la that,  
+> And [sweetbread à la Dieppoise](https://books.google.com/books?id=1HNAAQAAMAAJ&pg=PA25&dq=sweetbread.a.la.dieppoise) — it's enough to kill a cat!  
 > But while I suffer sweetly, I invariably look  
 > As if I were delighted that my daughter's learned to cook!
 >

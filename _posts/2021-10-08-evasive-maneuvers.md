@@ -13,7 +13,7 @@ of my youth: _Evasive Maneuvers_ (Colin Buckley and Chris Blackwell, 1994).
 It's a really polished and addictive VGA side-scroller in which you
 pilot a little Imperial-Shuttle-ish spacecraft through obstacle-strewn
 levels, trying to keep up with the implacable scrolling of the screen
-(á là _Flappy Bird_ (2013)) while shooting and dropping bombs to eliminate
+(à la _Flappy Bird_ (2013)) while shooting and dropping bombs to eliminate
 hazards and to keep your ship fueled by exploding rooftop fuel tanks.
 It's a clone/homage to [_Scramble_](https://youtu.be/3Vc-RIkpk40) (Konami, 1981),
 which I've personally never played but which has clearly spawned a lot of imitators.

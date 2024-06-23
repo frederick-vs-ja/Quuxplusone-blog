@@ -280,7 +280,7 @@ I would not be tempted to change it back to snippet `E`!
 
 Concept overloading allows you to increase the number of viable candidates
 in your overload sets, without introducing artificial inheritance hierarchies
-of tag types á là `std::forward_iterator_tag` or
+of tag types à la `std::forward_iterator_tag` or
 [`priority_tag`](https://codereview.stackexchange.com/a/173421/16369).
 But ultimately it is just another tool in the C++ toolbox; you can be
 _allowed_ to use it, without feeling _obliged_ to use it.

@@ -17,7 +17,7 @@ will be Arthur O'Dwyer on "Modern STL Programming: Algorithms, Containers, Itera
 
 You might be familiar with
 CppCon's training model, where you buy a conference ticket and then add on
-specific pre- and/or post-conference classes á là carte for about $1000 each.
+specific pre- and/or post-conference classes à la carte for about $1000 each.
 In contrast, C++ On Sea 2021 offers a _combined_ conference-and-workshop ticket
 which entitles you to attend all three days, including any class(es) you like;
 and the combined ticket price is a shockingly low [£600](https://cpponsea.uk/tickets/) ($850)

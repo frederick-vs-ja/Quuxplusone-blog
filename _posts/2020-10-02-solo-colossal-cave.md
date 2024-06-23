@@ -108,5 +108,5 @@ if you don't think they're worth the bother. You can't choose to ignore "The Cav
 unless you remove it from the deck.
 
 If I were making a second edition, I think I'd replace all instances of "Plover Room"
-with "Misty Cavern" and change "Tight Squeeze" to _acquire_ the emerald á là "With What, Your Bare Hands?"
+with "Misty Cavern" and change "Tight Squeeze" to _acquire_ the emerald à la "With What, Your Bare Hands?"
 That might pretty much fix it (although I haven't playtested the idea).

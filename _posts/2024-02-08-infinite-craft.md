@@ -39,7 +39,7 @@ only on desktop, not on mobile.
 _Infinite Craft_ is a sandbox game; but you can give yourself a goal, such as to create Math, or Potato,
 or Hamlet. (I've achieved Hamlet. Math and — surprisingly — Potato remain elusive.) Play competitively
 by racing to create an element in the shortest time, or with the smallest number of byproducts. Play
-on one device by taking turns á là pick-up sticks or Jenga: the first player to fail to create a new
+on one device by taking turns à la pick-up sticks or Jenga: the first player to fail to create a new
 result on their turn loses. The possibilities, like the combinations, are endless!
 
 ![The shortest recipe for Don Quixote](/blog/images/2024-02-08-don-quixote.png)

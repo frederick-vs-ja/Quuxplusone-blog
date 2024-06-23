@@ -29,7 +29,7 @@ but it's important to keep in mind that Bloomberg's own implementation
 of the standard library (the "[BSL](https://github.com/bloomberg/bde/tree/5c9fbe8/groups/bsl/bslstl)")
 does not use `std::pmr`! Instead, the BSL defines
 [their equivalent of `std::allocator`](https://github.com/bloomberg/bde/blob/5c9fbe8/groups/bsl/bslma/bslma_stdallocator.h#L58-L69)
-to be a stateful, non-propagating allocator á là `std::pmr::polymorphic_allocator`,
+to be a stateful, non-propagating allocator à la `std::pmr::polymorphic_allocator`,
 so that their `std::vector` is PMR-like by default. You must go far out of your way,
 at Bloomberg, to encounter a container that works the same way as in the ordinary C++ STL.
 
