@@ -241,6 +241,20 @@ Three HPX contributors signed P3236R1. One (the primary implementor of HPX's P11
 [in favor](https://github.com/llvm/llvm-project/pull/84621#issuecomment-2010442722) on Clang #84621.
 
 
+### [Iros](https://github.com/ColeTrammer/iros)
+
+Cole Trammer's Iros defines [`di::concepts::TriviallyRelocatable<T>`](https://github.com/ColeTrammer/iros/blob/21801c1cb2275320f4bd8a632197b19d7bd55773/libs/di/include/di/meta/trivial.h#L45-L61)
+as a synonym for `is_trivially_copyable`.
+
+The trait is used in [`erasure_cast`](https://github.com/ColeTrammer/iros/blob/21801c1cb2275320f4bd8a632197b19d7bd55773/libs/di/include/di/vocab/error/erasure_cast.h#L8-L11)
+in a way that indicates the important part for Iros is `is_trivially_copy_constructible`, i.e. nothing to do with relocation.
+This is incompatible with both P1144 and P2786.
+
+Iros provides [`uninitialized_relocate(first, last, dfirst, dlast)`](https://github.com/ColeTrammer/iros/blob/21801c1cb2275320f4bd8a632197b19d7bd55773/libs/di/include/di/container/algorithm/uninitialized_relocate.h#L16-L41)
+and [`uninitialized_relocate_backwards(first, last, dfirst, dlast)`](https://github.com/ColeTrammer/iros/blob/21801c1cb2275320f4bd8a632197b19d7bd55773/libs/di/include/di/container/algorithm/uninitialized_relocate_backwards.h)
+in the `di::container` namespace. These take more arguments than the P1144 versions, and are not optimized.
+
+
 ### [libc++](https://github.com/llvm/llvm-project/tree/main/libcxx)
 
 libc++ introduced [`std::__libcpp_is_trivially_relocatable<T>`](https://github.com/llvm/llvm-project/blob/d6cc35f7f67575f2d3534ea385c2f36f48f49aea/libcxx/include/__type_traits/is_trivially_relocatable.h#L24-L38)
@@ -276,6 +290,25 @@ It also defines a helper
 but only for non-trivially-relocatable types (and notice that this parameter order is the opposite of P1144's `std::relocate_at`).
 
 libstdc++ has never taken commits from Arthur, Mungo, or Alisdair.
+
+
+### [OE-Lib](https://github.com/OleErikPeistorpet/OE-Lib)
+
+Ole Erik Peistorpet's OE-Lib defines [`oel::is_trivially_relocatable`](https://github.com/OleErikPeistorpet/OE-Lib/blob/b6ae29dd7a1be33a83f419176645a0fde9d7cb9e/fwd.h#L76-L106)
+as ["trivially move-constructible and trivially destructible"](https://github.com/OleErikPeistorpet/OE-Lib/blob/b6ae29dd7a1be33a83f419176645a0fde9d7cb9e/auxi/core_util.h#L70-L73)
+(compatible with P2786 but not with P1144). Likewise, [`oel::is_trivially_relocatable<std::pmr::string>`](https://github.com/OleErikPeistorpet/OE-Lib/blob/b6ae29dd7a1be33a83f419176645a0fde9d7cb9e/optimize_ext/default.h#L89-L91)
+is true (compatible with P2786 but not with P1144).
+
+`oel::dynarray` (a `vector`-alike type) optimizes `insert` and `erase` (compatible with P1144 but not with P2786) — but with an
+explicit [code comment](https://github.com/OleErikPeistorpet/OE-Lib/blob/b6ae29dd7a1be33a83f419176645a0fde9d7cb9e/dynarray.h#L46-L59)
+that "the allocator model is not quite standard: `destroy` is never used, `construct` [...] is not called when relocating elements."
+So while it's not legal for _`std::vector::erase`_ to destroy-and-reconstruct arbitrary (P2786-relocatable-but-not-P1144-relocatable) elements
+instead using their non-trivial assignment operator, _`oel::dynarray::erase`_ might be perfectly within its contract
+to destroy-and-reconstruct arbitrary elements.
+
+`oel::dynarray` also optimizes the novel operation [`da.unordered_erase(it)`](https://github.com/OleErikPeistorpet/OE-Lib/blob/b6ae29dd7a1be33a83f419176645a0fde9d7cb9e/dynarray.h#L847-L866);
+i.e., destroy `*it`, trivially relocate `da.back()` into the hole, and decrement `da.size()`. Again this wouldn't be legal for `std::vector`
+under P2786, but might be expected behavior for `oel::dynarray`.
 
 
 ### [ParlayLib](https://github.com/cmuparlay/parlaylib)
@@ -350,6 +383,12 @@ in April 2024.
 
 Two Qt maintainers signed P3236R1. They commented [in favor](https://github.com/llvm/llvm-project/pull/84621#discussion_r1527150062)
 and ["weak 'leans-to'"](https://github.com/llvm/llvm-project/pull/84621#discussion_r1522177263), respectively, on Clang #84621.
+
+
+## [Skia](https://github.com/google/skia)
+
+Google Skia defines [`sk_is_trivially_relocatable`](https://github.com/google/skia/blob/e20c8b0bac0caab082d6ed25022cb956147e98c0/include/private/base/SkTypeTraits.h#L20-L28)
+with P1144 semantics (`is_trivially_copyable`), but doesn't seem to use it for any optimizations.
 
 
 ## [`small_vectors`](https://github.com/arturbac/small_vectors/)
