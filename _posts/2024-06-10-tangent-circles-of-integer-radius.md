@@ -67,6 +67,16 @@ small enough to fit in a 32-bit `int`!
 Now, the obvious question is: Is Tom's the *smallest* solution to this puzzle (measured by the radius of
 the central circle)? If not, then what is the smallest solution? And how do you prove it? Help wanted!
 
+UPDATE, 2024-06-24: Tom *again* found a vastly smaller solution — in fact, a pair of them!
+The central circles here have radius only 235872.
+
+<table>
+  <tr>
+    <td><img width="100%" style="vertical-align: middle;" src="/blog/images/2024-06-10-circles-235872a.svg"/></td>
+    <td><img width="100%" style="vertical-align: middle;" src="/blog/images/2024-06-10-circles-235872b.svg"/></td>
+  </tr>
+</table>
+
 ----
 
 See also these two posts, for the musings that led up to the invention of this problem (albeit no further
