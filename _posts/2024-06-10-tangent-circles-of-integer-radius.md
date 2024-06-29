@@ -77,6 +77,15 @@ The central circles here have radius only 235872.
   </tr>
 </table>
 
+UPDATE, 2024-06-29: And Tom did it again! Here, the central radius is only 222768.
+
+<table>
+  <tr>
+    <td><img width="100%" style="vertical-align: middle;" src="/blog/images/2024-06-10-circles-222768a.svg"/></td>
+    <td><img width="100%" style="vertical-align: middle;" src="/blog/images/2024-06-10-circles-222768b.svg"/></td>
+  </tr>
+</table>
+
 ----
 
 See also these two posts, for the musings that led up to the invention of this problem (albeit no further

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="-3 -3 6 6" style="background-color: white">
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="0" cy="0" r="1"/>
+  <text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="0.500000">222768</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="1.95238" cy="-0" r="0.952381"/>
+  <text x="1.95238" y="-0" text-anchor="middle" dominant-baseline="central" font-size="0.476190">212160</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="1.02293" cy="-1.64869" r="0.940247"/>
+  <text x="1.02293" y="-1.64869" text-anchor="middle" dominant-baseline="central" font-size="0.470124">209457</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="-0.599333" cy="-1.57348" r="0.683761"/>
+  <text x="-0.599333" y="-1.57348" text-anchor="middle" dominant-baseline="central" font-size="0.341880">152320</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="-1.4253" cy="-0.640244" r="0.5625"/>
+  <text x="-1.4253" y="-0.640244" text-anchor="middle" dominant-baseline="central" font-size="0.281250">125307</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="-1.39722" cy="0.366309" r="0.444444"/>
+  <text x="-1.39722" y="0.366309" text-anchor="middle" dominant-baseline="central" font-size="0.266667">99008</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="-0.91259" cy="1.00875" r="0.360294"/>
+  <text x="-0.91259" y="1.00875" text-anchor="middle" dominant-baseline="central" font-size="0.216176">80262</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="-0.29179" cy="1.28761" r="0.320261"/>
+  <text x="-0.29179" y="1.28761" text-anchor="middle" dominant-baseline="central" font-size="0.192157">71344</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="0.27439" cy="1.21951" r="0.25"/>
+  <text x="0.27439" y="1.21951" text-anchor="middle" dominant-baseline="central" font-size="0.150000">55692</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="0.715447" cy="1.01045" r="0.238095"/>
+  <text x="0.715447" y="1.01045" text-anchor="middle" dominant-baseline="central" font-size="0.142857">53040</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="1.00508" cy="0.670732" r="0.208333"/>
+  <text x="1.00508" y="0.670732" text-anchor="middle" dominant-baseline="central" font-size="0.125000">46410</text>
+</svg>
