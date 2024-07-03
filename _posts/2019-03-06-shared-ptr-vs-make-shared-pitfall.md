@@ -4,6 +4,7 @@ title: "PSA: `shared_ptr<T>()` is not `make_shared<T>()`"
 date: 2019-03-06 00:01:00 +0000
 tags:
   pitfalls
+  smart-pointers
   war-stories
 ---
 

@@ -6,6 +6,7 @@ tags:
   cppcon
   parameter-only-types
   relocatability
+  smart-pointers
 ---
 
 In [Chandler Carruth's CppCon 2019 talk "There Are No Zero-Cost Abstractions,"](https://www.youtube.com/watch?v=rHIkrotSwcc)

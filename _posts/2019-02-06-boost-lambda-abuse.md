@@ -3,6 +3,7 @@ layout: post
 title: "`shared_ptr(&w, _1)`"
 date: 2019-02-06 00:01:00 +0000
 tags:
+  smart-pointers
   war-stories
 ---
 

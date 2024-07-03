@@ -4,6 +4,7 @@ title: 'In praise of `make_unique`'
 date: 2018-05-26 00:01:00 +0000
 tags:
   c++-style
+  smart-pointers
   standard-library-trivia
 ---
 
