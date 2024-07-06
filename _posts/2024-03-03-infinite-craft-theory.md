@@ -163,7 +163,7 @@ lands heads iff _both_ inputs were heads) and `|` (representing a coin that land
 iff _both_ inputs were tails). We're trying to reach a target state representing a coin that
 comes up heads with probability $$p$$ (for some $$p = a/2^b$$ between 0 and 1).
 
-For example, we can make a coin that lands heads with probability $$0.5675_{10} = 0.1001_2$$
+For example, we can make a coin that lands heads with probability $$0.5625_{10} = 0.1001_2$$
 in either of these ways:
 
     B = A & A = 0.01          B = A | A = 0.11
