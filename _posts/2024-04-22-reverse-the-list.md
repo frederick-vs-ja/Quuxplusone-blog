@@ -41,7 +41,8 @@ Alexandre asks:
 ---
 
 Hacker News user "Someone" [describes](https://news.ycombinator.com/item?id=40016067) a good
-physical model of the game: Collect sticks of lengths 1 through $$n$$. Place some subset of them
+physical model of the game: Collect [sticks](https://en.wikipedia.org/wiki/Cuisenaire_rods)
+of lengths 1 through $$n$$. Place some subset of them
 end-to-end in the "solving gutter"; place the rest loose in the "unused gutter." Your possible
 moves then correspond to replacing two adjacent sticks in the solving gutter with one unused
 stick of the same length from the unused gutter, or replacing one stick in the solving gutter
