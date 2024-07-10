@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="-3 -3 6 6" style="background-color: white">
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="0" cy="0" r="1"/>
+  <text x="0" y="0" text-anchor="middle" dominant-baseline="central" font-size="0.750000">5600</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="1.98" cy="-0" r="0.98"/>
+  <text x="1.98" y="-0" text-anchor="middle" dominant-baseline="central" font-size="0.735000">5488</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="1.00893" cy="-1.59099" r="0.883929"/>
+  <text x="1.00893" y="-1.59099" text-anchor="middle" dominant-baseline="central" font-size="0.662946">4950</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="-0.5625" cy="-1.59099" r="0.6875"/>
+  <text x="-0.5625" y="-1.59099" text-anchor="middle" dominant-baseline="central" font-size="0.515625">3850</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="-1.53869" cy="-0.648181" r="0.669643"/>
+  <text x="-1.53869" y="-0.648181" text-anchor="middle" dominant-baseline="central" font-size="0.502232">3750</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="-1.40909" cy="0.514259" r="0.5"/>
+  <text x="-1.40909" y="0.514259" text-anchor="middle" dominant-baseline="central" font-size="0.375000">2800</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="-0.775316" cy="1.25165" r="0.472321"/>
+  <text x="-0.775316" y="1.25165" text-anchor="middle" dominant-baseline="central" font-size="0.354241">2645</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="0.105867" cy="1.42106" r="0.425"/>
+  <text x="0.105867" y="1.42106" text-anchor="middle" dominant-baseline="central" font-size="0.318750">2380</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="0.552546" cy="1.02989" r="0.16875"/>
+  <text x="0.552546" y="1.02989" text-anchor="middle" dominant-baseline="central" font-size="0.126563">945</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="0.808354" cy="0.827976" r="0.157143"/>
+  <text x="0.808354" y="0.827976" text-anchor="middle" dominant-baseline="central" font-size="0.117857">880</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="0.894065" cy="0.606481" r="0.0803571"/>
+  <text x="0.894065" y="0.606481" text-anchor="middle" dominant-baseline="central" font-size="0.060268">450</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="0.973677" cy="0.467282" r="0.08"/>
+  <text x="0.973677" y="0.467282" text-anchor="middle" dominant-baseline="central" font-size="0.060000">448</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="0.998542" cy="0.336045" r="0.0535714"/>
+  <text x="0.998542" y="0.336045" text-anchor="middle" dominant-baseline="central" font-size="0.040179">300</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="1.00018" cy="0.25124" r="0.03125"/>
+  <text x="1.00018" y="0.25124" text-anchor="middle" dominant-baseline="central" font-size="0.023438">175</text>
+  <circle fill="none" stroke-width="0.01" stroke="#000" cx="1.0002" cy="0.19999" r="0.02"/>
+  <text x="1.0002" y="0.19999" text-anchor="middle" dominant-baseline="central" font-size="0.015000">112</text>
+</svg>
