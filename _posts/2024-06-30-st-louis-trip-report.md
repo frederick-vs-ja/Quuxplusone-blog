@@ -217,6 +217,6 @@ teach people not to use it. I don't expect ordinary mortals to use `std::linalg`
 On the other hand, `std::linalg` and `std::rcu` passed their plenaries by unanimous consent (see
 [N4970 motion 19](https://open-std.org/jtc1/sc22/wg21/docs/papers/2023/n4970.pdf),
 [N4957 motions 6+7](https://open-std.org/jtc1/sc22/wg21/docs/papers/2023/n4957.pdf));
-`std::execution` generated a lot of discussion and then passed a vote with significant opposition.
-(For the exact numbers, wait for the official Minutes of Meeting and/or someone else's trip report.)
+`std::execution` generated a lot of discussion and then passed with significant opposition
+([N4985 motion 12](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2024/n4985.pdf), 57–27–20).
 I think we'll see more activity in this area. If nothing else, we'll see some National Body comments.
