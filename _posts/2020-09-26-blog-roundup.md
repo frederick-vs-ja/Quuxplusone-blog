@@ -40,7 +40,9 @@ During my "Classic STL" class this past week, I name-dropped his post
 ["Python synergies in list addressing"](https://utcc.utoronto.ca/~cks/space/blog/python/PythonListSynergies)
 (January 2006), which succinctly explains all the +1s and &minus;1s that we save —
 in Python, C, C++, pretty much any modern programming language — by dealing in half-open ranges
-instead of closed ranges.
+instead of closed ranges. (This is also the subject of Dijkstra's
+[EWD831 "Why numbering should start at zero"](https://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD831.html)
+(1982-08-11).)
 
 As you'll see from [the blog's index](https://utcc.utoronto.ca/~cks/space/blog/__Index),
 "Wandering Thoughts" contains way too many posts for me to pick out any specific highlights.
