@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" viewBox="-1 -1 4 2" style="background-color: white">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#000"/>
+    </marker>
+  </defs>
+  <circle fill="#9f9" stroke-width="0.03" stroke="#000" cx="0" cy="0" r="0.5"/>
+  <circle fill="#f99" stroke-width="0.01" stroke="#000" cx="2" cy="0" r="0.5"/>
+  <path stroke-width="0.01" stroke="#000" d="M2.3,-0.4 C 2.6,-1 1.4,-1 1.7,-0.4" marker-end="url(#arrow)" style="fill:none;"/>
+  <path stroke-width="0.01" stroke="#000" d="M0.4,-0.3 Q 1,-0.5 1.6,-0.3" marker-end="url(#arrow)" style="fill:none;"/>
+  <path stroke-width="0.01" stroke="#000" d="M1.6,0.3 Q 1,0.5 0.4,0.3" marker-end="url(#arrow)" style="fill:none;"/>
+  <g font-size="0.25" font-family="sans-serif" dominant-baseline="text-top" text-anchor="middle">
+    <text x="2" y="-0.6">b</text>
+    <text x="1" y="-0.55">a b</text>
+    <text x="1" y="0.25">a</text>
+  </g>
+</svg>

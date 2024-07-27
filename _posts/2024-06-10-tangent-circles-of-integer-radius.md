@@ -11,8 +11,8 @@ excerpt: |
   Over on [Puzzling StackExchange](https://puzzling.stackexchange.com/questions/126548/geometry-puzzle-tangent-circles-with-integer-radii),
   Brandan Williams poses the following interesting question:
 
-  > Find a strictly decreasing sequence of integers $$r_0, r_1, r_2, \dots, r_n$$ such that
-  > you can place kissing circles of radii $$r_1, r_2, \dots, r_n$$
+  > Find a strictly decreasing sequence of integers $$r_0, r_1, r_2,\ldots, r_n$$ such that
+  > you can place kissing circles of radii $$r_1, r_2,\ldots, r_n$$
   > around a central circle of radius $$r_0$$. That is, circle $$r_0$$
   > will be tangent to all $$n$$ other circles, and circle $$r_i$$ will be
   > tangent to circle $$r_{i+1}$$ for all $$1\leq i<n$$, and circle $$r_n$$ will be tangent to circle $$r_1$$.
@@ -21,8 +21,8 @@ excerpt: |
 Over on [Puzzling StackExchange](https://puzzling.stackexchange.com/questions/126548/geometry-puzzle-tangent-circles-with-integer-radii),
 Brandan Williams poses the following interesting question:
 
-> Find a strictly decreasing sequence of integers $$r_0, r_1, r_2, \dots, r_n$$ such that
-> you can place kissing circles of radii $$r_1, r_2, \dots, r_n$$
+> Find a strictly decreasing sequence of integers $$r_0, r_1, r_2,\ldots, r_n$$ such that
+> you can place kissing circles of radii $$r_1, r_2,\ldots, r_n$$
 > around a central circle of radius $$r_0$$. That is, circle $$r_0$$
 > will be tangent to all $$n$$ other circles, and circle $$r_i$$ will be
 > tangent to circle $$r_{i+1}$$ for all $$1\leq i<n$$, and circle $$r_n$$ will be tangent to circle $$r_1$$.

@@ -345,6 +345,15 @@ span.headline {
   }
 }
 
+.dfa-table {
+  td {
+    vertical-align: middle;
+  }
+  td:first-child img {
+    width: 100%;
+  }
+}
+
 .rtl-code {
   direction: rtl;
 }
