@@ -234,7 +234,7 @@ I suggest that a relatively plausible way this could happen is by the introducti
 an attribute which I am going to call `__attribute__((value_semantic))`. (Another option
 would be to recycle `__attribute__((pure))`, as in "pure value".
 I am specifically *not* going to use C++11 `[[attr]]` syntax in this blog post, so as
-not to open _that_ can of worms (["The Ignorable Attributes Rule"](/2018/05/15/the-ignorable-attributes-rule/) (2018-05-15)).
+not to open _that_ can of worms (["The Ignorable Attributes Rule"](/blog/2018/05/15/the-ignorable-attributes-rule/) (2018-05-15)).
 
     struct Widget __attribute__((value_semantic)) {
         int value_;

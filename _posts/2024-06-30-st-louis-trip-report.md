@@ -208,7 +208,7 @@ of the draft IS, than as a relatively invasive modification of Gonzalo's proposa
 ----
 
 Another important paper adopted for C++26 is [P2300 "`std::execution`"](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2024/p2300r9.html)
-(9 authors), which is something to do with coroutines and/or multithreading and/or Sender/Receiver (P2900). You can see
+(9 authors), which is something to do with coroutines and/or multithreading and/or Sender/Receiver. You can see
 some examples of P2300's API [in the paper's Examples section](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2024/p2300r9.html#example-echo-server).
 It was pointed out that P2300 is too arcane for any ordinary programmer to comprehend, and as far as I can tell,
 that's true; but (charitably) that's not _necessarily_ a reason to keep it out of the Standard, just a reason to
