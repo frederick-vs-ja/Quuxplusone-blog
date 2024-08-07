@@ -287,9 +287,6 @@ initializer is a parenthesized _expression-list_." In that case, initialization
 proceeds just as in the curly-brace case, omitting a few minor quirks that are
 triggered (since C++11) by the curly-brace syntax specifically:
 
-- Curly-braced initializers are evaluated strictly left-to-right; parenthesized
-    initializers can be evaluated in any order.
-
 - Curly-braced initializers forbid narrowing conversions (such as `double`-to-`int`);
     parenthesized initializers do not.
 
@@ -309,6 +306,11 @@ The result is that the following is legal C++20 (but not legal C++17):
     vc.emplace_back();        // OK since C++11, emplaces Coord() i.e. {0, 0}
     vc.emplace_back(10, 20);  // OK since C++20, emplaces Coord(10, 20) i.e. {10, 20}
 
+Another quirk, albeit not a difference in the two kinds of aggregate initialization:
+Curly-braced initializers are always evaluated strictly left-to-right, even when
+performing a constructor call. Parenthesized initializers are evaluated left-to-right
+when initializing an aggregate, but can be evaluated in any order when performing
+a constructor call. GCC actually exploits this freedom: [Godbolt.](https://godbolt.org/z/KzP96Y3f5)
 
 ## The unintended consequences
 
