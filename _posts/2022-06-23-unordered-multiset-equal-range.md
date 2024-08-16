@@ -215,3 +215,9 @@ to `std::unordered_multiset` tomorrow without rewriting too much of their code.
 But did C++11 necessarily make the _right_ choice here — do such workloads and programmers
 exist in sufficient numbers to justify the performance cost to _other_ programmers?
 I wouldn't go so far as to say that, either!
+
+---
+
+See also:
+
+* ["`noexcept` affects libstdc++'s `unordered_set`"](/blog/2024/08/16/libstdcxx-noexcept-hash/) (2024-08-16)
