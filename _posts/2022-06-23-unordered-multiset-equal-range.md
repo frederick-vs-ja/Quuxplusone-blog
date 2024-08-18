@@ -218,6 +218,13 @@ I wouldn't go so far as to say that, either!
 
 ---
 
+UPDATE, 2024-08-18: Even given the equal-range-preserving behavior, we may still choose to
+insert a duplicate element at the _front_ of its range or the _back_ of its range. libc++
+always inserts at the back, matching the behavior mandated for the tree-based `std::multiset`;
+but this is noticeably slower than inserting duplicates at the front. This behavior is the subject of
+libc++ [#17121](https://github.com/llvm/llvm-project/issues/17121), [#21649](https://github.com/llvm/llvm-project/issues/21649)
+and [#104702](https://github.com/llvm/llvm-project/pull/104702).
+
 See also:
 
 * ["`noexcept` affects libstdc++'s `unordered_set`"](/blog/2024/08/16/libstdcxx-noexcept-hash/) (2024-08-16)
