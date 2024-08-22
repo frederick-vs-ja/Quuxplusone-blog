@@ -5,6 +5,7 @@ date: 2018-04-30 00:02:00 +0000
 tags:
   concurrency
   library-design
+  mailing-list-quotes
 ---
 
 Language warning.

@@ -3,6 +3,7 @@ layout: post
 title: '_Contra_ `char *argv[]`'
 date: 2020-03-12 00:01:00 +0000
 tags:
+  mailing-list-quotes
   pitfalls
   rant
 ---
