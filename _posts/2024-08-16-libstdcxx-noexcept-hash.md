@@ -204,7 +204,8 @@ define your own `YourHash::operator() const` for a speedup (on this workload).
 
 ## Conclusion
 
-I think this whole thing is mostly irrelevant to real programming. I wouldn't go out of my way to audit
+I think this whole thing is mostly irrelevant to real programming. [But see the UPDATE below.]
+I wouldn't go out of my way to audit
 your codebase for hashers that are (or aren't) `noexcept`; if hashing is your bottleneck then your first
 step should be to stop using the node-based, pointer-chasing `std::unordered_set` entirely!
 
@@ -212,12 +213,35 @@ Also, I hope that if you're reading this post in a year or two (say, December 20
 examples won't even reproduce anymore. I hope libstdc++ gets on the ball and eliminates some of
 this weirdness. (In short: They should get rid of the blacklist; pay the 8 bytes by default;
 introduce a whitelist for _trivial_ hashers specifically; stop checking noexceptness for any reason.)
+[But see the UPDATE below.]
 
 But if you must take one sound bite from this post, maybe it's this: **libstdc++ makes it a pessimization
 to mark any non-trivial hash function as `noexcept`.** You must put the `noexcept` keyword on non-defaulted move-constructors
 (to avoid the [vector pessimization](/blog/2022/08/26/vector-pessimization/)); there are a few other ad-hoc places
 you might want it; but you certainly do _not_ want `noexcept` "everywhere," as this surprising libstdc++ behavior
 illustrates.
+
+---
+
+UPDATE, 2024-08-27: I originally ended by saying "I hope libstdc++ gets on the ball and eliminates some of
+this weirdness," but Lénárd Szolnoki points out that there's no way for them to do that without an ABI break,
+and I think he's 100% right. So if you're reading this in December 2025, or even 2035, libstdc++ will probably
+still be doing the same silly thing with `noexcept` hashers. Ugh.
+
+On /r/cpp, Martin Leitner-Ankerl took issue with my optimistic claim that
+"this whole thing is mostly irrelevant to real programming." Apparently Bitcoin Core was bitten by this issue
+in real life. Their problem was the opposite of the one I sketched:
+each Bitcoin node stores a huge in-memory `unordered_map` whose key is cheap to hash, but whose hash function,
+until 2019, wasn't marked as `noexcept`. So their `unordered_map` consumed an extra 8 bytes per node. Adding the
+`noexcept` keyword (in [commit 67d9990](https://github.com/bitcoin/bitcoin/commit/67d99900b0d770038c9c5708553143137b124a6c))
+instantly lowered their memory usage on most platforms by 9%. Now, in my defense, Bitcoin has also weighed
+the approach I suggested above — "stop using the node-based, pointer-chasing [`std::unordered_map`] entirely" —
+in [#22640](https://github.com/bitcoin/bitcoin/pull/22640), and estimated its memory savings at about 20%.
+If I understand correctly, they've decided not to go that route just yet, on the principle of "the devil
+you know is better than the devil you don't." But watch that space. I dare say if I ran a huge money-related
+project whose performance was dominated by a single hash-table data structure, I wouldn't be content
+with an off-the-shelf `std::unordered_map`; the first thing I'd do is own that data structure and start
+optimizing it!
 
 ---
 
