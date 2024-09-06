@@ -909,9 +909,9 @@ equal `a1` or `A()` or something else?
 The standard library's [`std::allocator_traits<A>`](https://en.cppreference.com/w/cpp/memory/allocator_traits)
 exposes member typedefs named `propagate_on_container_copy_assignment`, `propagate_on_container_move_assignment`,
 and `propagate_on_container_swap` that control these behaviors; they're inherited from the allocator type
-`A` if possible, or else defaulted to `false_type`. If they're all `false_type`, then you have a traditional
+`A` if possible, or else defaulted to `false_type`. If they're all `true_type`, then you have a traditional
 allocator that fully enables "pilfering" the allocation from one vector into another (in cases B and C above).
-If they're all `true_type`, then you have a "sticky" allocator that inhibits pilfering in cases where the
+If they're all `false_type`, then you have a "sticky" allocator that inhibits pilfering in cases where the
 source and destination containers have different allocators. C++17's [PMR](#pmr) allocators are "sticky."
 If some of POCCA/POCMA/POCS are `true_type` and some are `false_type` for the same allocator type,
 then you probably have a bug.
