@@ -324,3 +324,18 @@ To sum up what I think we've computed in this blog post:
 | 3 numbers | 1.8  | $22 ($30)    | 2:1:2     | 1:3:1, then guess an endpoint            |
 | 4 numbers | 2    | $30 ($40)    | 1:1:1:1   | 0:1:1:0, then guess an endpoint          |
 | 5 numbers | 2.22 | $37.77 ($50) | 5:3:2:3:5 | 4/9 guess `3` then an endpoint; 4/9 guess `2` or `4` then binary search; 1/9 guess `2` or `4` then linear-search from the endpoint |
+
+## Update, 2024-09-06
+
+Konstantin Gukov, in ["Steve Ballmer was wrong"](https://gukov.dev/puzzles/math/2024/09/05/steve-ballmer-was-wrong.html) (2024-09-05),
+shows that we can use `scipy.optimize.linprog` to do the icky tedious algebra above. All we have to provide is the payoff matrix —
+with a column for each of Alice's possible choices and a row for each of Bob's possible guessing strategies — and it'll spit out an
+equilibrium position *for that particular set of strategies.* But we can increase the value of the game to Bob by increasing the
+range of Bob's imagination. Konstantin started out with a range of strategies that let Bob hit in 5.93 guesses on average;
+then [I improved that](https://github.com/gukoff/ballmer_puzzle/pull/1) to 5.8535 guesses; then
+[again](https://github.com/gukoff/ballmer_puzzle/pull/2) to 5.8333 guesses, for a profit of 16.67 cents per game.
+That best-so-far strategy is a mixture of 83 different pure strategies.
+
+Meanwhile, [Bo Waggoner](https://bowaggoner.com/blahg/2024/09-06-adversarial-binary-search/) claims a proof
+(although I don't understand the math involved) that the true equilibrium is somewhere between
+5.80371 guesses and 5.81087 guesses.
