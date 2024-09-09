@@ -339,3 +339,6 @@ That best-so-far strategy is a mixture of 83 different pure strategies.
 Meanwhile, [Bo Waggoner](https://bowaggoner.com/blahg/2024/09-06-adversarial-binary-search/) claims a proof
 (although I don't understand the math involved) that the true equilibrium is somewhere between
 5.80371 guesses and 5.81087 guesses.
+
+Meanwhile, [Eric Farmer](https://possiblywrong.wordpress.com/2024/09/04/analysis-of-adversarial-binary-search-game/)
+also computes some expected values — some exactly, some approximately.
