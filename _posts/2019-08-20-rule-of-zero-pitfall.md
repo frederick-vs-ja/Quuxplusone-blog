@@ -5,6 +5,7 @@ date: 2019-08-20 00:01:00 +0000
 tags:
   move-semantics
   pitfalls
+  smart-pointers
 ---
 
 The other day [on Slack](https://cpplang.slack.com/archives/C21PKDHSL/p1565799396205900),
