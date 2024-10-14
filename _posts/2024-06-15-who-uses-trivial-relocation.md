@@ -34,7 +34,7 @@ ongoing series of blog posts for KDAB, collectively titled "Qt and Trivial Reloc
 * [Part 2: "Relocation and erasure"](https://www.kdab.com/qt-and-trivial-relocation-part-2/)
 * [Part 3: "Trivial relocability for vector erasure, and types with write-through reference semantics"](https://www.kdab.com/qt-and-trivial-relocation-part-3/)
 * [Part 4: "On trivial relocation and move assignments"](https://www.kdab.com/qt-and-trivial-relocation-part-4/)
-
+* [Part 5: "Trivial Relocation and Standard C++"](https://www.kdab.com/qt-and-trivial-relocation-part-5/)
 
 ## What present-day libraries use P2786 and/or P1144
 
@@ -545,3 +545,14 @@ Thrust has never taken commits or code-review from Arthur, Mungo, or Alisdair.
   * [P3239R0 "A relocating `swap`"](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2024/p3239r0.pdf) (Alisdair Meredith, May 2024)
 
   * [P3278R0 "Analysis of interaction between relocation, assignment, and swap"](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2024/p3278r0.pdf) (Nina Ranns and Corentin Jabot, May 2024)
+
+---
+
+UPDATE, October 2024:
+
+* At the June 2024 St Louis meeting, EWG [saw](https://wiki.edg.com/bin/view/Wg21stlouis2024/NotesEWGTrivialRelocatability)
+    [P3233R0 "Issues with P2786"](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2024/p3233r0.html) and
+    [P3236R1 "Please reject P2786 and adopt P1144"](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2024/p3236r1.html),
+    and as a result voted (21–15–3–6–5) to "un-forward P2786 from CWG and bring it back to EWG." This is very good news;
+    but at the same time, EWG still shuns <i>directly</i> discussing P1144.
+    See ["How my papers did at St Louis"](/blog/2024/06/30/st-louis-trip-report/) (2024-06-30).
