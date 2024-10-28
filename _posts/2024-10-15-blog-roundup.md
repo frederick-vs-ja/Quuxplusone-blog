@@ -63,6 +63,21 @@ ever to grep.
 
 ----
 
+UPDATED to add: ["Write code that is easy to delete, not easy to extend"](https://programmingisterrible.com/post/139222674273/write-code-that-is-easy-to-delete-not-easy-to)
+(Thomas "tef" Figg, February 2016) is an oldie but a goodie. He deliberately makes
+his six headline rules mutually contradictory — "Copy-paste. Don't copy-paste." — but
+they remain accurate. He even manages to summarize their appropriate relationships in
+the section above the fold.
+
+> Repeat yourself to avoid creating dependencies, but don't repeat yourself to manage them.
+> Layer your code: build simple-to-use APIs out of simple-to-implement parts.
+> Split your code: isolate the hard-to-write and the likely-to-change parts.
+> Don't hard-code every choice, and maybe allow changing a few at runtime.
+> Don't try to do all of these things at the same time.
+> Maybe don't write so much code in the first place.
+
+----
+
 ["Higher-order truths about chmess"](https://personal.lse.ac.uk/robert49/teaching/ph445/notes/dennett.pdf) (Daniel Dennett, 2006)
 is a good cold dousing thrown in the direction of some pedantic pursuits.
 I certainly resemble its target, sometimes. Dennett writes:
