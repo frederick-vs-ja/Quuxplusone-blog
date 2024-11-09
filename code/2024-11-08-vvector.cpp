@@ -12,7 +12,7 @@
 
 #if VVECTOR_DEBUG
 #include <cstdio>
-#include <iostream>
+#include <ostream>
 #endif
 
 namespace vvhelper {
@@ -98,11 +98,13 @@ public:
   VVector& operator=(const VVector& rhs) {
     VVector copy(rhs);
     copy.swap(*this);
+    return *this;
   }
 
   VVector& operator=(VVector&& rhs) noexcept {
     VVector copy(std::move(rhs));
     copy.swap(*this);
+    return *this;
   }
 
   void swap(VVector& rhs) noexcept {
@@ -124,12 +126,13 @@ public:
   }
 
   size_t size() const { return meta_.size(); }
+  [[nodiscard]] bool empty() const { return meta_.empty(); }
 
   void resize(size_t n, const std::variant<Ts...>& value) {
-    while (size() < n) {
+    while (size() > n) {
       pop_back();
     }
-    while (size() > n) {
+    while (size() < n) {
       push_back(value);
     }
   }
@@ -152,26 +155,6 @@ public:
     } else {
       throw std::bad_variant_access();
     }
-  }
-
-  void pop_back() {
-    const auto& elt = meta_.back();
-    destroyImpl[elt.type_](data_.get() + elt.offset_);
-    meta_.pop_back();
-  }
-
-  void push_back(std::variant<Ts...> vvalue) {
-    meta_.reserve(meta_.size() + 1);
-    int k = vvalue.index();
-    int beginbyte = meta_.empty() ? 0 : meta_.back().endbyte();
-    beginbyte = alignUp(beginbyte, alignofImpl[k]);
-    if (beginbyte + sizeofImpl[k] > capacity_) {
-      reserveImpl(beginbyte + sizeofImpl[k]);
-    }
-    std::visit([&](const auto& value) {
-      copyImpl[k](&value, data_.get() + beginbyte);
-    }, vvalue);
-    meta_.push_back({ k, beginbyte });
   }
 
   void push_front(std::variant<Ts...> vvalue) {
@@ -202,6 +185,41 @@ public:
       }, vvalue);
     }();
     meta_.insert(meta_.begin(), { k, 0 });
+  }
+
+  void pop_front() {
+    destroyImpl[meta_.front().type_](data_.get() + 0);
+    meta_.erase(meta_.begin());
+    int newOffset = 0;
+    for (auto& elt : meta_) {
+      newOffset = alignUp(newOffset, alignofImpl[elt.type_]);
+      if (newOffset == elt.offset_) {
+        break;
+      }
+      relocateOverlappingImpl[elt.type_](data_.get() + elt.offset_, data_.get() + newOffset);
+      elt.offset_ = newOffset;
+      newOffset += sizeofImpl[elt.type_];
+    }
+  }
+
+  void push_back(std::variant<Ts...> vvalue) {
+    meta_.reserve(meta_.size() + 1);
+    int k = vvalue.index();
+    int beginbyte = meta_.empty() ? 0 : meta_.back().endbyte();
+    beginbyte = alignUp(beginbyte, alignofImpl[k]);
+    if (beginbyte + sizeofImpl[k] > capacity_) {
+      reserveImpl(beginbyte + sizeofImpl[k]);
+    }
+    std::visit([&](const auto& value) {
+      copyImpl[k](&value, data_.get() + beginbyte);
+    }, vvalue);
+    meta_.push_back({ k, beginbyte });
+  }
+
+  void pop_back() {
+    const auto& elt = meta_.back();
+    destroyImpl[elt.type_](data_.get() + elt.offset_);
+    meta_.pop_back();
   }
 
 private:
@@ -287,7 +305,7 @@ int main() {
     << vv.at<1>(1)
     << std::endl;
 
-  vv.push_back(2);
+  vv.resize(3, 2);
 
   std::cout
     << vv
