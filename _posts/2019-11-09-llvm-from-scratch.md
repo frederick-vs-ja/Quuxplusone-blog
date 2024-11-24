@@ -18,6 +18,11 @@ at least on OSX 10.14.6. Therefore I have shortened this post considerably.
 You can find the old version [in the blog's git history](https://github.com/Quuxplusone/blog/commits/master/_posts/2019-11-09-llvm-from-scratch.md)
 or [on the Wayback Machine](https://web.archive.org/web/20200323024244/https://quuxplusone.github.io/blog/2019/11/09/llvm-from-scratch/).
 
+UPDATE, 2024-11-24: Some LLVM subprojects are now called "runtimes" rather than "projects";
+the CMake flags have changed accordingly. Also, [since October 2024](https://github.com/llvm/llvm-project/issues/92121#issuecomment-2198511835),
+`-DLIBCXXABI_USE_LLVM_UNWINDER=OFF` and `-DCOMPILER_RT_USE_LLVM_UNWINDER=OFF` seem necessary
+in order to make exception-handling work on an ARM MacBook.
+
 ----
 
 The LLVM codebase's official home is [`https://github.com/llvm/llvm-project`](https://github.com/llvm/llvm-project).
@@ -68,7 +73,8 @@ feature branch; my feature branches will track `origin`.
     cd $ROOT/llvm-project/build
     cmake -G Ninja \
         -DDEFAULT_SYSROOT="$(xcrun --show-sdk-path)" \
-        -DLLVM_ENABLE_PROJECTS="clang;libcxx;libcxxabi" \
+        -DLLVM_ENABLE_PROJECTS="clang" \
+        -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi;libunwind" \
         -DCMAKE_BUILD_TYPE=Release ../llvm
     ninja clang
     ninja cxx
@@ -104,7 +110,7 @@ the standard C-language headers, like this,
     1 error generated.
 
 then you may have set `DEFAULT_SYSROOT` inappropriately.
-On 10.14.6, when I run `xcrun --show-sdk-path`, I get `/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk`.
+On Sonoma 14.7, when I run `xcrun --show-sdk-path`, I get `/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk`.
 Your results may vary.
 
 If you get errors about the C++ headers, such as `<vector>`, it's because you still
@@ -125,7 +131,10 @@ and you should never do it!
     CXX="$ROOT/llvm-project/build/bin/clang++" \
     cmake -G Ninja \
         -DDEFAULT_SYSROOT="$(xcrun --show-sdk-path)" \
-        -DLLVM_ENABLE_PROJECTS="clang;compiler-rt;libcxx;libcxxabi" \
+        -DLLVM_ENABLE_PROJECTS="clang;compiler-rt" \
+        -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi;libunwind" \
+        -DLIBCXXABI_USE_LLVM_UNWINDER=OFF \
+        -DCOMPILER_RT_USE_LLVM_UNWINDER=OFF \
         -DCMAKE_BUILD_TYPE=RelWithDebInfo ../llvm
     ninja clang cxx
     ninja check-clang check-cxx
@@ -160,7 +169,13 @@ Running a specific test or directory-of-tests for any product is easy:
     ./bin/llvm-lit -sv ../clang/test/ARCMT
     ./bin/llvm-lit -sv --param std=c++17 ../libcxx/test/std/re
 
-However, before you can successfully run one of these lines,
+UPDATE, 2024: The last of these lines no longer works. Libc++ is now a "runtime," which means you
+must run its tests as if they live in a different directory within the buildroot itself. This
+directory doesn't actually exist, but you must write your paths as if it does:
+
+    ./bin/llvm-lit -sv --param std=c++17 ./runtimes/runtimes-bins/libcxx/test/std/re
+
+Also note that before you can successfully run any of these lines,
 you must have run the corresponding one of `make check-{llvm,clang,cxx}`
 at least once, to initialize the right stuff under the `build2` directory.
 
@@ -171,7 +186,8 @@ But watch out — both `make check-cxx` and `llvm-lit` will by default use your 
 to run the libc++ tests! This is not what you want! Tell `llvm-lit` to use your newly built Clang
 by passing the `cxx_under_test` parameter, like this:
 
-    ./bin/llvm-lit -sv --param std=c++17 --param cxx_under_test=`pwd`/bin/clang ../libcxx/test/
+    ./bin/llvm-lit -sv --param std=c++17 --param cxx_under_test=`pwd`/bin/clang \
+        ./runtimes/runtimes-bins/libcxx/test
 
 On my laptop, this command line again takes about 50 minutes to run all the libc++ tests,
 but this time it correctly uses the bootstrapped compiler.
