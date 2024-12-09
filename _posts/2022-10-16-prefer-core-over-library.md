@@ -500,4 +500,11 @@ Regular readers of this blog will also know that I tend to prefer
 `T(x)` over `static_cast<T>(x)`, [despite some caveats](/blog/2020/01/22/expression-list-in-functional-cast/).
 Both of those are core-language syntaxes. But it's probably no coincidence
 that I prefer the shorter, less angle-brackety of the two.
+
+---
+
+See also:
+
+* ["_The Elements of Programming Style_ (1974)"](/blog/2024/11/27/software-classics/) (2024-11-27)
+
 {% endraw %}

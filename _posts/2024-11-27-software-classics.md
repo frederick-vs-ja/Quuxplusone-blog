@@ -4,6 +4,7 @@ title: "_The Elements of Programming Style_ (1974)"
 date: 2024-11-27 00:01:00 +0000
 tags:
   blog-roundup
+  c++-style
   litclub
   rant
   slogans
