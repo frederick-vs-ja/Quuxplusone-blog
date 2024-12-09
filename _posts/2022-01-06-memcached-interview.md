@@ -16,7 +16,9 @@ I've just never blogged it before.)
 
 Okay, so this isn't a "question" per se; it's a programming challenge.
 I forget how much time they gave for it. Let's say three hours, counting
-the time to explain the problem.
+the time to explain the problem. [UPDATE, 2024: I'm reliably informed that
+it was only <a href="https://news.ycombinator.com/item?id=31065845">one hour</a>,
+not three; adjust the estimates below accordingly.]
 
 Since MemSQL was a database company, this is a database challenge.
 

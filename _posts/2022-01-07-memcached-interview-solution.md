@@ -41,7 +41,8 @@ Multiplication is just repeated addition, and we already have a
 ready-made addition subroutine in the form of `incr`. So I'll just
 build on top of that. Ah, but instead of adding a constant to `x`'s value,
 we need to add `x`'s value to itself... and the whole thing needs to be atomic.
-Let's look at how the locking works..." They spend all three hours getting
+Let's look at how the locking works..." They spend all three hours
+[UPDATE: <a href="https://news.ycombinator.com/item?id=31065845">one hour</a>] getting
 deeper and deeper down various rabbit holes, and never produce anything that works.
 Candidates in this group don't get hired.
 
