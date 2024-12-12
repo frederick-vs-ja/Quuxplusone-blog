@@ -6,6 +6,7 @@ tags:
   attributes
   compiler-diagnostics
   library-design
+  nodiscard
 ---
 
 GCC's `warn_unused_result` attribute has gotten a bad reputation by being, essentially,

@@ -5,6 +5,7 @@ date: 2024-11-02 00:01:00 +0000
 tags:
   help-wanted
   litclub
+  old-shit
   transcription
 excerpt: |
   Earlier this year I joined a book club reading _Don Quijote_ and got deep enough into it to seek out

@@ -4,6 +4,7 @@ title: 'An argument _pro_ liberal use of `[[nodiscard]]`'
 date: 2018-11-06 00:01:00 +0000
 tags:
   c++-style
+  nodiscard
   pitfalls
 ---
 

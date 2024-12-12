@@ -5,6 +5,7 @@ date: 2024-12-08 00:01:00 +0000
 tags:
   attributes
   exception-handling
+  nodiscard
   proposal
 excerpt: |
   A correspondent writes to me that he's switched from `throw/catch` exceptions to C++23's `std::expected`

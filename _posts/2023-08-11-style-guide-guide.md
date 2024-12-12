@@ -7,6 +7,7 @@ tags:
   compiler-diagnostics
   language-design
   library-design
+  nodiscard
 excerpt: |
   Consider the following snippets of C++ code. Which ones do you think a good compiler would warn about?
 
