@@ -207,3 +207,10 @@ As Socrates said to [Phaedrus](https://www.gutenberg.org/files/1636/1636-h/1636-
 > recreation and amusement; he will write them down as memorials to be
 > treasured against the forgetfulness of old age, by himself, or by any
 > other old man who is treading the same path.
+
+Compare Plutarch's [_Life of Alexander_ 7](https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Plutarch/Lives/Alexander*/3.html#7):
+
+> [Aristotle said] the doctrines of which he spoke were both published
+> and not published; for in truth his treatise on metaphysics was of no use
+> for those who would either teach or learn the science, but was written
+> as a memorandum for those already trained therein.

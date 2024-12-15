@@ -149,7 +149,7 @@ See ["Two musings on the design of compiler warnings"](/blog/2020/09/02/wparenth
 LLVM/Clang's own `llvm::Expected` and `llvm::Error` have been marked `[[nodiscard]]` [since October 2016](https://github.com/llvm/llvm-project/commit/8659d16631fdd1ff519a25d6867ddd9dbda8aea9).
 
 I added `[[nodiscard]]` to [martinmoene/expected-lite](https://github.com/martinmoene/expected-lite), and found that
-its test suite is still green after that patch.
+its test suite is still green after that patch. (UPDATE: Martin added `[[nodiscard]]` in trunk on 2024-12-10.)
 
 I added `[[nodiscard]]` to a copy of `tl::expected`, and found that 7 of its own test cases fail after that patch.
 But none of the 7 failures looks indisputably realistic, to my quick glance. They might not be harmed by forcing
@@ -162,7 +162,9 @@ quietly ignores an `expected` return, or I don't understand how to build and tes
 I added `[[nodiscard]]` to libc++'s `std::expected`, and found that 9 of its own test cases fail after that patch.
 All 9 of the failures are due to `.and_then`, `.or_else`, `.transform`, and `.transform_error`, and
 all of them are "compile-only" tests — just checking that a certain construct compiles (or doesn't), rather than
-verifying its runtime behavior.
+verifying its runtime behavior. (UPDATE: Stephan T. Lavavej
+[patched up those tests](https://github.com/llvm/llvm-project/commit/cb4433b677a06ecbb3112f39d24b28f19b0d2626)
+on 2024-12-10.)
 
 > Food for thought: Is it ever reasonable to have a function `f` that returns a nodiscard class type,
 > where `f` wants to "opt out" of the class's nodiscard-ness? "This class is nodiscard except when used
@@ -177,15 +179,16 @@ so this was not surprising.
 
 Yes.
 
-[martinmoene/expected-lite](https://github.com/martinmoene/expected-lite)
-and [`tl::expected`](https://github.com/tartanllama/expected) should mark theirs, too —
-and can probably do so with more agility than the STL vendors can.
+Microsoft STL has proven themselves remarkably agile here! When I wrote this post
+on 2024-12-08, Microsoft STL — who are the gold standard for "aggressively marking nodiscard"
+in general — had not yet marked their `expected` as nodiscard. However, as a direct result of this post,
+[Stephan T. Lavavej marked `expected` as nodiscard](https://github.com/microsoft/STL/commit/7643c270e5bfb1cfad62f8b5ff4045c662bdaf81)
+on 2024-12-13! So `expected` will indeed be nodiscard in the next release of Visual Studio.
 
-Now, I've heard that Microsoft STL — who are the gold standard for "aggressively marking nodiscard"
-in general — are unlikely to mark their `expected` as nodiscard because they think it would have
-false positives. That is, they think they know some use-cases where you might legitimately
-want to discard an `expected` return value. However, I'm not sure what their theorized use-cases
-look like. Maybe someone at Microsoft can write and tell me!
+I encourage libstdc++ and libc++ to follow suit. For libstdc++,
+[bug #109941](https://gcc.gnu.org/bugzilla/show_bug.cgi?id=109941) seems related.
+
+[`tl::expected`](https://github.com/tartanllama/expected) should mark theirs, too.
 
 ## What about other sum types, like `optional` and `variant`?
 

@@ -215,3 +215,9 @@ The _intended_ use of constexpr `string` and `vector` is as local variables or r
 constexpr or consteval functions, not as constexpr or constinit variables. Marking a `string`
 or `vector` variable with the `constexpr` keyword is probably a bad idea. It can be done, but
 the exact boundaries of what's accepted will vary among STL vendors.
+
+----
+
+See also:
+
+* ["`constexpr std::string` update"](/blog/2023/10/13/constexpr-string-round-2/) (2023-10-13)
