@@ -12,7 +12,7 @@ tags:
 With apologies to William Wordsworth and Mel Tormé.
 
 > Blessed nuns fret not at their narrow rooms;  
-> Hermits fret not at their cells;  
+> Hermits pout not at their cells;  
 > Maids at their wheels, those who weave with their looms,  
 > And students in their citadels  
 > Happiness indwells. A blithe and humble little bee  

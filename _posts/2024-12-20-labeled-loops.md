@@ -287,12 +287,12 @@ Here, for the record, are all the languages I've found that support labeled loop
 
 ## Swift
 
-([Godbolt.](https://godbolt.org/z/nzzGojPab))
+([Godbolt.](https://godbolt.org/z/WqYjT6Ton))
 
     OUTER:
     for x in 0..<4 {
       for y in 0..<4 {
-        print("x=\(x) y=\(y)");
+        print("x=\(x) y=\(y)")
         if (A[x][y] != 0) {
           break OUTER
         }
@@ -316,3 +316,9 @@ N3355 syntax shared by all the above modern languages, and not with
 [N3377](https://www.open-std.org/jtc1/sc22/wg14/www/docs/n3377.pdf)'s
 unprecedented and cumbersome syntax.
 {% endraw %}
+
+---
+
+See also:
+
+* [“‘Cumbersome’ labeled loops and the C preprocessor”](/blog/2024/12/22/labeled-loops-in-uthash/) (2024-12-22)
