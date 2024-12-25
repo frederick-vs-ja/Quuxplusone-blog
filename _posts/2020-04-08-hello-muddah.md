@@ -24,12 +24,12 @@ Here's my contribution.
 > Wash your hands for / count of twenty.  
 > That kills virus / evidently.  
 > And remember / sanitizer.  
-> Just be glad you're not a nurse who works for [Kaiser](https://www.modbee.com/news/local/article241633561.html)!  
+> Just be glad you're not a nurse who works for [Kaiser](https://web.archive.org/web/20200403015119/https://www.modbee.com/news/local/article241633561.html)!  
 >
 > No more classrooms / no more schoolbooks,  
 > There's a whole new / set of rulebooks:  
 > At-home teachers / teach their class words;  
-> They use [Zoom](https://twitter.com/dhh/status/1244997990382596096) so now the Chinese have their passwords.  
+> They use [Zoom](https://web.archive.org/web/20200331212442/https://twitter.com/dhh/status/1244997990382596096) so now the Chinese have their passwords.  
 >
 > Fewer cars has / had a major  
 > Good effect on / Mother Nature.  

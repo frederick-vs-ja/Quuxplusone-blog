@@ -131,10 +131,15 @@ Mychal Denzel Smith writes on how ["Police Reform is Not Enough"](https://www.th
 > I want a world in which the police do not exist, and there is no clearer way to say that.
 
 Speaking of how a policeless world would deal with harms, see
-[this quite shareable Twitter thread](https://twitter.com/djmckenna00/status/1269218616861437952)
+[this quite shareable Twitter thread](https://web.archive.org/web/20200614175557/https://twitter.com/djmckenna00/status/1269218616861437952)
 from Dave McKenna:
 
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Most theft is wage theft. Meaning, the dollar value of stolen wages is greater than the value, each year, of all burglaries+robberies, shoplifting, auto theft, combined. Yet, wage theft is NOT A CRIME 2/ <a href="https://t.co/BOj2yXXmtP">pic.twitter.com/BOj2yXXmtP</a></p>&mdash; Dave McKenna (@djmckenna00) <a href="https://twitter.com/djmckenna00/status/1269219453637623808?ref_src=twsrc%5Etfw">June 6, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Most theft is wage theft.
+Meaning, the dollar value of stolen wages is greater than the value, each year,
+of all burglaries+robberies, shoplifting, auto theft, combined. Yet, wage theft is NOT A CRIME 2/
+<a href="https://t.co/BOj2yXXmtP">pic.twitter.com/BOj2yXXmtP</a></p>&mdash; Dave McKenna (@djmckenna00)
+<a href="https://twitter.com/djmckenna00/status/1269219453637623808">June 6, 2020</a>
+</blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 Ibram X. Kendi, in ["The End of Denial,"](https://www.theatlantic.com/magazine/archive/2020/09/the-end-of-denial/614194/)
 analogizes his own stage-4 cancer diagnosis and his own urgent grapple with "two choices: denial and death, or recognition and life."
@@ -150,7 +155,7 @@ analogizes his own stage-4 cancer diagnosis and his own urgent grapple with "two
 
 What can ordinary Americans do? If we're not marching in the streets, and we're too hyper to sit and wait
 (see Richeson, above) for November — what do we do? Well, I've been donating money to Congress and
-State Senate campaigns through [ActBlue](https://twitter.com/actblue);
+State Senate campaigns through [ActBlue](https://en.wikipedia.org/wiki/ActBlue);
 and I just signed up to be a poll worker, about which you can find more
 [here](https://www.eac.gov/voters/become-poll-worker).
 (I admit I signed up only because Westchester County sent out postcards begging for volunteers.

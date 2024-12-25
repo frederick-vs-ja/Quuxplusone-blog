@@ -11,7 +11,10 @@ tags:
 
 The other day @NextRoguelike tweeted this game idea:
 
-<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">A mashup of Colossal Cave with a sandbox.</p>&mdash; Your Next Roguelike (@NextRoguelike) <a href="https://twitter.com/NextRoguelike/status/1084791562515726336?ref_src=twsrc%5Etfw">January 14, 2019</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">A mashup
+of Colossal Cave with a sandbox.</p>&mdash; Your Next Roguelike (@NextRoguelike)
+<a href="https://twitter.com/NextRoguelike/status/1084791562515726336">January 14, 2019</a>
+</blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 You know, that game kind of exists already — it's David Long's _Adventure 5_ (1979)!
 

@@ -107,8 +107,8 @@ goal, and most Republican politicians don't.
 The Democratic Party also takes _democracy_ as a goal; politically speaking,
 it's hard to avoid that when "democratic" is right there in your party's
 name. The Republican Party has much more leeway to espouse
-anti-democratic [rhetoric](https://twitter.com/SenMikeLee/status/1314089207875371008)
-and indeed anti-democratic [actions](https://apnews.com/article/donald-trump-seeks-voting-stop-25762f69b27dfbccc4fd8077fb5fdc91).
+anti-democratic [rhetoric](https://web.archive.org/web/20201106022852/https://twitter.com/SenMikeLee/status/1314089207875371008)
+and indeed anti-democratic [actions](https://web.archive.org/web/20201106031550/https://apnews.com/article/donald-trump-seeks-voting-stop-25762f69b27dfbccc4fd8077fb5fdc91).
 
 ----
 
