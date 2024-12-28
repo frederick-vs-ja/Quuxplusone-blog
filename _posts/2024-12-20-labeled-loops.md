@@ -41,8 +41,8 @@ but there'd be no fundamental difficulty in upstreaming Lattner's patch.
 Here, for the record, are all the languages I've found that support labeled loops today.
 
 [Ada](#ada) — [Cpp2](#cpp2-cppfront) — [D](#d) — [Dart](#dart) — [Fortran](#fortran) — [Go](#go) —
-[Java](#java) — [JavaScript](#javascript) – [Kotlin](#kotlin) — [Odin](#odin) —
-[Perl](#perl) — [PL/I](#pli) — [PL/pgSQL](#plpgsql-postgresql) — [PowerShell](#powershell) —
+[Groovy](#groovy) — [Java](#java) — [JavaScript](#javascript) – [Kotlin](#kotlin) — [Odin](#odin) —
+[Perl](#perl) — [PHP](#php) — [PL/I](#pli) — [PL/pgSQL](#plpgsql-postgresql) — [PowerShell](#powershell) —
 [Rust](#rust) — [Swift](#swift)
 
 > If you know any more languages, using <b>any</b> syntax — especially if you can find any language
@@ -138,6 +138,21 @@ Here, for the record, are all the languages I've found that support labeled loop
     }
     fmt.Println("Exited the outer loop")
 
+## Groovy
+
+([TIO.](https://tio.run/##bY4xC8IwEIX3/Ipn6VBphwpO1g4dOguiU8igmGqxNCVEySH97TGm1Kkcx3Hvu/e4u1bqTc61veGCC1QowRnA8yyUyBaWzRIR7HA@1ccda5RG4vNgfVZe@LHHtkCa2jU@3vPnNHGaOU0cGLTHXY/IlrEFlTFFQW8bJBW3gpPAynvne@Cq5eWJ8EBQRvbrkf2TatsaeYN5SKiXkRqdUkPEnPsC))
+
+    OUTER:
+    for (int x = 0; x < 4; ++x) {
+      for (int y = 0; y < 4; ++y) {
+        println "x=$x y=$y"
+        if (A[x][y] != 0) {
+          break OUTER
+        }
+      }
+    }
+    println "Exited the outer loop"
+
 ## Java
 
 ([Godbolt.](https://godbolt.org/z/h7Kbqb6sa))
@@ -208,6 +223,20 @@ Here, for the record, are all the languages I've found that support labeled loop
         print "x=$x y=$y\n";
         if ($A[$x][$y] != 0) {
           last OUTER;
+        }
+      }
+    }
+    print "Exited the outer loop\n";
+
+## PHP
+
+([TIO.](https://tio.run/##fYxBDoIwEEX3c4ov6QICCzTuKhIWngJZYCyBaGjT1KSN4ey1ArrTTCYzmTf/qV55fyhVr4hYhQKt1q2LCeuSZ3Ml2d/L9udPwok6qREzG@Q5R5gH7DnSlNkEzxBZsFux@2K3YEDpYTSIbMFsBlcwdx4jPpOhC8mqZrapmWuwCYpPCLho0d6wWz4nevdEq@tkByOuML2AfBihcZdSzVoqj96/AA))
+
+    for ($x = 0; $x < 4; ++$x) {
+      for ($y = 0; $y < 4; ++$y) {
+        print "x=$x, y=$y\n";
+        if ($A[$x][$y] != 0) {
+          break 2;
         }
       }
     }
@@ -301,6 +330,11 @@ Here, for the record, are all the languages I've found that support labeled loop
     print("Exited the outer loop")
 
 ## Languages without labeled loops
+
+Lua ([TIO](https://tio.run/##bY1BC4JAEIXv@ysegqC0hdJN8GDgqUMgdZIIYbU2zBVbYUXsr2/reigohnnDm@8xU/fFuu6LO5daJ4gxEmAMqK2J/jHhLyETqUQHFQd0CyYMmu3wsUDb8UZ6T2nGdWPoo5Ceo2KXmZjLHApFMfi@zfIKXpKrVXjOByN4xQh8yFvZWAxchRTYZWmyvxxOxzSz67JhZNG5o@iLRxFZ/jup4rJk8y2IXpYdaiFax9f6DQ))
+uses `goto` to escape nested loops.
+[COBOL](https://gnucobol.sourceforge.io/HTML/gnucobpg.html) has `EXIT PERFORM` (i.e. `break`)
+and `EXIT PERFORM CYCLE` (i.e. `continue`), but they affect only the innermost level.
 
 C# has a lot of folks asking for labeled loops over at [dotnet/csharplang#6634](https://github.com/dotnet/csharplang/discussions/6634),
 but has never officially considered adding them as far as I know.
