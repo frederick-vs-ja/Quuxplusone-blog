@@ -234,7 +234,7 @@ Much larger constellations relate to works I discussed in book-club meetups this
 I bothered to record my consumption of 9 `o`-nline pieces, 12 `s`-tage shows,
 22 seasons of `t`-elevision, 27 `m`-agazines, 56 dead-tree `b`-ooks,
 62 `j`-ournal articles, 119 `e`-books (of wildly variable length),
-and 199 `f`-ilms, for a total of 506 items. (Wow!)
+and 200 `f`-ilms, for a total of 507 items. (Wow!)
 
 The films that in my arbitrary scheme merited a star were:
 
@@ -318,4 +318,4 @@ On the other hand, _Hundreds of Beavers_ (2022) earned its star on the small scr
 |---|---|
 | ![](/blog/images/2024-12-31-be-slalom.png) | ![](/blog/images/2024-12-31-f-slalom.png) |
 
-My complete 506-element list is [here](/blog/code/2024-12-31-media-roundup.html).
+My complete 507-element list is [here](/blog/code/2024-12-31-media-roundup.html).

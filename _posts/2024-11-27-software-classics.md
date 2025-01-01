@@ -188,7 +188,12 @@ not just its sentences but its scope.
 (In the _Atlantic_ this month, Charles McGrath writes of Alan Hollingshead's
 [_The Stranger's Child_](https://amzn.to/3AgIi6C) — a 600-page novel whose
 title comes from [a 200-page poem](https://en.wikipedia.org/wiki/In_Memoriam_A.H.H.) —
-that in this book "people age, in ways that novels seldom portray anymore.")
+that in this book "people age, in ways that novels seldom portray anymore."
+Compare Bertram Brooker's essay ["Idolaters of Brevity"](https://www.jstor.org/stable/27534650) (1931):
+"Literature, in America, seems doomed to be brief. With the newspapers and
+short-story magazines by day, and the radio by night, all engulfing the
+frantic production of our scurrying scribblers, there seems to be little
+hope of America producing many works of grand proportions.")
 
 Speaking of curmudgeonly takes on modern literature,
 in [_Boom Town_](https://amzn.to/4eXvukI) (2022) Garrison Keillor writes:

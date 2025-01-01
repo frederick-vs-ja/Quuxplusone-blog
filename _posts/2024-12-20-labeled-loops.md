@@ -336,17 +336,23 @@ uses `goto` to escape nested loops.
 [COBOL](https://gnucobol.sourceforge.io/HTML/gnucobpg.html) has `EXIT PERFORM` (i.e. `break`)
 and `EXIT PERFORM CYCLE` (i.e. `continue`), but they affect only the innermost level.
 
+Julia ([TIO](https://tio.run/##bY9PC4IwGMbv@xRP0kGxg9KtEDTw1CGQOomE1azF2kQmbJ9@rZSKihfeh4ff@/fac1bH2toMCUoClBGeUS3/mPiXkIo0vTgqJgVuNRN@4GgjO2g3MFrMnRu8@fBA2zGhuPA9nUx9HcA4MYEXjJg1yEodxjOYMK4wca0jAdKzVBKrIs/W@81umxcjoeJE3jrklNcHyr@KX7tzzRQ9QV0oZK9oBy5l62549A6/WHsH))
+standardly uses `@goto` to escape nested loops.
+The syntax `break OUTER` has been suggested in [JuliaLang/julia#5334](https://github.com/JuliaLang/julia/issues/5334#issuecomment-575427028).
+The third-party [`@multibreak`](https://github.com/GunnarFarneback/Multibreak.jl/blob/46e4108/test/tutorial.jl#L35-L59)
+macro package provides the syntax `break; break` to break from two levels at once (what PHP calls `break 2`).
+
 C# has a lot of folks asking for labeled loops over at [dotnet/csharplang#6634](https://github.com/dotnet/csharplang/discussions/6634),
 but has never officially considered adding them as far as I know.
 
-Python considered labeled loops in [PEP 3136](https://peps.python.org/pep-3136/), but the idea
+Python considered labeled loops in [PEP 3136](https://peps.python.org/pep-3136/). The proposal
 was [rejected](https://mail.python.org/pipermail/python-3000/2007-July/008663.html) as both
 unfocused (the PEP didn't propose _one_ syntax but rather brainstormed _five_ possible syntaxes)
 and unnecessary.
 
 Honestly, I don't think C or C++ need labeled loops either — I think they're
 unnecessary — but if we _do_ get them, I hope it's with the well-thought-out
-N3355 syntax shared by all the above modern languages, and not with
+N3355 syntax shared by all the above languages, and not with
 [N3377](https://www.open-std.org/jtc1/sc22/wg14/www/docs/n3377.pdf)'s
 unprecedented and cumbersome syntax.
 {% endraw %}
