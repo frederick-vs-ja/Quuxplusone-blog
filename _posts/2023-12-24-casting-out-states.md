@@ -5,6 +5,7 @@ date: 2023-12-24 00:01:00 +0000
 tags:
   celebration-of-mind
   puzzles
+  word-ways
 ---
 
 At today's "Gathering 4 Gardner" social, Gordon Lessells presented his

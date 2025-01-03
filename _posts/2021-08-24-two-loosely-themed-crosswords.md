@@ -6,6 +6,7 @@ tags:
   knuth
   puzzles
   typography
+  word-ways
 ---
 
 My lovely wife and I have just moved house, and while boxing up the contents
