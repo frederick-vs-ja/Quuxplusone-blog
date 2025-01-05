@@ -173,3 +173,9 @@ But what are the takeaways overall?
     bool oneTrueInRange(int lo, int mid, int hi) {
         return lo <= mid && mid <= hi;
     }
+
+---
+
+See also:
+
+* ["Semantically ordered arguments, round 2"](/blog/2025/01/05/clamp-round-2/) (2025-01-05)
