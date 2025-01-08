@@ -394,13 +394,18 @@ with P1144 semantics (`is_trivially_copyable`), but doesn't seem to use it for a
 ## [`small_vectors`](https://github.com/arturbac/small_vectors/)
 
 Artur Bać's C++23 `small_vectors` library provides
-[`small_vectors::is_relocatable_v`](https://github.com/arturbac/small_vectors/blob/master/include/small_vectors/detail/uninitialized_constexpr.h#L10-L14)
-with P1144 semantics.
+[`small_vectors::is_relocatable_v`](https://github.com/arturbac/small_vectors/blob/846441b/include/small_vectors/detail/uninitialized_constexpr.h#L11-L15)
+as a synonym for `is_trivially_copyable`; but what it actually uses is
+[`small_vectors::concepts::relocatable`](https://github.com/arturbac/small_vectors/blob/846441b/include/small_vectors/concepts/concepts.h#L67-L75),
+whose semantics match Niall Douglas's `[[move_relocates]]`. That is, it says nothing about what happens during a relocate,
+but what it does say is that move-construction is tantamount to relocation: a moved-from object can be _destroyed_ trivially.
+For example: `unique_ptr` is both move-relocates and trivially relocatable;
+libc++'s dummy-node `list` is move-relocates but not trivially relocatable;
+MSVC's sentinel-node `list` is trivially relocatable but not move-relocates.
+In short, `small_vectors`' use of the term "relocatable" is incompatible with either P1144 or P2786.
 
-It optimizes only reallocation (compatible with both P2786 and P1144).
-
-It implements (as an implementation detail) a P1144-alike `detail::uninitialized_relocate_n(first, n, dest)`,
-with no optimization. Besides that algorithm, it also provides three novel algorithms:
+It implements (as an implementation detail) a P1144-alike `detail::uninitialized_relocate_n(first, n, dest)`
+with no memcpy optimization. Besides that algorithm, it also provides three novel algorithms:
 
 - `uninitialized_relocate_with_copy_n(first, n, dest)` which does copy-and-destroy instead of move-and-destroy
 
@@ -408,8 +413,7 @@ with no optimization. Besides that algorithm, it also provides three novel algor
 
 - `uninitialized_uneven_range_swap(first1, n1, first2, n2)` which swaps the first `min(n1, n2)` elements and then
     relocates the rest from the end of the longer range to the end of the shorter range. This is the building
-    block of a small-vector `swap` (compatible only with P1144); although in fact this is dead code — `small_vectors`
-    currently provides no `swap` functionality.
+    block of a small-vector `swap`.
 
 `small_vectors`' almost-sole contributor commented [in favor](https://github.com/llvm/llvm-project/pull/84621#issuecomment-2023964183)
 on Clang #84621.
