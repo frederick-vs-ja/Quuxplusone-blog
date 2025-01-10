@@ -5,6 +5,7 @@ date: 2023-10-06 00:01:00 +0000
 tags:
   classical-polymorphism
   metaprogramming
+  type-traits
 excerpt: |
   The other day I learned that [Boost.TypeTraits](https://www.boost.org/doc/libs/1_83_0/libs/type_traits/doc/html/index.html)
   has a portable C++ implementation of `std::is_base_of`! You might think that `is_base_of`

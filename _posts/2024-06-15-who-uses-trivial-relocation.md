@@ -403,6 +403,7 @@ For example: `unique_ptr` is both move-relocates and trivially relocatable;
 libc++'s dummy-node `list` is move-relocates but not trivially relocatable;
 MSVC's sentinel-node `list` is trivially relocatable but not move-relocates.
 In short, `small_vectors`' use of the term "relocatable" is incompatible with either P1144 or P2786.
+See ["Trivially destructible after move"](/blog/2025/01/10/trivially-destructible-after-move/) (2025-01-10).
 
 It implements (as an implementation detail) a P1144-alike `detail::uninitialized_relocate_n(first, n, dest)`
 with no memcpy optimization. Besides that algorithm, it also provides three novel algorithms:
