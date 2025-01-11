@@ -7,7 +7,7 @@ tags:
   llvm
 ---
 
-<b>UPDATE, November 2019: The old llvm-mirror on GitHub is dead; long live
+<b>UPDATE, November 2019: The old llvm-mirror is dead; long live
 the monorepo!</b> Updated instructions on how to build LLVM from source are
 available in [this later blog post](/blog/2019/11/09/llvm-from-scratch).
 

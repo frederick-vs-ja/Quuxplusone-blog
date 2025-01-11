@@ -27,12 +27,6 @@ in order to make exception-handling work on an ARM MacBook.
 
 The LLVM codebase's official home is [`https://github.com/llvm/llvm-project`](https://github.com/llvm/llvm-project).
 
-(However, to submit patches to LLVM projects, you must use
-[the official Phabricator](https://reviews.llvm.org/differential/diff/create/);
-don't submit GitHub pull requests against `llvm/llvm-project`!
-At least not as of December 2020.)
-
-
 ## Step 1: Fork!
 
 Go to your GitHub account and fork the following repository:
