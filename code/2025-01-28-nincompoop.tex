@@ -1,0 +1,166 @@
+\documentclass{article}
+\usepackage{multicol}
+\usepackage[paperheight=520pt, left=1cm, right=1cm, top=2cm, bottom=1cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{tgheros}
+\renewcommand*\familydefault{\sfdefault}
+\usepackage[T1]{fontenc}
+\usepackage{pict2e}
+\newlength\PuzzleUnitlength
+\PuzzleUnitlength=17.7pt
+\newcommand\PuzzleNumberFont{\sf\scriptsize}
+\newcommand\PuzzleSolutionFont{\sf}
+\newcount\PuzzleX
+\newcount\PuzzleY
+\newcommand\PuzzleBlackBox{\rule{\PuzzleUnitlength}{\PuzzleUnitlength}}
+\newcommand\PuzzleBox[2][]{%
+  \def\Puzzletmp{#2}%
+  \if\Puzzletmp.
+    \PuzzleX=0\relax \advance\PuzzleY-1
+  \else
+    \ifx\empty\Puzzletmp
+    \else\if\Puzzletmp *
+      \put(\PuzzleX,\PuzzleY){\framebox(1,1){\PuzzleBlackBox}}
+    \else
+      \put(\PuzzleX,\PuzzleY){\framebox(1,1){}}
+    \fi\fi
+    \def\Puzzletmp{#1}%
+    \ifx\empty\Puzzletmp
+    \else
+      \put(\PuzzleX,\PuzzleY){\makebox(1,.9)[tl]{\hspace{.08\PuzzleUnitlength}\PuzzleNumberFont #1}}
+    \fi
+    \def\Puzzletmp{#2}%
+    \if\Puzzletmp X
+    \else
+      \put(\PuzzleX,\PuzzleY){\makebox(1,.7){\hspace{.08\PuzzleUnitlength}\PuzzleSolutionFont #2}}
+    \fi
+    \advance\PuzzleX 1
+  \fi
+}
+\begingroup
+  \catcode`\|=13\catcode`\(=13\catcode`\_=13
+  \gdef\PuzzleHelper{\catcode`\|=13\catcode`\(=13\let|=\PuzzleBox}
+  \gdef\ClueHelper{\catcode`\_=13\def_{\underline{\hskip 1ex}}\catcode`\&=12}
+\endgroup
+\newenvironment{Puzzle}[2]{\PuzzleHelper
+  \let\unitlength=\PuzzleUnitlength \PuzzleY=#2
+  \begin{picture}(15,15)\PuzzleBox.
+}{\end{picture}}
+\makeatletter
+  \def\cluesec{\@startsection{}{1}{\z@}
+    {-3.25ex plus -1ex minus -.2ex}{.8ex plus .1ex}{\large\bf}}
+\makeatother
+\newcommand\Clue[3]{\hangindent 1em\makebox[0pt][l]{\bf #1.}\qquad #3\par}
+
+\begin{document}
+\pagestyle{empty}\raggedright
+
+\begin{multicols*}{5}
+
+\begin{Puzzle}{}{15}%
+  |[1]B |[2]E |[3]S |[4]P |[5]I |* |[6]F |[7]L |[8]I |[9]P |* |[10]B |[11]L |[12]O |[13]P |.
+  |[14]A |C |X |X |N |* |[15]U |A |D |I |* |[16]X |X |X |X |.
+  |[17]T |H |X |X |A |[18]X |R |* |* |X |* |[19]X |X |X |X |.
+  |[20]H |O |X |X |A |X |* |[21]R |[22]A |L |[42]A |N |D |O |E |.
+  |* |* |* |* |[23]L |X |[24]X |* |L |* |X |X |* |* |* |.
+  |[26]G |[27]X |[28]X |[29]X |A |* |X |* |B |* |X |* |[32]X |* |[34]J |.
+  |[35]I |C |T |O |* |* |X |* |E |* |X |* |X |* |A |.
+  |[38]R |X |X |* |* |* |[41]X |* |* |* |[46]X |* |[47]X |[48]X |C |.
+  |[43]L |X |X |* |* |* |[44]X |* |[47]Y |* |[48]X |[49]X |X |X |K |.
+  |[50]S |X |X |* |* |[43]C |A |M |E |* |[50]P |X |X |X |O |.
+  |* |* |* |[58]B |I |A |* |* |[53]T |* |O |* |* |* |* |.
+  |[53]S |[54]U |[55]T |R |A |C |[56]A |[57]L |* |[58]C |O |[59]R |[60]B |[61]I |[62]N |.
+  |[63]H |X |X |X |* |[64]X |X |X |[65]Y |X |P |X |X |X |X |.
+  |[66]O |R |G |A |* |[67]J |A |N |E |* |* |[68]X |X |X |X |.
+  |[69]H |O |L |D |* |[70]X |X |X |S |* |* |[71]X |X |X |X |.
+\end{Puzzle}
+
+\vfill
+\ClueHelper\cluesec*{Across}\footnotesize\setlength\baselineskip{14pt}
+  \Clue{1}{}{Juice of a clam}
+  \Clue{6}{}{Squeegee attachment}
+  \Clue{10}{}{Eat sideways}
+  \Clue{14}{}{Chemical found in some emetics}
+  \Clue{15}{}{Dog wax}
+  \Clue{16}{}{Goatherd's undergarment}
+  \Clue{17}{}{Puzzle}
+\columnbreak\vspace*{15\PuzzleUnitlength}\vfill
+  \Clue{19}{}{Tiny ear}
+  \Clue{20}{}{Foam basket}
+  \Clue{21}{}{Wombat-like ruminant}
+  \Clue{23}{}{Amateur proctologist's grp.}
+  \Clue{25}{}{Slag dross}
+  \Clue{26}{}{Puzzle's secret, part two}
+  \Clue{32}{}{Obsequious exclamation}
+  \Clue{35}{}{Spleen growth}
+  \Clue{35}{}{Hungarian flautist Proog}
+  \Clue{37}{}{Capital of Orles}
+\columnbreak\vspace*{15\PuzzleUnitlength}\vfill
+  \Clue{38}{}{Bag of doughnuts}
+  \Clue{41}{}{Shoe paste}
+  \Clue{42}{}{Banjo filler}
+  \Clue{43}{}{Trout vessel}
+  \Clue{44}{}{Small sneeze}
+  \Clue{46}{}{Sumatran rat monkey}
+  \Clue{47}{}{Snide, to a Scot}
+  \Clue{48}{}{Puzzle's secret,}
+  \Clue{51}{}{Snail appendage}
+  \Clue{52}{}{Etruscan tuber}
+  \Clue{53}{}{Salty wine}
+\vfill\columnbreak
+  \Clue{58}{}{``On my planet...''}
+  \Clue{63}{}{Language of ancient Freznia}
+  \Clue{64}{}{Puzzle's secret,}
+  \Clue{66}{}{Hairy bristle}
+  \Clue{67}{}{Swim like an armadillo}
+  \Clue{68}{}{Shakespearean doofus}
+  \Clue{69}{}{Crunchy fern}
+  \Clue{70}{}{Hit with a spoon}
+  \Clue{71}{}{Eskimo dance}
+
+\vfill
+\ClueHelper\cluesec*{Down}\footnotesize\setlength\baselineskip{14pt}
+  \Clue{1}{}{Rubber ducky's place}
+  \Clue{2}{}{Canyon sound}
+  \Clue{3}{}{Toboggan}
+  \Clue{4}{}{Place for parking a boat}
+  \Clue{5}{}{Baseball game division}
+  \Clue{6}{}{Cat's coat}
+  \Clue{7}{}{Animal home}
+  \Clue{8}{}{Concept}
+  \Clue{9}{}{Frisbee-shaped Olympics projectile}
+  \Clue{10}{}{Go on and off, as a traffic light}
+  \Clue{11}{}{Come back to earth}
+  \Clue{12}{}{Where Cleveland is located}
+  \Clue{13}{}{14 Letter word for a swift dismissal}
+  \Clue{18}{}{Lone Star State}
+\columnbreak
+  \Clue{22}{}{Money in the bank, say}
+  \Clue{24}{}{Tentacled creatures}
+  \Clue{26}{}{Young ladies}
+  \Clue{27}{}{Arctic or Indian, say}
+  \Clue{28}{}{Europe's ``boot''}
+  \Clue{29}{}{___ of the above}
+  \Clue{30}{}{Mr. Philbin of TV}
+  \Clue{31}{}{Faux Newspaper}
+  \Clue{32}{}{Jack Nicholson role in ``Batman''}
+  \Clue{33}{}{Sporting event}
+  \Clue{34}{}{Jeans material}
+  \Clue{38}{}{Breathing organ}
+  \Clue{40}{}{Top room}
+  \Clue{42}{}{A silly, foolish, or stupid person.}
+  \Clue{45}{}{Like some statistics}
+  \Clue{51}{}{Cattle marking}
+  \Clue{53}{}{Pop}
+  \Clue{54}{}{Basic impulse}
+  \Clue{55}{}{Light greenish-blue}
+  \Clue{56}{}{Locale}
+  \Clue{57}{}{Jump like a frog}
+  \Clue{59}{}{Hendrix hairdo}
+  \Clue{60}{}{Put on weight}
+  \Clue{61}{}{Hawaiian music makers}
+  \Clue{62}{}{Dracula player Lugosi}
+  \Clue{65}{}{What candles may signify}
+\vfill
+\end{multicols*}
+\end{document}
