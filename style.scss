@@ -241,6 +241,16 @@ nav {
   padding-bottom: 1em;
 }
 
+.training {
+  blockquote {
+    margin: 1.8em .8em;
+    border-left: 2px solid $gray;
+    padding: 0.1em 1em;
+    color: $gray;
+    font-style: italic;
+  }
+}
+
 .post {
   blockquote {
     margin: 1.8em .8em;

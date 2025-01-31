@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>{% if page.title %}{{ page.title }} – {% endif %}{{ site.name }} – {{ site.description }}</title>
+    <title>{{ page.title }} – Arthur O’Dwyer</title>
 
     {% include meta.html %}
 
@@ -20,17 +20,15 @@
     <div class="wrapper-masthead">
       <div class="container">
         <header class="masthead clearfix">
-          <a href="{{ site.baseurl }}/" class="site-avatar"><img src="{{ site.avatar }}" /></a>
+          <a href="{{ site.baseurl }}/training" class="site-avatar"><img src="{{ site.avatar }}" /></a>
 
           <div class="site-info">
-            <h1 class="site-name"><a href="{{ site.baseurl }}/">{{ site.name | markdownify }}</a></h1>
-            <p class="site-description">{{ site.description | markdownify }}</p>
+            <h1 class="site-name"><a href="{{ site.baseurl }}/training">{{ site.name | markdownify }}</a></h1>
+            <p class="site-description">Corporate training in modern C++</p>
           </div>
 
           <nav>
-            <a href="{{ site.baseurl }}/">Recent</a>
-            <a href="{{ site.baseurl }}/archive">Date</a>
-            <a href="{{ site.baseurl }}/tags">Tag</a>
+            <a href="{{ site.baseurl }}/">Blog</a>
             <a href="{{ site.baseurl }}/training">Training</a>
             <a href="{{ site.baseurl }}/about">About</a>
           </nav>
@@ -39,7 +37,13 @@
     </div>
 
     <div id="main" role="main" class="container">
-      {{ content }}
+      <article class="training">
+        <h1><a href="{{ site.baseurl }}{{ page.url }}">{{ page.title | markdownify }}</a></h1>
+
+        <div class="entry">
+          {{ content }}
+        </div>
+      </article>
     </div>
 
     <div class="wrapper-footer">
@@ -52,6 +56,5 @@
 
     {% include analytics.html %}
     {% include anchorjs.html %}
-    {% include mathjax.html %}
   </body>
 </html>
