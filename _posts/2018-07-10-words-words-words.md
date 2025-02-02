@@ -28,7 +28,7 @@ Exposing the whole Manual Art of the Trade_, and written — excuse me, "edited"
 and Edmund Sandars (1904). 
 The "perfect model" referred to in the subtitle is _Scragford's Farthing_, the _very_ model of a
 modern literary magazine, which contains such beautiful parody-journalism as the following gripping
-excerpt from ["London's Gold-Mines, or a Day Among the Dustmen"](https://books.google.com/books?id=VecaAQAAMAAJ&pg=PA16):
+excerpt from ["London's Gold-Mines, or a Day Among the Dustmen"](https://books.google.com/books?id=VecaAQAAMAAJ&pg=RA1-PA16):
 
 > On the 4th of July, 1853, the seventy-seventh anniversary of the Declaration of the
 > Independence of the United States of America, a dustman, whom we will call Robinson,
