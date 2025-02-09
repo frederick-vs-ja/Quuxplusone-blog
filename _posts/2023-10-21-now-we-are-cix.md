@@ -71,7 +71,7 @@ We might cross-breed the Smith puzzle with the [Monty Hall problem](https://en.w
 > to reveal a boy (and in fact he does exactly that).
 > What's the probability that the child behind the third door is a boy?
 
-Sometimes it helps to _reductio ad absurdam_ the puzzle. In this case I feel like it
+Sometimes it helps to _reductio ad absurdum_ the puzzle. In this case I feel like it
 might make matters _more_ confusing!
 
 > Mr. Smith has 100 children, at least 99 of whom are boys. He secretly places his 100
