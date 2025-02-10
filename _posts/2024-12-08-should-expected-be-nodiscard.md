@@ -108,7 +108,7 @@ of a class type marked `[[nodiscard]]` in the library!
     template<class T, class E>
     class [[nodiscard]] expected { ~~~~ };
 
-Yet, for some reason, no STL vendor currently marks `expected` as `[[nodiscard]]`.
+Yet, for some reason, no STL vendor in 2024 marks `expected` as `[[nodiscard]]`.
 Even the library that inspired `std::expected`, Sy Brand's [`tl::expected`](https://github.com/TartanLlama/expected/blob/292eff8/include/tl/expected.hpp#L1247),
 fails to mark itself as `[[nodiscard]]`. ([Godbolt.](https://godbolt.org/z/789oY8deT))
 On the other hand, Niall Douglas's `boost::outcome::result` does mark itself as `[[nodiscard]]`.
@@ -144,27 +144,24 @@ between the correct code and the incorrect code, while separating them with
 a spacious "no man's land" of invalid code that will cause your build to fail.
 See ["Two musings on the design of compiler warnings"](/blog/2020/09/02/wparentheses/#musing-suppression-mechanisms-are-about-edit-distance-and-about-signaling) (2020-09-02).
 
-## Field experience
+## Field experience (historical)
 
 LLVM/Clang's own `llvm::Expected` and `llvm::Error` have been marked `[[nodiscard]]` [since October 2016](https://github.com/llvm/llvm-project/commit/8659d16631fdd1ff519a25d6867ddd9dbda8aea9).
 
 I added `[[nodiscard]]` to [martinmoene/expected-lite](https://github.com/martinmoene/expected-lite), and found that
-its test suite is still green after that patch. (UPDATE: Martin added `[[nodiscard]]` in trunk on 2024-12-10.)
-
-I added `[[nodiscard]]` to a copy of `tl::expected`, and found that 7 of its own test cases fail after that patch.
-But none of the 7 failures looks indisputably realistic, to my quick glance. They might not be harmed by forcing
-the caller to add an explicit `(void)` cast in front.
-
-I added `[[nodiscard]]` to the copy of `tl::expected` vendored into [rspamd](https://github.com/rspamd/rspamd/tree/eecb96c/contrib/expected),
-and found that its GitHub preflight suite is still green after that patch. Either rspamd's codebase never
-quietly ignores an `expected` return, or I don't understand how to build and test it. :)
+its test suite is still green after that patch.
 
 I added `[[nodiscard]]` to libc++'s `std::expected`, and found that 9 of its own test cases fail after that patch.
 All 9 of the failures are due to `.and_then`, `.or_else`, `.transform`, and `.transform_error`, and
 all of them are "compile-only" tests — just checking that a certain construct compiles (or doesn't), rather than
-verifying its runtime behavior. (UPDATE: Stephan T. Lavavej
-[patched up those tests](https://github.com/llvm/llvm-project/commit/cb4433b677a06ecbb3112f39d24b28f19b0d2626)
-on 2024-12-10.)
+verifying its runtime behavior.
+
+I added `[[nodiscard]]` to a copy of `tl::expected`, and found that 7 of its own test cases fail after that patch,
+for similar reasons as the libc++ test failures.
+
+I added `[[nodiscard]]` to the copy of `tl::expected` vendored into [rspamd](https://github.com/rspamd/rspamd/tree/eecb96c/contrib/expected),
+and found that its GitHub preflight suite is still green after that patch. Either rspamd's codebase never
+quietly ignores an `expected` return, or I don't understand how to build and test it. :)
 
 > Food for thought: Is it ever reasonable to have a function `f` that returns a nodiscard class type,
 > where `f` wants to "opt out" of the class's nodiscard-ness? "This class is nodiscard except when used
@@ -174,6 +171,15 @@ on 2024-12-10.)
 I added `[[nodiscard]]` to my own codebase's `Expected` type, and found everything still green.
 But we make very little use of `Expected` in our code (only 34 hits in the entire codebase),
 so this was not surprising.
+
+## Adoption (since this post)
+
+- Martin Moene added `[[nodiscard]]` to [martinmoene/expected-lite](https://github.com/martinmoene/expected-lite/commit/d426ef265a764359d16097c42d1357c19b01e218) on 2024-12-10.
+
+- Stephan T. Lavavej [patched up](https://github.com/llvm/llvm-project/commit/cb4433b677a06ecbb3112f39d24b28f19b0d2626) the libc++ test suite
+    by adding `(void)` casts on 2024-12-10. (But he did not go so far as to mark libc++'s own `expected` as `[[nodiscard]]` yet.)
+
+- Stephan T. Lavavej added `[[nodiscard]]` to [Microsoft/STL](https://github.com/microsoft/STL/pull/5174) on 2024-12-13.
 
 ## Should STL vendors add `[[nodiscard]]` to `expected`?
 
