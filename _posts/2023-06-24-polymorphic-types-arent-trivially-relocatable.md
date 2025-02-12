@@ -13,7 +13,7 @@ One of the (minor, non-key) differences between [P1144](https://www.open-std.org
 trivial relocatability and [P2786R1](https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2023/p2786r1.pdf)
 trivial relocatability (§11.3, page 19) is that P2786R1 accidentally considers polymorphic types
 to be trivially relocatable by default. I say "accidentally" because of course this cannot _really_
-be permitted. [Godbolt](https://godbolt.org/z/5vTnWxEMa):
+be permitted. [Godbolt](https://godbolt.org/z/d6Yn45hv7):
 
     struct B {
         virtual int getter() const { return 1; }
@@ -57,12 +57,16 @@ at runtime.
 > through that (now-erroneous) vptr, which tries to access the data member `d` of a `D` object
 > that doesn't actually exist.
 
-The Godbolt above uses my own Clang/libc++ implementation of P1144R8, and Corentin Jabot's
-Clang implementation of P2786R0 (with none of the library components). I've told Corentin he
+The Godbolt above uses my own Clang/libc++ implementation of <s>P1144R8</s> P1144R11, and Corentin Jabot's
+Clang implementation of <s>P2786R0</s> P2786R12 (with none of the library components). I've told Corentin he
 should feel free to adopt any pieces of my libc++ implementation that would help get the
 P2786 demonstration into a working state. Of course, the authors of P2786 could also help
 by refactoring P2786's library clauses to match P1144's. :)  As you can see, the P1144 library
 facilities tend to be more usable than P2786's.
+
+> UPDATE, 2025: This part has been done now, by
+> [P3516 "Uninitialized algorithms for relocation"](https://open-std.org/jtc1/sc22/wg21/docs/papers/2025/p3516r0.html) —
+> thanks Louis Dionne and Giuseppe D'Angelo!
 
 This might be a good time to remind folks that my Clang/libc++ implementation also provides
 a `[[clang::maybe_trivially_relocatable]]` attribute implementing P2786's
@@ -70,4 +74,4 @@ a `[[clang::maybe_trivially_relocatable]]` attribute implementing P2786's
 sharp-when-you-didn't-want-it parts, like its treatment of polymorphic types). So you can experiment
 with a full libc++ implementation of dull-knife semantics simply by passing
 `-D_LIBCPP_TRIVIALLY_RELOCATABLE_IF(x)=[[clang::maybe_trivially_relocatable(x)]]`.
-([Godbolt.](https://godbolt.org/z/8Gj7K55vM))
+([Godbolt.](https://godbolt.org/z/oaT7nMqoG))
